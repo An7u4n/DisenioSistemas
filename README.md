@@ -4,8 +4,8 @@
 
 -   **Marcos Poet**
 -   **Marcos Pividori**
--   **Miguel [Apellido]**
--   **Rulo [Apellido]**
+-   **Miguel Centurion**
+-   **Giuliano Prigioni**
 
 ## Descripción del Proyecto
 
