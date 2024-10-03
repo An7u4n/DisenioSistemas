@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+using DisenioSistemas.Model.Abstract;
 using DisenioSistemas.Model.Enums;
 
-namespace DisenioSistemas.Model{
-class Bedel : Usuario {
+namespace Model.Entity{
+public class Bedel : Usuario {
 
-    private int idBedel;
+    [Key] private int idBedel;
     private string apellido;
     private string nombre;
     private Turno turno;

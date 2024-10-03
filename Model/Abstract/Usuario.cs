@@ -1,4 +1,4 @@
-
+namespace DisenioSistemas.Model.Abstract{
 
 
 public abstract class Usuario{
@@ -33,6 +33,6 @@ public abstract class Usuario{
         this.estado = estado;
     }
 
-    
 
+}
 }
