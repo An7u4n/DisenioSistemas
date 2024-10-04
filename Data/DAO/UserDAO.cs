@@ -12,20 +12,14 @@ namespace Data.DAO{
             _dbContext = dbContext;
         }
 
-        public Usuario GetUsuario(string usuario){
-            var usuarioObtenido = _dbContext.Usuarios.FirstOrDefault(a => EF.Property<string>(a,"usuario") == usuario);
-            if(usuarioObtenido == null) throw new Exception("No existe el usuario " + usuario);
-            return usuarioObtenido;
-        }
-
         public List<Bedel> getBedeles(){
-            var bedeles = _dbContext.Usuarios.OfType<Bedel>().ToList();
+            var bedeles = _dbContext.Bedeles.ToList();
             if(bedeles == null || !bedeles.Any()) throw new Exception("No existen bedeles");
             return bedeles;
         }
         
         public List<Administrador> getAdministradores(){
-            var administradores = _dbContext.Usuarios.OfType<Administrador>().ToList();
+            var administradores = _dbContext.Administradores.ToList();
             if(administradores == null || !administradores.Any()) throw new Exception("No existen Administradores");
             return administradores;
         }

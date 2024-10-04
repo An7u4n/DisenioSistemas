@@ -5,7 +5,7 @@ using DisenioSistemas.Model.Enums;
 namespace Model.Entity{
 public class Bedel : Usuario {
 
-    [Key] private int idBedel;
+    private int idBedel;
     private string apellido;
     private string nombre;
     private Turno turno;

@@ -5,7 +5,7 @@ namespace Model.Entity{
 
     public class Administrador : Usuario
     {   
-        [Key] private int idAdministrador;
+        private int idAdministrador;
 
         public Administrador(string usuario,bool estado): base(usuario,estado){}
         public Administrador(string usuario): base(usuario){}
