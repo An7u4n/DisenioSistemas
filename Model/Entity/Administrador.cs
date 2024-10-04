@@ -1,8 +1,11 @@
-namespace DisenioSistemas.Model{
+using System.ComponentModel.DataAnnotations;
+using DisenioSistemas.Model.Abstract;
+
+namespace Model.Entity{
 
     public class Administrador : Usuario
     {   
-        int idAdministrador;
+        [Key] private int idAdministrador;
 
         public Administrador(string usuario,bool estado): base(usuario,estado){}
         public Administrador(string usuario): base(usuario){}
