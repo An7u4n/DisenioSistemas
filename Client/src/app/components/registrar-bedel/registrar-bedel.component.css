@@ -1,0 +1,25 @@
+.container{
+    width: 625px;
+    height: 750px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contenedor-nombre {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.contenedor-input{
+    display: flex;
+    flex-direction: column;
+}
+
+.contenedor-botones {
+    margin-top: 20px;
+}

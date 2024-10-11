@@ -1,0 +1,55 @@
+<div class="container">
+  <form (ngSubmit)="registrarBedelSubmit($event)">
+    <p class="titulo">Registrar Bedel</p>
+    <div class="contenedor-nombre">
+      <div class="contenedor-input">
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" />
+      </div>
+      <div class="contenedor-input">
+        <label for="apellido">Apellido</label>
+        <input type="text" name="apellido" />
+      </div>
+    </div>
+    <div class="contenedor-input">
+      <label for="turno">Turno</label>
+      <select name="turno">
+        <option value="maniana">Mañana</option>
+        <option value="tarde">Tarde</option>
+        <option value="noche">Noche</option>
+      </select>
+    </div>
+
+    <div class="contenedor-input">
+      <label for="id-usuario">Identificacion De Usuario*</label>
+      <input type="text" name="id-usuario" />
+      <span class="error" *ngIf="usuarioExistente">
+        <span class="material-icons">error</span>
+        <span class="mensaje-error">Las contraseñas no coinciden</span>
+      </span>
+    </div>
+    <div class="contenedor-input">
+      <label for="contrasenia">Contraseña*</label>
+      <input type="password" name="contrasenia" />
+      <span class="error" *ngIf="contraseniaIncorrecta">
+        <span class="material-icons">error</span>
+        <span class="mensaje-error"
+          >Formato invalido. 8-20 caracteres, al menos un numero, mayuscula y
+          minuscula
+        </span>
+      </span>
+    </div>
+    <div class="contenedor-input">
+      <label for="confirmar-contrasenia">Confirmar Contraseña*</label>
+      <input type="password" name="confirmar-contrasenia" />
+      <span class="error" *ngIf="confirmarContrasenia">
+        <span class="material-icons">error</span>
+        <span class="mensaje-error">Las contraseñas no coinciden</span>
+      </span>
+    </div>
+    <div class="contenedor-botones">
+      <button type="submit" class="boton-confirmar">Registrar</button>
+      <button class="boton-cancelar">Cancelar</button>
+    </div>
+  </form>
+</div>
