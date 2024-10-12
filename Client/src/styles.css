@@ -69,6 +69,7 @@ button {
     font-style: normal;
     font-weight: 700;
     line-height: 140%;
+    cursor: pointer;
 }
 
 .boton-confirmar{
@@ -94,4 +95,25 @@ button {
 .material-icons {
     font-size: 20px;
     font-weight: 300;
+}
+
+.boton-continuar {
+    width: 100px;
+    background-color: #0077E4;
+}
+
+
+.boton-volver {
+    width: 100px;
+    background-color: #28445F;
+}
+
+.boton-cancelar-gris {
+    width: 100px;
+    background-color: #3B4758;
+}
+
+.no-activo {
+    background-color: #2D3339;
+    cursor: not-allowed;
 }
