@@ -33,7 +33,7 @@ namespace Web.API.Migrations
                     apellido = table.Column<string>(type: "TEXT", nullable: false),
                     estado = table.Column<bool>(type: "INTEGER", nullable: false),
                     nombre = table.Column<string>(type: "TEXT", nullable: false),
-                    turno = table.Column<int>(type: "INTEGER", nullable: false),
+                    turno = table.Column<string>(type: "TEXT", nullable: false),
                     usuario = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
