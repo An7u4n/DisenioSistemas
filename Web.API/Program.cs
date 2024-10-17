@@ -1,6 +1,8 @@
 
 using Data;
+using Data.DAO;
 using Microsoft.EntityFrameworkCore;
+using Services.UserService;
 
 namespace Web.API
 {
@@ -19,7 +21,12 @@ namespace Web.API
             {
                 options.UseSqlite(builder.Configuration.GetConnectionString("bddsqlite"), b => b.MigrationsAssembly("Web.API"));
             });
-            builder.Services.AddScoped<Data.DAO.AnioLectivoDAO>();
+
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<UserDAO>();
+            builder.Services.AddScoped<AnioLectivoDAO>();
+
+
 
             var app = builder.Build();
 
