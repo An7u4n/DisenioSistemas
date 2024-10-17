@@ -4,7 +4,7 @@ using Services.UserService;
 
 namespace Web.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] 
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -20,7 +20,7 @@ namespace Web.API.Controllers
         {
             if (bedelDTO == null)
             {
-                return BadRequest("El DTO de Bedel no puede ser nulo.");
+                return BadRequest("El Bedel no puede ser nulo.");
             }
 
             var registradoBedel = _userService.RegistrarBedel(bedelDTO);
