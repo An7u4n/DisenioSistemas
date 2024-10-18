@@ -39,7 +39,12 @@ namespace Data
                 entity.Property<int>("idBedel").HasColumnName("idBedel").IsRequired();
                 entity.Property<string>("apellido").HasColumnName("apellido").IsRequired();
                 entity.Property<string>("nombre").HasColumnName("nombre").IsRequired();
-                entity.Property<Turno>("turno").HasColumnName("turno").IsRequired();
+                entity.Property<Turno>("turno")
+                .HasColumnName("turno")
+                .HasConversion(
+                  v => v.ToString(),
+                  v => (Turno)Enum.Parse(typeof(Turno), v))
+                .IsRequired();
 
                 entity.HasKey("idBedel");
             });
