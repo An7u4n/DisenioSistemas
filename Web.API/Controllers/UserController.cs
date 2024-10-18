@@ -24,30 +24,30 @@ namespace Web.API.Controllers
             {
                 if (bedelDTO == null)
                 {
-                    HttpContext.Response.StatusCode = 400; // Código de estado HTTP 400
+                    HttpContext.Response.StatusCode = 400; 
                     return new Response<BedelDTO>(false, "El Bedel no puede ser nulo.", null);
                 }
 
                 if (string.IsNullOrEmpty(bedelDTO.Apellido) || string.IsNullOrEmpty(bedelDTO.Nombre))
                 {
-                    HttpContext.Response.StatusCode = 400; // Código de estado HTTP 400
+                    HttpContext.Response.StatusCode = 400; 
                     return new Response<BedelDTO>(false, "El nombre y apellido del Bedel son obligatorios.", null);
                 }
 
                 if (!Enum.IsDefined(typeof(Turno), bedelDTO.Turno))
                 {
-                    HttpContext.Response.StatusCode = 400; // Código de estado HTTP 400
+                    HttpContext.Response.StatusCode = 400; 
                     return new Response<BedelDTO>(false, "El turno especificado no es válido.", null);
                 }
 
                 var registradoBedel = _userService.RegistrarBedel(bedelDTO);
 
-                HttpContext.Response.StatusCode = 201; // Código de estado HTTP 201
+                HttpContext.Response.StatusCode = 201; 
                 return new Response<BedelDTO>(true, "Bedel registrado con éxito.", registradoBedel);
             }
             catch (Exception)
             {
-                HttpContext.Response.StatusCode = 500; // Código de estado HTTP 500
+                HttpContext.Response.StatusCode = 500;
                 return new Response<BedelDTO>(false, "Error interno del servidor", null);
             }
         }
