@@ -75,8 +75,8 @@ namespace Web.API.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("nombre");
 
-                    b.Property<int>("turno")
-                        .HasColumnType("INTEGER")
+                    b.Property<string>("turno")
+                        .HasColumnType("TEXT")
                         .HasColumnName("turno");
 
                     b.Property<string>("usuario")

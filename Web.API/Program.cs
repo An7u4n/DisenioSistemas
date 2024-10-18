@@ -1,6 +1,9 @@
 
 using Data;
+using Data.DAO;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Services.UserService;
 
 namespace Web.API
 {
@@ -11,7 +14,10 @@ namespace Web.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -19,7 +25,12 @@ namespace Web.API
             {
                 options.UseSqlite(builder.Configuration.GetConnectionString("bddsqlite"), b => b.MigrationsAssembly("Web.API"));
             });
-            builder.Services.AddScoped<Data.DAO.AnioLectivoDAO>();
+
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<UserDAO>();
+            builder.Services.AddScoped<AnioLectivoDAO>();
+
+
 
             var app = builder.Build();
 
