@@ -14,5 +14,14 @@
             Message = message;
             Data = data;
         }
+        public static Response<T> FailureResponse(string message)
+        {
+            return new Response<T>(false, message, default(T));
+        }
+
+        public static Response<T> SuccessResponse(T data, string message)
+        {
+            return new Response<T>(true, message, data);
+        }
     }
 }

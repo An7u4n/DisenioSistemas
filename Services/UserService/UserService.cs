@@ -14,7 +14,30 @@ namespace Services.UserService
             _userDAO = userDAO;
         }
 
-        public BedelDTO RegistrarBedel(BedelDTO bedelDTO)
+        public BedelDTO buscarBedel(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException("El ID del Bedel debe ser un número positivo.", nameof(id));
+            }
+
+            var bedel = _userDAO.ObtenerPorId(id);
+
+            if (bedel == null)
+            {
+                throw new KeyNotFoundException($"No se encontró un Bedel con el ID {id}.");
+            }
+
+            return new BedelDTO
+            {
+                IdBedel = bedel.getId(),
+                Apellido = bedel.getApellido(),
+                Nombre = bedel.getNombre(),
+                Turno = bedel.getTurno()
+            };
+        }
+
+        public BedelDTO registrarBedel(BedelDTO bedelDTO)
         {
             if (bedelDTO == null)
             {

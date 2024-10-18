@@ -32,5 +32,21 @@ namespace Data.DAO
             _dbContext.SaveChanges();
             return bedel;
         }
+
+        public Bedel ObtenerPorId(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException("El ID del Bedel debe ser un número positivo.", nameof(id));
+            }
+
+            var bedel = _dbContext.Bedeles.Find(id);
+            if (bedel == null)
+            {
+                throw new KeyNotFoundException($"No se encontró un Bedel con el ID {id}.");
+            }
+
+            return bedel;
+        }
     }
 }

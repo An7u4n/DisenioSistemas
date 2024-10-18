@@ -4,7 +4,9 @@ namespace Services.UserService
 {
     public interface IUserService
     {
-        BedelDTO RegistrarBedel(BedelDTO bedel);
+        BedelDTO registrarBedel(BedelDTO bedel);
+        BedelDTO buscarBedel(int id);
+
 
     }
 }
