@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DisenioSistemas.Model.Enums;
+using Microsoft.AspNetCore.Mvc;
 using Model.DTO;
 using Services.UserService;
+using Web.API.Utilities;
 
 namespace Web.API.Controllers
 {
-    [Route("api/[controller]")] 
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -18,13 +20,30 @@ namespace Web.API.Controllers
         [HttpPost]
         public IActionResult RegistrarBedel([FromBody] BedelDTO bedelDTO)
         {
-            if (bedelDTO == null)
+            try
             {
-                return BadRequest("El Bedel no puede ser nulo.");
-            }
+                if (bedelDTO == null)
+                {
+                    return BadRequest(new Response<string>(false, "El Bedel no puede ser nulo.", null));
+                }
 
-            var registradoBedel = _userService.RegistrarBedel(bedelDTO);
-            return CreatedAtAction(nameof(RegistrarBedel), new { id = registradoBedel.IdBedel }, registradoBedel);
+                if (string.IsNullOrEmpty(bedelDTO.Apellido) || string.IsNullOrEmpty(bedelDTO.Nombre))
+                {
+                    return BadRequest(new Response<string>(false, "El nombre y apellido del Bedel son obligatorios.", null));
+                }
+
+                if (!Enum.IsDefined(typeof(Turno), bedelDTO.Turno))
+                {
+                    return BadRequest(new Response<string>(false, "El turno especificado no es válido.", null));
+                }
+
+                var registradoBedel = _userService.RegistrarBedel(bedelDTO);
+                return CreatedAtAction(nameof(RegistrarBedel), new { id = registradoBedel.IdBedel }, new Response<BedelDTO>(true, "Bedel registrado con éxito.", registradoBedel));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new Response<string>(false, "Error interno del servidor", null));
+            }
         }
     }
 }

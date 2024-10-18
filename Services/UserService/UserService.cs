@@ -16,6 +16,16 @@ namespace Services.UserService
 
         public BedelDTO RegistrarBedel(BedelDTO bedelDTO)
         {
+            if (bedelDTO == null)
+            {
+                throw new ArgumentNullException(nameof(bedelDTO), "El Bedel no puede ser nulo.");
+            }
+
+            if (string.IsNullOrEmpty(bedelDTO.Apellido) || string.IsNullOrEmpty(bedelDTO.Nombre))
+            {
+                throw new ArgumentException("El nombre y apellido del Bedel son obligatorios.");
+            }
+
             if (!Enum.IsDefined(typeof(Turno), bedelDTO.Turno))
             {
                 throw new ArgumentException("Turno invalido");
@@ -34,5 +44,6 @@ namespace Services.UserService
 
             return bedelDTO;
         }
+
     }
 }
