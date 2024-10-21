@@ -20,6 +20,7 @@ namespace Web.API.Controllers
         [HttpPost("registrar-bedel")]
         public Response<BedelDTO> RegistrarBedel([FromBody] BedelDTO bedelDTO)
         {
+            System.Console.WriteLine(bedelDTO);
             try
             {
                 if (bedelDTO == null)

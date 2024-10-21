@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { RegistrarBedelComponent } from './components/registrar-bedel/registrar-bedel.component';
 import { FormsModule } from '@angular/forms';
 import { TipoDuracionComponent } from './components/reserva/tipo-duracion/tipo-duracion.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,9 @@ import { TipoDuracionComponent } from './components/reserva/tipo-duracion/tipo-d
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

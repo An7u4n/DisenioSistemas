@@ -1,4 +1,3 @@
-
 using Data;
 using Data.DAO;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +17,18 @@ namespace Web.API
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+
+            // Configura CORS
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins", builder =>
+                {
+                    builder.AllowAnyOrigin() // Permitir todos los orígenes
+                           .AllowAnyMethod() // Permitir todos los métodos HTTP
+                           .AllowAnyHeader(); // Permitir todos los encabezados
+                });
+            });
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -29,8 +40,6 @@ namespace Web.API
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<UserDAO>();
             builder.Services.AddScoped<AnioLectivoDAO>();
-
-
 
             var app = builder.Build();
 
@@ -48,6 +57,9 @@ namespace Web.API
             }
 
             app.UseHttpsRedirection();
+
+            // Habilita CORS
+            app.UseCors("AllowAllOrigins");
 
             app.UseAuthorization();
 
