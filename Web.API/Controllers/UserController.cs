@@ -18,7 +18,7 @@ namespace Web.API.Controllers
         }
 
         [HttpPost("registrar-bedel")]
-        public Response<BedelDTO> RegistrarBedel([FromBody] BedelDTO bedelDTO)
+        public Response<BedelDTO> PostBedel([FromBody] BedelDTO bedelDTO)
         {
             try
             {
@@ -58,24 +58,36 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public Response<BedelDTO> ObtenerBedelPorId(int id)
+        [HttpGet("buscar-bedeles")]
+        public Response<List<BedelDTO>> GetBedeles([FromQuery] string apellido, [FromQuery] string turno)
         {
             try
             {
-                var bedel = _userService.buscarBedel(id);
+                Turno? turnoEnum = null;
+                if (!string.IsNullOrEmpty(turno))
+                {
+                    if (!Enum.TryParse(turno, out Turno parsedTurno))
+                    {
+                        HttpContext.Response.StatusCode = 400;
+                        return Response<List<BedelDTO>>.FailureResponse("El turno especificado no es válido.");
+                    }
+                    turnoEnum = parsedTurno;
+                }
 
-                return Response<BedelDTO>.SuccessResponse(bedel, "Bedel encontrado con éxito.");
+                var bedeles = _userService.buscarBedel(apellido, turnoEnum);
+
+                if (bedeles == null || !bedeles.Any())
+                {
+                    HttpContext.Response.StatusCode = 404;
+                    return Response<List<BedelDTO>>.FailureResponse("No se encontraron bedeles con los datos proporcionados.");
+                }
+
+                return Response<List<BedelDTO>>.SuccessResponse(bedeles, "Bedeles encontrados con éxito.");
             }
-            catch (KeyNotFoundException ex)
-            {
-                HttpContext.Response.StatusCode = 404;
-                return Response<BedelDTO>.FailureResponse(ex.Message); 
-            }
-            catch (Exception)
+            catch (Exception ex)
             {
                 HttpContext.Response.StatusCode = 500;
-                return Response<BedelDTO>.FailureResponse("Error interno del servidor");
+                return Response<List<BedelDTO>>.FailureResponse("Error interno del servidor: " + ex.Message);
             }
         }
     }

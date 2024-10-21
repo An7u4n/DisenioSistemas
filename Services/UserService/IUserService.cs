@@ -1,4 +1,5 @@
-﻿using Model.DTO;
+﻿using DisenioSistemas.Model.Enums;
+using Model.DTO;
 using Model.Entity;
 
 namespace Services.UserService
@@ -6,7 +7,7 @@ namespace Services.UserService
     public interface IUserService
     {
         BedelDTO registrarBedel(BedelDTO bedel);
-        BedelDTO buscarBedel(int id);
+        List<BedelDTO> buscarBedel(string nombre, Turno? turno);
         Bedel crearNuevoBedel(BedelDTO bedelDTO);
 
     }

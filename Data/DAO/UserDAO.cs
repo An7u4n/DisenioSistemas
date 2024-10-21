@@ -1,3 +1,4 @@
+using DisenioSistemas.Model.Enums;
 using Microsoft.EntityFrameworkCore;
 using Model.Entity;
 
@@ -41,21 +42,28 @@ namespace Data.DAO
             if (bedel == null) throw new Exception("No existe el bedel");
             return bedel;
         }
-        public Bedel ObtenerPorId(int id)
+        public List<Bedel> buscarBedeles(string apellido, Turno? turno)
         {
-            if (id <= 0)
+            var query = _dbContext.Bedeles.AsEnumerable();  
+            
+            if (!string.IsNullOrEmpty(apellido))
             {
-                throw new ArgumentException("El ID del Bedel debe ser un número positivo.", nameof(id));
+                query = query.Where(b => b.getApellido().Contains(apellido));
             }
 
-            var bedel = _dbContext.Bedeles.Find(id);
-            if (bedel == null)
+            if (turno.HasValue)
             {
-                throw new KeyNotFoundException($"No se encontró un Bedel con el ID {id}.");
+                query = query.Where(b => b.getTurno() == turno.Value);
             }
 
-            return bedel;
+            var bedeles = query.Distinct().ToList();
+
+            if (bedeles == null || !bedeles.Any())
+            {
+                throw new Exception("No existen bedeles con esos datos");
+            }
+
+            return bedeles;
         }
     }
-
 }
