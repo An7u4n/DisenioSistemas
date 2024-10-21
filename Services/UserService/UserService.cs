@@ -14,32 +14,25 @@ namespace Services.UserService
             _userDAO = userDAO;
         }
 
-        public BedelDTO buscarBedel(int id)
+        public List<BedelDTO> buscarBedel(string apellido, Turno? turno)
         {
-            if (id <= 0)
+            var bedeles = _userDAO.buscarBedeles(apellido, turno);
+            var bedelDTOs = new List<BedelDTO>();
+            foreach (var bedel in bedeles)
             {
-                throw new ArgumentException("El ID del Bedel debe ser un número positivo.", nameof(id));
+                bedelDTOs.Add(new BedelDTO(
+                    idBedel: bedel.getId(),
+                    apellido: bedel.getApellido(),
+                    nombre: bedel.getNombre(),
+                    turno: bedel.getTurno(),
+                    usuario: bedel.getUsuario()
+                ));
             }
+            return bedelDTOs;
 
-            var bedel = _userDAO.ObtenerPorId(id);
-
-            if (bedel == null)
-            {
-                throw new KeyNotFoundException($"No se encontró un Bedel con el ID {id}.");
-            }
-
-            return new BedelDTO
-            {
-                IdBedel = bedel.getId(),
-                Apellido = bedel.getApellido(),
-                Nombre = bedel.getNombre(),
-                Turno = bedel.getTurno()
-            };
         }
         public Bedel crearNuevoBedel(BedelDTO bedelDTO)
         {
-
-
             if (string.IsNullOrEmpty(bedelDTO.Apellido) || string.IsNullOrEmpty(bedelDTO.Nombre))
             {
                 throw new ArgumentException("El nombre y apellido del Bedel son obligatorios.");
