@@ -2,8 +2,8 @@ namespace DisenioSistemas.Model.Enums
 {
     public enum Turno
     {
-    Tarde,
-    Noche,
-    Mañana
+    Tarde = 2,
+    Noche = 3,
+    Mañana= 1
     }
 }

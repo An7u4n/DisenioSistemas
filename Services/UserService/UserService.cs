@@ -36,13 +36,9 @@ namespace Services.UserService
                 Turno = bedel.getTurno()
             };
         }
-
-        public BedelDTO registrarBedel(BedelDTO bedelDTO)
+        public Bedel crearNuevoBedel(BedelDTO bedelDTO)
         {
-            if (bedelDTO == null)
-            {
-                throw new ArgumentNullException(nameof(bedelDTO), "El Bedel no puede ser nulo.");
-            }
+
 
             if (string.IsNullOrEmpty(bedelDTO.Apellido) || string.IsNullOrEmpty(bedelDTO.Nombre))
             {
@@ -55,18 +51,35 @@ namespace Services.UserService
             }
 
             var bedel = new Bedel(
-                usuario: bedelDTO.Nombre,
+                usuario: bedelDTO.Usuario,
                 apellido: bedelDTO.Apellido,
                 nombre: bedelDTO.Nombre,
                 turno: bedelDTO.Turno
             );
 
-            var nuevoBedel = _userDAO.AddBedel(bedel);
-
-            bedelDTO.IdBedel = nuevoBedel.getId();
-
-            return bedelDTO;
+            return bedel;
         }
 
+        public BedelDTO registrarBedel(BedelDTO bedelDTO)
+        {
+
+            if (bedelDTO == null)
+            {
+                throw new ArgumentNullException(nameof(bedelDTO), "El Bedel no puede ser nulo.");
+            }
+
+            try
+            {
+                var bedel = _userDAO.obtenerUsuario(bedelDTO.Usuario);
+            }
+            catch (Exception e) when (e.Message == "No existe el bedel")
+            {
+                var bedel = crearNuevoBedel(bedelDTO);
+                var nuevoBedel = _userDAO.guardarUsuarioBedel(bedel);
+                bedelDTO.IdBedel = nuevoBedel.getId();
+                return bedelDTO;
+            }
+            throw new ArgumentException("El usuario ya existe");
+        }
     }
 }

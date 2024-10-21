@@ -17,7 +17,7 @@ namespace Web.API.Controllers
             _userService = userService;
         }
 
-        [HttpPost("RegistrarBedel")]
+        [HttpPost("registrar-bedel")]
         public Response<BedelDTO> RegistrarBedel([FromBody] BedelDTO bedelDTO)
         {
             try
@@ -42,13 +42,19 @@ namespace Web.API.Controllers
 
                 var registradoBedel = _userService.registrarBedel(bedelDTO);
 
-                HttpContext.Response.StatusCode = 201;
+                HttpContext.Response.StatusCode = 201; 
                 return Response<BedelDTO>.SuccessResponse(registradoBedel, "Bedel registrado con éxito.");
             }
-            catch (Exception)
+            catch (ArgumentException ex) when (ex.Message == "El usuario ya existe")
+            {
+                
+                HttpContext.Response.StatusCode = 409;  // Código 409 - Conflicto
+                return Response<BedelDTO>.FailureResponse("El usuario ya existe.");
+            }
+            catch (Exception ex)
             {
                 HttpContext.Response.StatusCode = 500;
-                return Response<BedelDTO>.FailureResponse("Error interno del servidor");
+                return Response<BedelDTO>.FailureResponse("Error interno del servidor: " + ex.Message);
             }
         }
 

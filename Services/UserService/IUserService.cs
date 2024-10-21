@@ -1,4 +1,5 @@
 ﻿using Model.DTO;
+using Model.Entity;
 
 namespace Services.UserService
 {
@@ -6,7 +7,7 @@ namespace Services.UserService
     {
         BedelDTO registrarBedel(BedelDTO bedel);
         BedelDTO buscarBedel(int id);
-
+        Bedel crearNuevoBedel(BedelDTO bedelDTO);
 
     }
 }
