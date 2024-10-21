@@ -26,13 +26,21 @@ namespace Data.DAO
             return administradores;
         }
 
-        public Bedel AddBedel(Bedel bedel)
+        public Bedel guardarUsuarioBedel(Bedel bedel)
         {
             _dbContext.Bedeles.Add(bedel);
             _dbContext.SaveChanges();
             return bedel;
         }
 
+        public Bedel obtenerUsuario(string usuario)
+        {
+            var bedel = _dbContext.Bedeles
+                      .AsEnumerable()  // Evalúa en el cliente después de traer los datos de la BD
+                      .FirstOrDefault(b => b.getUsuario() == usuario);
+            if (bedel == null) throw new Exception("No existe el bedel");
+            return bedel;
+        }
         public Bedel ObtenerPorId(int id)
         {
             if (id <= 0)
@@ -49,4 +57,5 @@ namespace Data.DAO
             return bedel;
         }
     }
+
 }

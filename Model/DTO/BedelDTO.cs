@@ -17,14 +17,17 @@ namespace Model.DTO
         [Required(ErrorMessage = "El turno es obligatorio.")]
         public Turno Turno { get; set; }
 
+        [Required(ErrorMessage = "El usuario es obligatorio.")]
+        public string Usuario { get; set; }
         public BedelDTO() { }
 
-        public BedelDTO(int idBedel, string apellido, string nombre, Turno turno)
+        public BedelDTO(int idBedel, string apellido, string nombre, Turno turno, string usuario)
         {
             IdBedel = idBedel;
             Apellido = apellido;
             Nombre = nombre;
             Turno = turno;
+            Usuario = usuario;
         }
     }
 }
