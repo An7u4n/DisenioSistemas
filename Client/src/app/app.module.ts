@@ -8,19 +8,22 @@ import { RegistrarBedelComponent } from './components/registrar-bedel/registrar-
 import { FormsModule } from '@angular/forms';
 import { TipoDuracionComponent } from './components/reserva/tipo-duracion/tipo-duracion.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistrarBedelComponent,
-    TipoDuracionComponent
+    TipoDuracionComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

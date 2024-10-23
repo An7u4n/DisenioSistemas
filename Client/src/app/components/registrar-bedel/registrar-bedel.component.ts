@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { BedelDTO } from '../../model/dto/BedelDTO';
 import { BedelService } from '../../services/bedel.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-registrar-bedel',
@@ -26,7 +27,7 @@ export class RegistrarBedelComponent {
     confirmarContrasenia: ''
   };
 
-  constructor(private bedelService: BedelService) { }
+  constructor(private bedelService: BedelService, private toastr: ToastrService) { }
 
   registrarBedelSubmit(event: Event) {
     event.preventDefault();
@@ -43,10 +44,16 @@ export class RegistrarBedelComponent {
     this.bedelService.registrarBedel(bedelDTO).subscribe(
       response => {
         console.log('Bedel registrado con éxito', response);
+        this.toastr.success('El bedel fue registrado con éxito', 'Registro Exitoso', {
+          timeOut: 2000, 
+          closeButton: true,
+          progressBar: true, 
+        });
       },
       error => {
         if (error.status == 409) this.usuarioExistente = true;
         console.error('Error al registrar el bedel', error);
+        this.toastr.error('Ocurrió un error al registrar el bedel', 'Error');
       }
     );
   }
