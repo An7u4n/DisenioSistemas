@@ -6,7 +6,8 @@
 form {
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 80px;
+    width: 100%;
 }
 
 .contenedor-central {

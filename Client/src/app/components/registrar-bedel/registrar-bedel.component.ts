@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { UserService } from '../../user.service';
 import { BedelDTO } from '../../model/dto/BedelDTO';
+import { BedelService } from '../../services/bedel.service';
 
 @Component({
   selector: 'app-registrar-bedel',
@@ -11,6 +11,10 @@ export class RegistrarBedelComponent {
   usuarioExistente: boolean = false;
   contraseniaIncorrecta: boolean = false;
   confirmarContrasenia: boolean = false;
+  nombreError: boolean = false;
+  apellidoError: boolean = false;
+  turnoError: boolean = false;
+  usuarioError: boolean = false;
 
   bedelData = {
     id: null, 
@@ -22,49 +26,56 @@ export class RegistrarBedelComponent {
     confirmarContrasenia: ''
   };
 
-  constructor(private userService: UserService) { }
+  constructor(private bedelService: BedelService) { }
 
   registrarBedelSubmit(event: Event) {
     event.preventDefault();
+    if (this.chequearErrores() == true) return;
 
-    if (this.bedelData.contrasenia !== this.bedelData.confirmarContrasenia) {
-      this.confirmarContrasenia = true;
-      return;
-    }
+
     const bedelDTO: BedelDTO = {
-      idBedel: 0,  // Asignar null para que se genere en el backend
       nombre: this.bedelData.nombre,
       apellido: this.bedelData.apellido,
-      turno: this.mapearTurno(this.bedelData.turno),
+      turno: this.mapTurno(this.bedelData.turno),
       usuario: this.bedelData.usuario
     };
 
-
-    console.log(this.bedelData.turno);
-    this.userService.registrarBedel(bedelDTO).subscribe(
+    this.bedelService.registrarBedel(bedelDTO).subscribe(
       response => {
         console.log('Bedel registrado con éxito', response);
       },
       error => {
+        if (error.status == 409) this.usuarioExistente = true;
         console.error('Error al registrar el bedel', error);
       }
     );
+  }
+
+  chequearErrores() {
+    this.nombreError = false;
+    this.apellidoError = false;
+    this.confirmarContrasenia = false;
+    this.contraseniaIncorrecta = false;
+    this.usuarioError = false;
+
+    if (this.bedelData.nombre.length < 1) this.nombreError = true;
+    if (this.bedelData.apellido.length < 1) this.apellidoError = true;
+    if (this.bedelData.turno.length < 1) this.turnoError = true;
+    if (this.bedelData.usuario.length < 1) this.usuarioError = true;
+    if (this.bedelData.contrasenia.length < 8 || this.bedelData.contrasenia.length > 20) this.contraseniaIncorrecta = true;
+    if (this.bedelData.contrasenia !== this.bedelData.confirmarContrasenia) this.confirmarContrasenia = true;
+    if (this.confirmarContrasenia || this.contraseniaIncorrecta || this.nombreError || this.apellidoError || this.turnoError || this.usuarioError) return true;
+    return false;
   }
 
   cancelarRegistro() {
     
   }
 
-  private mapearTurno(turno: string): number {
-    switch (turno) {
-      case "maniana":
-        return 1;
-      case "tarde":
-        return 2;
-      case "noche":
-        return 3;
-      default:
-        return 0; // O un valor predeterminado si no coincide
-    }
+  mapTurno(turno: any) {
+    console.log(turno);
+    if (turno == 'maniana') return 1;
+    else if (turno == 'tarde') return 2;
+    else return 3;
   }
 }

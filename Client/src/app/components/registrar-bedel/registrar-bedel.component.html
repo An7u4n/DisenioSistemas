@@ -5,10 +5,18 @@
       <div class="contenedor-input">
         <label for="nombre">Nombre</label>
         <input type="text" name="nombre" [(ngModel)]="bedelData.nombre" required />
+        <span class="error" *ngIf="nombreError">
+          <span class="material-icons">error</span>
+          <span class="mensaje-error">Ingrese Nombre</span>
+        </span>
       </div>
       <div class="contenedor-input">
         <label for="apellido">Apellido</label>
         <input type="text" name="apellido" [(ngModel)]="bedelData.apellido" required />
+        <span class="error" *ngIf="apellidoError">
+          <span class="material-icons">error</span>
+          <span class="mensaje-error">Ingrese Apellido</span>
+        </span>
       </div>
     </div>
     <div class="contenedor-input">
@@ -18,11 +26,19 @@
         <option value="tarde">Tarde</option>
         <option value="noche">Noche</option>
       </select>
+      <span class="error" *ngIf="turnoError">
+        <span class="material-icons">error</span>
+        <span class="mensaje-error">Ingrese un Turno</span>
+      </span>
     </div>
 
     <div class="contenedor-input">
       <label for="id-usuario">Identificación De Usuario*</label>
       <input type="text" name="id-usuario" [(ngModel)]="bedelData.usuario" required />
+      <span class="error" *ngIf="usuarioError">
+        <span class="material-icons">error</span>
+        <span class="mensaje-error">Ingrese un usuario</span>
+      </span>
       <span class="error" *ngIf="usuarioExistente">
         <span class="material-icons">error</span>
         <span class="mensaje-error">El usuario ya existe</span>
@@ -33,7 +49,7 @@
       <input type="password" name="contrasenia" [(ngModel)]="bedelData.contrasenia" required />
       <span class="error" *ngIf="contraseniaIncorrecta">
         <span class="material-icons">error</span>
-        <span class="mensaje-error">Formato inválido. 8-20 caracteres, al menos un número, mayúscula y minúscula</span>
+        <span class="mensaje-error">Formato inválido. 8-20 caracteres.</span>
       </span>
     </div>
     <div class="contenedor-input">

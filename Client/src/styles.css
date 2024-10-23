@@ -27,10 +27,10 @@
 
 label {
     color: rgba(255, 255, 255, 0.60);
-    font-family: Inter;
+    font-family: 'Inter';
     font-size: 16px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 300;
     line-height: 140%;
     margin-bottom: 5px;
 }
