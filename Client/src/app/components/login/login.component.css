@@ -1,0 +1,39 @@
+.container {
+    width: 550px;
+    height: 600px;
+    align-items: normal;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 80px;
+    gap: 20px;
+}
+
+p{
+    margin-bottom: 40px;
+}
+
+input {
+    width: 100%;
+}
+
+i {
+    position: relative;
+    left: 92%;
+    top: -37px;
+    font-size: 22px;
+    color: white;
+    cursor: pointer;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    width: 180px;
+    margin-top: 60px;
+}

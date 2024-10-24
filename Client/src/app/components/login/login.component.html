@@ -1,0 +1,32 @@
+<div class="container">
+  <form (ngSubmit)="loginSubmit($event)">
+    <p class="titulo">Iniciar Sesion</p>
+    <div class="input-container">
+      <label>Usuario</label>
+      <input
+        type="text"
+        name="usuario"
+        placeholder="Usuario"
+        [(ngModel)]="loginForm.usuario"
+      />
+    </div>
+    <div class="input-container">
+      <label>Contraseña</label>
+      <input
+        [type]="!hide ? 'text' : 'password'"
+        name="contrasenia"
+        placeholder="Contraseña"
+        [(ngModel)]="loginForm.contrasenia"
+      />
+      <i
+        class="material-icons"
+        (click)="hide = !hide"
+        [ngClass]="{ 'icon-visible': !hide, 'icon-invisible': hide }"
+        >visibility</i
+      >
+    </div>
+    <div class="contenedor-botones">
+      <button type="submit" class="boton-confirmar">Iniciar Sesion</button>
+    </div>
+  </form>
+</div>
