@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { BedelDTO } from '../../model/dto/BedelDTO';
 import { BedelService } from '../../services/bedel.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registrar-bedel',
@@ -9,6 +10,9 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './registrar-bedel.component.css'
 })
 export class RegistrarBedelComponent {
+  mostrarFormulario: boolean = true;
+  mostrarPopup: boolean = false;
+
   usuarioExistente: boolean = false;
   contraseniaIncorrecta: boolean = false;
   confirmarContrasenia: boolean = false;
@@ -27,7 +31,19 @@ export class RegistrarBedelComponent {
     confirmarContrasenia: ''
   };
 
-  constructor(private bedelService: BedelService, private toastr: ToastrService) { }
+  constructor(private bedelService: BedelService, private toastr: ToastrService, private router: Router) { }
+
+  @ViewChild('primerInput') primerInputElement!: ElementRef;
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if(event.key === 'Escape') {
+      if(this.mostrarPopup) this.volver();
+      else if(this.mostrarFormulario) this.mostrarPopupCancelacion();
+    } else if(event.key === 'Enter' && this.mostrarPopup) {
+      this.confirmarCancelacion();
+    }
+  }
 
   registrarBedelSubmit(event: Event) {
     event.preventDefault();
@@ -58,6 +74,13 @@ export class RegistrarBedelComponent {
     );
   }
 
+  mapTurno(turno: any) {
+    console.log(turno);
+    if (turno == 'maniana') return 1;
+    else if (turno == 'tarde') return 2;
+    else return 3;
+  }
+
   chequearErrores() {
     this.nombreError = false;
     this.apellidoError = false;
@@ -75,14 +98,18 @@ export class RegistrarBedelComponent {
     return false;
   }
 
-  cancelarRegistro() {
-    
+  mostrarPopupCancelacion() {
+    this.mostrarFormulario = false;
+    this.mostrarPopup = true;
   }
 
-  mapTurno(turno: any) {
-    console.log(turno);
-    if (turno == 'maniana') return 1;
-    else if (turno == 'tarde') return 2;
-    else return 3;
+  volver() {
+    this.mostrarFormulario = true;
+    this.mostrarPopup = false;
   }
+
+  confirmarCancelacion() {
+    this.router.navigate(['/home']);
+  }
+
 }

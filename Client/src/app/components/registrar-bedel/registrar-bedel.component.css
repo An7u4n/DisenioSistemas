@@ -1,6 +1,31 @@
-.container{
+.container-form{
     width: 625px;
     height: 750px;
+}
+
+.container-popup {
+    height: 200px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.container-popup p {
+    align-self: flex-start;
+    margin-top: 10px;
+    font-size: 32px;
+}
+
+.botones-popup{
+    align-self: flex-end;
+    display: flex;
+    gap: 20px;
+}
+
+.popup-boton {
+    width: fit-content;
+    padding: 0 15px;
 }
 
 form {

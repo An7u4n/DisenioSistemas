@@ -1,10 +1,16 @@
-<div class="container">
+<div *ngIf="mostrarFormulario" class="container container-form">
   <form (ngSubmit)="registrarBedelSubmit($event)">
     <p class="titulo">Registrar Bedel</p>
     <div class="contenedor-nombre">
       <div class="contenedor-input">
         <label for="nombre">Nombre</label>
-        <input type="text" name="nombre" [(ngModel)]="bedelData.nombre" required />
+        <input
+          type="text"
+          name="nombre"
+          [(ngModel)]="bedelData.nombre"
+          required
+          #primerInput
+        />
         <span class="error" *ngIf="nombreError">
           <span class="material-icons">error</span>
           <span class="mensaje-error">Ingrese Nombre</span>
@@ -12,7 +18,12 @@
       </div>
       <div class="contenedor-input">
         <label for="apellido">Apellido</label>
-        <input type="text" name="apellido" [(ngModel)]="bedelData.apellido" required />
+        <input
+          type="text"
+          name="apellido"
+          [(ngModel)]="bedelData.apellido"
+          required
+        />
         <span class="error" *ngIf="apellidoError">
           <span class="material-icons">error</span>
           <span class="mensaje-error">Ingrese Apellido</span>
@@ -34,7 +45,12 @@
 
     <div class="contenedor-input">
       <label for="id-usuario">Identificación De Usuario*</label>
-      <input type="text" name="id-usuario" [(ngModel)]="bedelData.usuario" required />
+      <input
+        type="text"
+        name="id-usuario"
+        [(ngModel)]="bedelData.usuario"
+        required
+      />
       <span class="error" *ngIf="usuarioError">
         <span class="material-icons">error</span>
         <span class="mensaje-error">Ingrese un usuario</span>
@@ -46,7 +62,12 @@
     </div>
     <div class="contenedor-input">
       <label for="contrasenia">Contraseña*</label>
-      <input type="password" name="contrasenia" [(ngModel)]="bedelData.contrasenia" required />
+      <input
+        type="password"
+        name="contrasenia"
+        [(ngModel)]="bedelData.contrasenia"
+        required
+      />
       <span class="error" *ngIf="contraseniaIncorrecta">
         <span class="material-icons">error</span>
         <span class="mensaje-error">Formato inválido. 8-20 caracteres.</span>
@@ -54,7 +75,12 @@
     </div>
     <div class="contenedor-input">
       <label for="confirmar-contrasenia">Confirmar Contraseña*</label>
-      <input type="password" name="confirmar-contrasenia" [(ngModel)]="bedelData.confirmarContrasenia" required />
+      <input
+        type="password"
+        name="confirmar-contrasenia"
+        [(ngModel)]="bedelData.confirmarContrasenia"
+        required
+      />
       <span class="error" *ngIf="confirmarContrasenia">
         <span class="material-icons">error</span>
         <span class="mensaje-error">Las contraseñas no coinciden</span>
@@ -62,7 +88,25 @@
     </div>
     <div class="contenedor-botones">
       <button type="submit" class="boton-confirmar">Registrar</button>
-      <button type="button" class="boton-cancelar" (click)="cancelarRegistro()">Cancelar</button>
+      <button
+        type="button"
+        class="boton-cancelar"
+        (click)="mostrarPopupCancelacion()"
+      >
+        Cancelar
+      </button>
     </div>
   </form>
+</div>
+
+<div *ngIf="mostrarPopup" class="container container-popup">
+  <p class="titulo">¿Desea cancelar el registro?</p>
+  <div class="botones-popup">
+    <button (click)="volver()" class="boton-confirmar popup-boton">
+      Volver
+    </button>
+    <button (click)="confirmarCancelacion()" class="boton-cancelar popup-boton">
+      Cancelar Registro
+    </button>
+  </div>
 </div>

@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="circle-container" [ngClass]="{ selected: isSelected(0) }">
+    <div class="option-circle">
+      <div>
+        <mat-icon class="material-icons">person_add</mat-icon>
+      </div>
+    </div>
+    <p class="subtitulo">Agregar Bedel</p>
+  </div>
+  <div class="circle-container" [ngClass]="{ selected: isSelected(1) }">
+    <div class="option-circle">
+      <div>
+        <mat-icon class="material-icons">person_search</mat-icon>
+      </div>
+    </div>
+    <p class="subtitulo">Buscar Bedel</p>
+  </div>
+  <div class="circle-container" [ngClass]="{ selected: isSelected(2) }">
+    <div class="option-circle">
+      <div>
+        <mat-icon class="material-icons">woman</mat-icon>
+      </div>
+    </div>
+    <p class="subtitulo">Minas en Bolas</p>
+  </div>
+</div>

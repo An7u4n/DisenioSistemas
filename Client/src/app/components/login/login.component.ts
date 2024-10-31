@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -13,15 +14,15 @@ export class LoginComponent {
     contrasenia: ''
   };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private loginService: LoginService) {}
 
   loginSubmit(e: Event) {
     e.preventDefault();
     console.log("Form");
     if(this.loginForm.usuario == '!admin' && this.loginForm.contrasenia == 'admin') 
     {
-      console.log("Login correcto");
-      this.router.navigate(['/registrar-bedel']);
+      this.loginService.login();
+      this.router.navigate(['/home']);
     }
   }
 }

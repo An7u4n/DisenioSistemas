@@ -3,11 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { RegistrarBedelComponent } from './components/registrar-bedel/registrar-bedel.component';
 import { TipoDuracionComponent } from './components/reserva/tipo-duracion/tipo-duracion.component';
 import { LoginComponent } from './components/login/login.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginGuard } from './guards/login.guard';
 
 const routes: Routes = [
-  {path: 'registrar-bedel', component: RegistrarBedelComponent, pathMatch: 'full'},
-  {path: 'login', component: LoginComponent, pathMatch: 'full'},
-  {path: 'registrar-reserva', component: TipoDuracionComponent, pathMatch: 'full'}
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: 'home', component: HomeComponent, pathMatch: 'full', canActivate: [LoginGuard]},
+  {path: 'registrar-bedel', component: RegistrarBedelComponent, pathMatch: 'full', canActivate: [LoginGuard]},
+  {path: 'registrar-reserva', component: TipoDuracionComponent, pathMatch: 'full', canActivate: [LoginGuard]},
+  {path: 'login', component: LoginComponent, pathMatch: 'full'}
 ];
 
 @NgModule({
