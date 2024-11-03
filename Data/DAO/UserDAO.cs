@@ -60,5 +60,12 @@ namespace Data.DAO
 
             return bedeles;
         }
+        public Bedel marcarEliminado(Bedel bedel)
+        {
+            bedel.setEstado(false);
+            _dbContext.Bedeles.Update(bedel);
+            _dbContext.SaveChanges();
+            return bedel;
+        }
     }
 }

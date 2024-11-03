@@ -91,5 +91,26 @@ namespace Web.API.Controllers
                 return Response<List<BedelDTO>>.FailureResponse("Error interno del servidor: " + ex.Message);
             }
         }
+        [HttpDelete("eliminar-bedel")]
+        public Response<BedelDTO> DeleteBedel([FromQuery] string usuario)
+        {
+            try
+            {
+                if (usuario == null)
+                {
+                    HttpContext.Response.StatusCode = 400;
+                    return Response<BedelDTO>.FailureResponse("El usuario no puede ser nulo.");
+                }
+
+                HttpContext.Response.StatusCode = 200;
+                var bedel = _userService.eliminarBedelLogico(usuario);
+                return Response<BedelDTO>.SuccessResponse(bedel, "Bedel eliminado con éxito.");
+            }
+            catch (Exception ex)
+            {
+                HttpContext.Response.StatusCode = 500;
+                return Response<BedelDTO>.FailureResponse("Error interno del servidor: " + ex.Message);
+            }
+        }
     }
 }

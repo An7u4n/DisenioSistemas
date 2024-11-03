@@ -74,5 +74,31 @@ namespace Services.UserService
             }
             throw new ArgumentException("El usuario ya existe");
         }
+        public BedelDTO actualizarEstado(Bedel bedel)
+        {
+            var bedelDTO = new BedelDTO(
+                idBedel: bedel.getId(),
+                apellido: bedel.getApellido(),
+                nombre: bedel.getNombre(),
+                turno: bedel.getTurno(),
+                usuario: bedel.getUsuario()
+            );
+            return bedelDTO;
+        }
+
+        public BedelDTO eliminarBedelLogico(string usuarioBedel)
+        {
+            try
+            {
+                Bedel bedel = _userDAO.obtenerUsuario(usuarioBedel);
+                bedel = _userDAO.marcarEliminado(bedel);
+                BedelDTO bedelDTO = actualizarEstado(bedel);
+                return bedelDTO;
+            }
+            catch (Exception e) when (e.Message == "No existe el bedel")
+            {
+                throw new ArgumentException("No existe el bedel");
+            }
+        }
     }
 }
