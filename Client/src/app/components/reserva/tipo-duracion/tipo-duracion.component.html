@@ -1,49 +1,139 @@
 <div class="container">
-  <form (ngSubmit)="submitTipoReserva($event)">
-    <div class="contenedor-central">
-      <div class="contenedor-izquierda">
-        <select name="tipo-reserva">
-          <option value="esporadica">Esporadica</option>
-          <option value="periodica">Periodica</option>
-        </select>
+  <form
+    [formGroup]="datosReserva"
+    novalidate
+    *ngIf="formulario1"
+    (ngSubmit)="submitTipoReserva($event, calendario)"
+  >
+    <div class="formulario-1">
+      <div class="contenedor-central">
+        <div class="contenedor-izquierda">
+          <select formControlName="tipoReserva" required>
+            <option value="esporadica">Esporadica</option>
+            <option value="periodica">Periodica</option>
+          </select>
 
-        <calendar-date #calendar>
-          <calendar-month></calendar-month>
-          <svg
-            aria-label="Previous"
-            slot="previous"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-          </svg>
-          <svg
-            aria-label="Next"
-            slot="next"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-          >
-            <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
-          </svg>
-        </calendar-date>
+          <calendar-date #calendario [isDateDisallowed]="desactivarFechas">
+            <calendar-month (click)="chequearFormulario()"></calendar-month>
+            <svg
+              aria-label="Previous"
+              slot="previous"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+            </svg>
+            <svg
+              aria-label="Next"
+              slot="next"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <path d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+            </svg>
+          </calendar-date>
+        </div>
+
+        <div class="contenedor-derecha">
+          <div class="time-input-container">
+            <label>Desde*:</label>
+            <input
+              type="time"
+              class="hora-comienzo"
+              formControlName="comienzoReserva"
+              required
+            />
+            <p class="error" *ngIf="multiploDe30ErrorDesde">
+              La hora debe ser multiplo de 30 minutos
+            </p>
+          </div>
+          <div class="time-input-container">
+            <label>Hasta*:</label>
+            <input
+              type="time"
+              class="hora-fin"
+              formControlName="finReserva"
+              required
+            />
+            <p class="error" *ngIf="multiploDe30ErrorHasta">
+              La hora debe ser multiplo de 30 minutos
+            </p>
+          </div>
+        </div>
       </div>
 
-      <div class="contenedor-derecha">
-        <div class="time-input-container">
-          <label>Desde*:</label>
-          <input type="time" class="hora-comienzo" />
-        </div>
-        <div class="time-input-container">
-          <label>Hasta*:</label>
-          <input type="time" class="hora-fin" />
-        </div>
+      <div class="contenedor-botones">
+        <button class="boton-volver" (click)="volverHome()">Volver</button>
+        <button
+          type="submit"
+          [disabled]="datosReserva.invalid"
+          class="boton-continuar"
+        >
+          Continuar
+        </button>
+        <button class="boton-cancelar-gris">Cancelar</button>
       </div>
     </div>
+  </form>
 
-    <div class="contenedor-botones">
-      <button class="boton-volver">Volver</button>
-      <button type="submit" class="boton-continuar no-activo">Continuar</button>
-      <button class="boton-cancelar-gris">Cancelar</button>
+  <form
+    [formGroup]="datosComision"
+    novalidate
+    *ngIf="formulario2"
+    (ngSubmit)="submitDatosComision()"
+  >
+    <div class="formulario-1">
+      <div class="fila-input">
+        <div class="input-container">
+          <label>Cantidad de Alumnos*</label>
+          <input type="number" required formControlName="cantidadAlumnos" />
+        </div>
+        <div class="input-container">
+          <label>Tipo de Aula*</label>
+          <select formControlName="tipoAula">
+            <option value="comun">Común</option>
+            <option value="informatica">Informatica</option>
+            <option value="multimedio">Multimedio</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="fila-input">
+        <div class="input-container">
+          <label>Nombre*</label>
+          <input type="text" required formControlName="nombre" />
+        </div>
+        <div class="input-container">
+          <label>Apellido*</label>
+          <input type="text" required formControlName="apellido" />
+        </div>
+      </div>
+
+      <div class="fila-input">
+        <div class="input-container">
+          <label>Catedra*</label>
+          <input type="text" required formControlName="catedra" />
+        </div>
+        <div class="input-container">
+          <label>Comision*</label>
+          <input type="text" required formControlName="comision" />
+        </div>
+      </div>
+      <div class="input-container">
+        <label>Correo*</label>
+        <input type="text" required formControlName="email" />
+      </div>
+      <div class="contenedor-botones">
+        <button class="boton-volver" (click)="volverReserva()">Volver</button>
+        <button
+          type="submit"
+          [disabled]="datosComision.invalid"
+          class="boton-continuar"
+        >
+          Continuar
+        </button>
+        <button class="boton-cancelar-gris">Cancelar</button>
+      </div>
     </div>
   </form>
 </div>

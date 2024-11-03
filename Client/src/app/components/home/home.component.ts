@@ -16,12 +16,20 @@ export class HomeComponent {
       this.indiceOpcionSeleccionada = Math.max(this.indiceOpcionSeleccionada - 1, 0);
     } else if (event.key === 'ArrowRight') {
       this.indiceOpcionSeleccionada = Math.min(this.indiceOpcionSeleccionada + 1, 2);
-    } else if (event.key === 'Enter'){
-      if (this.indiceOpcionSeleccionada === 0) {
-        this.router.navigate(['/registrar-bedel']);
-      } else if (this.indiceOpcionSeleccionada === 2) {
-        this.router.navigate(['/registrar-reserva']);
-      }
+    } else if (event.key === 'Enter') this.redirigir();
+  }
+  
+  hoverCircle(number: number) {
+    this.indiceOpcionSeleccionada = number;
+  }
+
+  redirigir() {
+    if (this.indiceOpcionSeleccionada === 0) {
+      this.router.navigate(['/registrar-bedel']);
+    } else if(this.indiceOpcionSeleccionada === 1) {
+      this.router.navigate(['/buscar-bedel']);
+    } else if (this.indiceOpcionSeleccionada === 2) {
+      this.router.navigate(['/registrar-reserva']);
     }
   }
 

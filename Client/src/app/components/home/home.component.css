@@ -26,7 +26,11 @@
     transform: scale(1.2);
 }
 
-.material-icons {
+.selected:hover {
+    cursor: pointer;
+}
+
+.material-icons, .material-symbols-outlined {
     font-size: 60px;
     color: #232b37;
 }

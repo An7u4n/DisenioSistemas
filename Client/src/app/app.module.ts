@@ -13,6 +13,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
+import { SeleccionReservaComponent } from './components/reserva/seleccion-reserva/seleccion-reserva.component';
+import { BuscarBedelComponent } from './components/buscar-bedel/buscar-bedel.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { HomeComponent } from './components/home/home.component';
     TipoDuracionComponent,
     LoginComponent,
     HomeComponent,
+    SeleccionReservaComponent,
+    BuscarBedelComponent,
   ],
   imports: [
     BrowserModule,

@@ -5,12 +5,16 @@ import { TipoDuracionComponent } from './components/reserva/tipo-duracion/tipo-d
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginGuard } from './guards/login.guard';
+import { SeleccionReservaComponent } from './components/reserva/seleccion-reserva/seleccion-reserva.component';
+import { BuscarBedelComponent } from './components/buscar-bedel/buscar-bedel.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent, pathMatch: 'full', canActivate: [LoginGuard]},
   {path: 'registrar-bedel', component: RegistrarBedelComponent, pathMatch: 'full', canActivate: [LoginGuard]},
-  {path: 'registrar-reserva', component: TipoDuracionComponent, pathMatch: 'full', canActivate: [LoginGuard]},
+  {path: 'buscar-bedel', component: BuscarBedelComponent, pathMatch: 'full', canActivate: [LoginGuard]},
+  {path: 'registrar-reserva', component: SeleccionReservaComponent, pathMatch: 'full', canActivate: [LoginGuard]},
+  {path: 'registrar-reserva/esporadica', component: TipoDuracionComponent, pathMatch: 'full', canActivate: [LoginGuard]},
   {path: 'login', component: LoginComponent, pathMatch: 'full'}
 ];
 

@@ -1,0 +1,28 @@
+.container {
+    width: 400px;
+    height: 255px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.titulo {
+    font-size: 38px !important;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+form {
+    width: 90%;
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+}
+button {
+    align-self: flex-end;
+    margin-top: 15px;
+}

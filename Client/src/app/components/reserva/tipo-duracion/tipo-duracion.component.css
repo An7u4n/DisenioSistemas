@@ -10,6 +10,25 @@ form {
     width: 100%;
 }
 
+.formulario-1 {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    width: 100%;
+}
+
+.fila-input {
+    display: flex;
+    flex-direction: row;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    width: 93%;
+    margin: 0 30px;
+}
+
 .contenedor-central {
     display: flex;
     flex-direction: row;
@@ -76,6 +95,10 @@ calendar-month {
         align-items: center;
         justify-content: center;
     }
+    &::part(selected){
+        background-color: #0077E4;
+        color: white;
+    }
 }
 
 calendar-date svg {
@@ -111,4 +134,9 @@ input[type="time"] {
 .contenedor-botones button {
     font-size: 14px;
     font-weight: normal;
+}
+
+button:disabled {
+    background-color: #2D3339 !important;
+    cursor: not-allowed !important;
 }

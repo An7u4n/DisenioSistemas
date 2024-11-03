@@ -18,4 +18,16 @@ export class BedelService {
 
     return this._http.post<ApiResponse>(`${this.userUrl}/registrar-bedel`, JSON.stringify(bedel), { headers });
   }
+
+  buscarBedel(apellido?: string, turno?: number) {
+    if(apellido && turno) {
+      return this._http.get<ApiResponse>(`${this.userUrl}/buscar-bedeles?apellido=${apellido}&turno=${turno}`);
+    } else if(apellido) {
+      return this._http.get<ApiResponse>(`${this.userUrl}/buscar-bedeles?apellido=${apellido}`);
+    } else if(turno) {
+      return this._http.get<ApiResponse>(`${this.userUrl}/buscar-bedeles?turno=${turno}`);
+    } else {
+      return this._http.get<ApiResponse>(`${this.userUrl}/buscar-bedeles`);
+    }
+  }
 }

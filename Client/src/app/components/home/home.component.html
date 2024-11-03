@@ -1,5 +1,10 @@
 <div class="container">
-  <div class="circle-container" [ngClass]="{ selected: isSelected(0) }">
+  <div
+    class="circle-container"
+    [ngClass]="{ selected: isSelected(0) }"
+    (mouseenter)="hoverCircle(0)"
+    (click)="redirigir()"
+  >
     <div class="option-circle">
       <div>
         <mat-icon class="material-icons">person_add</mat-icon>
@@ -7,7 +12,12 @@
     </div>
     <p class="subtitulo">Agregar Bedel</p>
   </div>
-  <div class="circle-container" [ngClass]="{ selected: isSelected(1) }">
+  <div
+    class="circle-container"
+    [ngClass]="{ selected: isSelected(1) }"
+    (mouseenter)="hoverCircle(1)"
+    (click)="redirigir()"
+  >
     <div class="option-circle">
       <div>
         <mat-icon class="material-icons">person_search</mat-icon>
@@ -15,12 +25,17 @@
     </div>
     <p class="subtitulo">Buscar Bedel</p>
   </div>
-  <div class="circle-container" [ngClass]="{ selected: isSelected(2) }">
+  <div
+    class="circle-container"
+    [ngClass]="{ selected: isSelected(2) }"
+    (mouseenter)="hoverCircle(2)"
+    (click)="redirigir()"
+  >
     <div class="option-circle">
       <div>
-        <mat-icon class="material-icons">woman</mat-icon>
+        <span class="material-symbols-outlined">playing_cards</span>
       </div>
     </div>
-    <p class="subtitulo">Minas en Bolas</p>
+    <p class="subtitulo">Test Reserva</p>
   </div>
 </div>

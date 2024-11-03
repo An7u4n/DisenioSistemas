@@ -65,6 +65,9 @@ export class RegistrarBedelComponent {
           closeButton: true,
           progressBar: true, 
         });
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        }, 1000);
       },
       error => {
         if (error.status == 409) this.usuarioExistente = true;

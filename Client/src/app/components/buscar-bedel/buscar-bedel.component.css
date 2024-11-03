@@ -1,0 +1,101 @@
+.container {
+    width: 500px;
+    height: 400px;
+}
+
+.table-container{
+    width: 900px !important;
+    height: fit-content;
+    padding: 40px;
+    border-radius: 8px;
+    color: #fff;
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.titulo-busqueda {
+    font-size: 30px;
+    align-self: flex-start;
+}
+
+thead {
+    background-color: #1e2229;
+  }
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    width: 90%;
+    justify-content: space-around;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: -22px;
+}
+
+.contenedor-input{
+    display: flex;
+    flex-direction: column;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  th {
+    color: #aaa;
+    font-weight: normal;
+  }
+  
+  tbody tr:nth-child(odd) {
+    background-color: #333740;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #2b2f38;
+  }
+  
+  .action-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    margin-right: 8px;
+  }
+  
+  .edit-button {
+    color: #4ea8de;
+  }
+  
+  .delete-button {
+    color: #de4e4e;
+  }
+  
+  .cancel-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 20px;
+  }
+  
+  .cancel-button:hover {
+    background-color: #c9302c;
+  }

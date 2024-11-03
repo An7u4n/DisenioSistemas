@@ -1,0 +1,63 @@
+<div class="container container-form" *ngIf="mostrarFormulario">
+  <form (ngSubmit)="buscarBedeles($event)">
+    <p class="titulo">Buscar Bedel</p>
+    <div class="inputs">
+      <div class="contenedor-input">
+        <label for="apellido">Apellido del Bedel</label>
+        <input type="text" [(ngModel)]="bedelData.apellido" name="apellido" />
+      </div>
+      <div class="contenedor-input">
+        <label for="turno">Turno</label>
+        <select name="turno" [(ngModel)]="bedelData.turno" name="turno">
+          <option value="1">Mañana</option>
+          <option value="2">Tarde</option>
+          <option value="3">Noche</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="contenedor-botones">
+      <button type="submit" class="boton-confirmar">Buscar</button>
+      <button type="button" class="boton-cancelar" (click)="onVolverHome()">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="container table-container" *ngIf="mostrarBedeles">
+  <p class="titulo titulo-busqueda">Resultados De La Busqueda:</p>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Apellido</th>
+        <th>Nombre</th>
+        <th>Turno</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bedel of bedeles">
+        <td>{{ bedel.idBedel }}</td>
+        <td>{{ bedel.apellido }}</td>
+        <td>{{ bedel.nombre }}</td>
+        <td *ngIf="bedel.turno == 1">Mañana</td>
+        <td *ngIf="bedel.turno == 2">Tarde</td>
+        <td *ngIf="bedel.turno == 3">Noche</td>
+        <td>
+          <button class="action-button edit-button">✏️</button>
+          <button class="action-button delete-button">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="boton-cancelar" (click)="onVolver()">Volver</button>
+</div>
+
+<div class="container table-container" *ngIf="mostrarError">
+  <p class="titulo titulo-busqueda">
+    No existen bedeles para los criterios ingresados:
+  </p>
+  <button class="boton-volver" (click)="onVolver()">Volver</button>
+</div>
