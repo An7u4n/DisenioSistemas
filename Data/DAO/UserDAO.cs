@@ -58,11 +58,6 @@ namespace Data.DAO
 
             var bedeles = query.Distinct().ToList();
 
-            if (bedeles == null || !bedeles.Any())
-            {
-                throw new Exception("No existen bedeles con esos datos");
-            }
-
             return bedeles;
         }
     }
