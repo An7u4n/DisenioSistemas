@@ -1,4 +1,5 @@
 ﻿using Data.EntityConfiguration;
+using DisenioSistemas.Model.Abstract;
 using Microsoft.EntityFrameworkCore;
 using Model.Entity;
 
@@ -11,6 +12,7 @@ namespace Data
         public DbSet<Administrador> Administradores { get; set; }
         public DbSet<Bedel> Bedeles { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AnioLectivoConfiguration());
@@ -18,6 +20,18 @@ namespace Data
             modelBuilder.ApplyConfiguration(new AdministradorConfiguration());
 
             modelBuilder.ApplyConfiguration(new BedelConfiguration());
+
+            modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
+
+
+            modelBuilder.Entity<Administrador>()
+                        .ToTable("Administradores")
+                        .HasBaseType<Usuario>();
+
+            modelBuilder.Entity<Bedel>()
+                        .ToTable("Bedeles")
+                        .HasBaseType<Usuario>();
+
 
             base.OnModelCreating(modelBuilder);
         }

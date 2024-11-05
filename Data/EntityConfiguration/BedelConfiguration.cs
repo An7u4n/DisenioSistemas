@@ -1,4 +1,5 @@
-﻿using DisenioSistemas.Model.Enums;
+﻿using DisenioSistemas.Model.Abstract;
+using DisenioSistemas.Model.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Model.Entity;
@@ -21,7 +22,11 @@ namespace Data.EntityConfiguration
               v => (Turno)Enum.Parse(typeof(Turno), v))
             .IsRequired();
 
-            builder.HasKey("idBedel");
+            builder.HasOne<Usuario>()
+               .WithOne()
+               .HasForeignKey<Bedel>("idBedel");
+
+
         }
     }
 }

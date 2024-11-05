@@ -22,6 +22,7 @@ namespace Services.UserService
             {
                 bedelDTOs.Add(new BedelDTO(
                     idBedel: bedel.getId(),
+                    contrasena: bedel.getContrasena(),
                     apellido: bedel.getApellido(),
                     nombre: bedel.getNombre(),
                     turno: bedel.getTurno(),
@@ -45,6 +46,7 @@ namespace Services.UserService
 
             var bedel = new Bedel(
                 usuario: bedelDTO.Usuario,
+                contrasena: bedelDTO.Contrasena,
                 apellido: bedelDTO.Apellido,
                 nombre: bedelDTO.Nombre,
                 turno: bedelDTO.Turno
@@ -63,7 +65,7 @@ namespace Services.UserService
 
             try
             {
-                var bedel = _userDAO.obtenerUsuario(bedelDTO.Usuario);
+                var bedel = _userDAO.obtenerUsuarioBedel(bedelDTO.Usuario);
             }
             catch (Exception e) when (e.Message == "No existe el bedel")
             {
@@ -78,6 +80,7 @@ namespace Services.UserService
         {
             var bedelDTO = new BedelDTO(
                 idBedel: bedel.getId(),
+                contrasena: bedel.getContrasena(),
                 apellido: bedel.getApellido(),
                 nombre: bedel.getNombre(),
                 turno: bedel.getTurno(),
@@ -90,7 +93,7 @@ namespace Services.UserService
         {
             try
             {
-                Bedel bedel = _userDAO.obtenerUsuario(usuarioBedel);
+                Bedel bedel = _userDAO.obtenerUsuarioBedel(usuarioBedel);
                 bedel = _userDAO.marcarEliminado(bedel);
                 BedelDTO bedelDTO = actualizarEstado(bedel);
                 return bedelDTO;

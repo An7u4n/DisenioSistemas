@@ -8,6 +8,9 @@ namespace Model.DTO
     {
         public int IdBedel { get; set; }
 
+        [Required(ErrorMessage = "La contraseña es obligatorio.")]
+        public string Contrasena { get; set; }
+
         [Required(ErrorMessage = "El apellido es obligatorio.")]
         public string Apellido { get; set; }
 
@@ -21,9 +24,10 @@ namespace Model.DTO
         public string Usuario { get; set; }
         public BedelDTO() { }
 
-        public BedelDTO(int idBedel, string apellido, string nombre, Turno turno, string usuario)
+        public BedelDTO(int idBedel,string contrasena, string apellido, string nombre, Turno turno, string usuario)
         {
             IdBedel = idBedel;
+            Contrasena = contrasena;
             Apellido = apellido;
             Nombre = nombre;
             Turno = turno;

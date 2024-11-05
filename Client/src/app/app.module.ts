@@ -15,6 +15,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { SeleccionReservaComponent } from './components/reserva/seleccion-reserva/seleccion-reserva.component';
 import { BuscarBedelComponent } from './components/buscar-bedel/buscar-bedel.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,9 @@ import { BuscarBedelComponent } from './components/buscar-bedel/buscar-bedel.com
     ToastrModule.forRoot(),
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
