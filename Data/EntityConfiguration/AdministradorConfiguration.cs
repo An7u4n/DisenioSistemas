@@ -9,14 +9,13 @@ namespace Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Administrador> builder)
         {
+            builder.Property<int>("id").HasColumnName("id").IsRequired();
             builder.Property<string>("usuario").HasColumnName("usuario").IsRequired();
             builder.Property<bool>("estado").HasColumnName("estado").IsRequired();
 
-            
 
-            builder.HasOne<Usuario>()
-               .WithOne()
-               .HasForeignKey<Administrador>("idAdministrador");
+
+            builder.HasBaseType<Usuario>();
         }
     }
 }

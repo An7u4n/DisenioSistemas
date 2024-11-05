@@ -2,6 +2,7 @@
 using Model.Entity;
 using Data.DAO;
 using DisenioSistemas.Model.Enums;
+using DisenioSistemas.Model.Abstract;
 
 namespace Services.UserService
 {
@@ -54,7 +55,6 @@ namespace Services.UserService
 
             return bedel;
         }
-
         public BedelDTO registrarBedel(BedelDTO bedelDTO)
         {
 
@@ -103,5 +103,7 @@ namespace Services.UserService
                 throw new ArgumentException("No existe el bedel");
             }
         }
+
+        
     }
 }

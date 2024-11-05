@@ -6,15 +6,9 @@ namespace Model.Entity{
 
     public class Administrador : Usuario
     {
-
-        private int idAdministrador;
+        public Administrador(string usuario,string contrasena): base(usuario, contrasena){}
 
         
-        public Administrador(string usuario,string contrasena): base(usuario, contrasena){}
-        public override int getId()
-        {
-            return idAdministrador;
-        }
     }
 
 

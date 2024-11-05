@@ -10,9 +10,10 @@ namespace Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Bedel> builder)
         {
+
+            builder.Property<int>("id").HasColumnName("id").IsRequired();
             builder.Property<string>("usuario").HasColumnName("usuario").IsRequired();
             builder.Property<bool>("estado").HasColumnName("estado").IsRequired();
-            builder.Property<int>("idBedel").HasColumnName("idBedel").IsRequired();
             builder.Property<string>("apellido").HasColumnName("apellido").IsRequired();
             builder.Property<string>("nombre").HasColumnName("nombre").IsRequired();
             builder.Property<Turno>("turno")
@@ -22,10 +23,9 @@ namespace Data.EntityConfiguration
               v => (Turno)Enum.Parse(typeof(Turno), v))
             .IsRequired();
 
-            builder.HasOne<Usuario>()
-               .WithOne()
-               .HasForeignKey<Bedel>("idBedel");
+            builder.HasBaseType<Usuario>();
 
+        
 
         }
     }

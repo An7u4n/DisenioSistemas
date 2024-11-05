@@ -1,11 +1,21 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace DisenioSistemas.Model.Abstract{
 
 
     public abstract class Usuario {
-    
+
+    [Key]
     protected int id;
+    [Required]
+    [Column("usuario")]
     private string usuario;
+    [Required]
+    [Column("contrasena")]
     private string contrasena;
+    [Required]
+    [Column("estado")]
     private bool estado;
 
 
@@ -22,7 +32,10 @@ namespace DisenioSistemas.Model.Abstract{
         this.usuario = usuario;
         this.estado = estado;
     }
-    public abstract int getId();
+    public int getId()
+        {
+            return id;
+        }
     public string getUsuario(){
         return usuario;
     }

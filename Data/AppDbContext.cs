@@ -12,25 +12,22 @@ namespace Data
         public DbSet<Administrador> Administradores { get; set; }
         public DbSet<Bedel> Bedeles { get; set; }
 
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AnioLectivoConfiguration());
 
+            modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
+            modelBuilder.Entity<Usuario>().UseTptMappingStrategy();
+
             modelBuilder.ApplyConfiguration(new AdministradorConfiguration());
+            modelBuilder.Entity<Administrador>().UseTptMappingStrategy();
 
             modelBuilder.ApplyConfiguration(new BedelConfiguration());
-
-            modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
-
-
-            modelBuilder.Entity<Administrador>()
-                        .ToTable("Administradores")
-                        .HasBaseType<Usuario>();
-
-            modelBuilder.Entity<Bedel>()
-                        .ToTable("Bedeles")
-                        .HasBaseType<Usuario>();
+            modelBuilder.Entity<Bedel>().UseTptMappingStrategy();
+           
+            
 
 
             base.OnModelCreating(modelBuilder);

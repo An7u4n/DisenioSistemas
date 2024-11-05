@@ -8,14 +8,15 @@ namespace Data.EntityConfiguration
     public class UsuarioConfiguration : IEntityTypeConfiguration<Usuario>
     {
         public void Configure(EntityTypeBuilder<Usuario> builder)
-        {
-            
-            builder.ToTable("Usuarios");
+        { 
 
+            builder.Property<int>("id")
+                .HasColumnName("id")
+                .ValueGeneratedOnAdd()
+                .IsRequired();
 
             builder.HasKey("id");
 
-            
             builder.Property<string>("usuario")
                 .HasColumnName("usuario")
                 .IsRequired();
@@ -28,7 +29,6 @@ namespace Data.EntityConfiguration
                 .HasColumnName("estado")
                 .IsRequired();
 
-           
         }
     }
 }

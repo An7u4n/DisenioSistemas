@@ -15,10 +15,6 @@ public class Bedel : Usuario {
         this.nombre=nombre;
         this.turno=turno;
     }
-    public override int getId()
-    {
-        return idBedel;
-    }
 
     public string getApellido(){
         return apellido;

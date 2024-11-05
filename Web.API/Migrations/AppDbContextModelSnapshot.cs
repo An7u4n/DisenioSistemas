@@ -20,7 +20,8 @@ namespace Web.API.Migrations
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("id");
 
                     b.Property<string>("contrasena")
                         .IsRequired()
@@ -38,7 +39,7 @@ namespace Web.API.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Usuarios", (string)null);
+                    b.ToTable("Usuarios");
 
                     b.UseTptMappingStrategy();
                 });
@@ -64,13 +65,7 @@ namespace Web.API.Migrations
                 {
                     b.HasBaseType("DisenioSistemas.Model.Abstract.Usuario");
 
-                    b.Property<int>("idAdministrador")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("idAdministrador")
-                        .IsUnique();
-
-                    b.ToTable("Administradores", (string)null);
+                    b.ToTable("Administradores");
                 });
 
             modelBuilder.Entity("Model.Entity.Bedel", b =>
@@ -82,10 +77,6 @@ namespace Web.API.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("apellido");
 
-                    b.Property<int>("idBedel")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("idBedel");
-
                     b.Property<string>("nombre")
                         .IsRequired()
                         .HasColumnType("TEXT")
@@ -96,10 +87,7 @@ namespace Web.API.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("turno");
 
-                    b.HasIndex("idBedel")
-                        .IsUnique();
-
-                    b.ToTable("Bedeles", (string)null);
+                    b.ToTable("Bedeles");
                 });
 
             modelBuilder.Entity("Model.Entity.Administrador", b =>
@@ -109,12 +97,6 @@ namespace Web.API.Migrations
                         .HasForeignKey("Model.Entity.Administrador", "id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DisenioSistemas.Model.Abstract.Usuario", null)
-                        .WithOne()
-                        .HasForeignKey("Model.Entity.Administrador", "idAdministrador")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Model.Entity.Bedel", b =>
@@ -122,12 +104,6 @@ namespace Web.API.Migrations
                     b.HasOne("DisenioSistemas.Model.Abstract.Usuario", null)
                         .WithOne()
                         .HasForeignKey("Model.Entity.Bedel", "id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DisenioSistemas.Model.Abstract.Usuario", null)
-                        .WithOne()
-                        .HasForeignKey("Model.Entity.Bedel", "idBedel")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
