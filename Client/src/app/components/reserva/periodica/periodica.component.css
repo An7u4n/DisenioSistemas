@@ -1,0 +1,61 @@
+.container {
+    padding: 20px;
+    border-radius: 10px;
+    width: 700px;
+    height: fit-content;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-control, .form-control-time, select {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3a3a3a;
+    color: #ffffff;
+  }
+  
+  .seleccion-dia {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    align-self: flex-start;
+  }
+  
+  .seleccion-dia div {
+    background-color: #555;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .seleccion-dia div.active {
+    background-color: #007bff;
+  }
+  
+  .seleccion-tiempo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+.form-control-time {
+width: 80px;
+background-color: #3a3a3a;
+}
+  
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }

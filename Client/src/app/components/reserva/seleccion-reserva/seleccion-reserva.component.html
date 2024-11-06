@@ -1,9 +1,9 @@
 <div class="container">
   <p class="titulo">Registrar Reserva</p>
-  <form (ngSubmit)="submitTipoReserva()">
+  <form [formGroup]="tipoReserva" (ngSubmit)="submitTipoReserva()">
     <div class="input-container">
-      <label>Tipo de Reserva</label>
-      <select>
+      <label for="tipo-reserva">Tipo de Reserva</label>
+      <select formControlName="tipoReserva" name="tipo-reserva">
         <option value="esporadica">Esporádica</option>
         <option value="periodica">Periódica</option>
       </select>

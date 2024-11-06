@@ -15,6 +15,7 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { SeleccionReservaComponent } from './components/reserva/seleccion-reserva/seleccion-reserva.component';
 import { BuscarBedelComponent } from './components/buscar-bedel/buscar-bedel.component';
+import { PeriodicaComponent } from './components/reserva/periodica/periodica.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { BuscarBedelComponent } from './components/buscar-bedel/buscar-bedel.com
     HomeComponent,
     SeleccionReservaComponent,
     BuscarBedelComponent,
+    PeriodicaComponent,
   ],
   imports: [
     BrowserModule,

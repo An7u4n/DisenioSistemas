@@ -20,12 +20,17 @@ export class SeleccionReservaComponent implements OnInit{
 
   ngOnInit() {
     this.tipoReserva = this.fb.group({
-      tipoReserva: ['esporadica', [Validators.required]],
+      tipoReserva: ['', [Validators.required]],
     });
   }
 
   submitTipoReserva() {
-    this.router.navigate(['/registrar-reserva/esporadica']);
-    console.log('Tipo de reserva seleccionado');
+    const tipo = this.tipoReserva.get('tipoReserva')?.value;
+    console.log(tipo);
+    if(tipo == 'esporadica') {
+      this.router.navigate(['registrar-reserva/esporadica']);
+    } else if(tipo == 'periodica') {
+      this.router.navigate(['registrar-reserva/periodica']);
+    }
   }
 }
