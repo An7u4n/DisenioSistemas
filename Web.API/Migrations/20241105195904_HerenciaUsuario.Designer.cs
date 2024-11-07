@@ -10,21 +10,26 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241004160859_usersadded")]
-    partial class usersadded
+    [Migration("20241105195904_HerenciaUsuario")]
+    partial class HerenciaUsuario
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
 
-            modelBuilder.Entity("Model.Entity.Administrador", b =>
+            modelBuilder.Entity("DisenioSistemas.Model.Abstract.Usuario", b =>
                 {
-                    b.Property<int>("idAdministrador")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
-                        .HasColumnName("idAdministrador");
+                        .HasColumnName("id");
+
+                    b.Property<string>("contrasena")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("contrasena");
 
                     b.Property<bool>("estado")
                         .HasColumnType("INTEGER")
@@ -35,9 +40,11 @@ namespace Web.API.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("usuario");
 
-                    b.HasKey("idAdministrador");
+                    b.HasKey("id");
 
-                    b.ToTable("Administradores");
+                    b.ToTable("Usuarios");
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Model.Entity.AnioLectivo", b =>
@@ -57,39 +64,51 @@ namespace Web.API.Migrations
                     b.ToTable("AnioLectivos");
                 });
 
+            modelBuilder.Entity("Model.Entity.Administrador", b =>
+                {
+                    b.HasBaseType("DisenioSistemas.Model.Abstract.Usuario");
+
+                    b.ToTable("Administradores");
+                });
+
             modelBuilder.Entity("Model.Entity.Bedel", b =>
                 {
-                    b.Property<int>("idBedel")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("idBedel");
+                    b.HasBaseType("DisenioSistemas.Model.Abstract.Usuario");
 
                     b.Property<string>("apellido")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("apellido");
 
-                    b.Property<bool>("estado")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("estado");
-
                     b.Property<string>("nombre")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("nombre");
 
-                    b.Property<int>("turno")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("turno");
-
-                    b.Property<string>("usuario")
+                    b.Property<string>("turno")
                         .IsRequired()
                         .HasColumnType("TEXT")
-                        .HasColumnName("usuario");
-
-                    b.HasKey("idBedel");
+                        .HasColumnName("turno");
 
                     b.ToTable("Bedeles");
+                });
+
+            modelBuilder.Entity("Model.Entity.Administrador", b =>
+                {
+                    b.HasOne("DisenioSistemas.Model.Abstract.Usuario", null)
+                        .WithOne()
+                        .HasForeignKey("Model.Entity.Administrador", "id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Model.Entity.Bedel", b =>
+                {
+                    b.HasOne("DisenioSistemas.Model.Abstract.Usuario", null)
+                        .WithOne()
+                        .HasForeignKey("Model.Entity.Bedel", "id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
