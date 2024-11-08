@@ -34,7 +34,7 @@ namespace Data.DAO
             return bedel;
         }
 
-        public Bedel obtenerUsuario(string usuario)
+        public Bedel obtenerUsuarioBedel(string usuario)
         {
             var bedel = _dbContext.Bedeles
                       .AsEnumerable()  // Evalúa en el cliente después de traer los datos de la BD

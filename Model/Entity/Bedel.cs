@@ -10,19 +10,10 @@ public class Bedel : Usuario {
     private string nombre;
     private Turno turno;
     
-    public Bedel(string usuario, string apellido, string nombre, Turno turno) :base (usuario){
+    public Bedel(string usuario,string contrasena, string apellido, string nombre, Turno turno) :base (usuario,contrasena){
         this.apellido=apellido;
         this.nombre=nombre;
         this.turno=turno;
-    }
-    public Bedel(string usuario, bool estado, string apellido, string nombre, Turno turno) :base (usuario,estado){
-        this.apellido=apellido;
-        this.nombre=nombre;
-        this.turno=turno;
-    }
-    public override int getId()
-    {
-        return idBedel;
     }
 
     public string getApellido(){

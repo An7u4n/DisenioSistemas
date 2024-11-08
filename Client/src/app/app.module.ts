@@ -37,7 +37,9 @@ import { PeriodicaComponent } from './components/reserva/periodica/periodica.com
     ToastrModule.forRoot(),
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })

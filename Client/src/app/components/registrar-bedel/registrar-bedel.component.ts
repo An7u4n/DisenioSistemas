@@ -52,6 +52,7 @@ export class RegistrarBedelComponent {
 
     const bedelDTO: BedelDTO = {
       nombre: this.bedelData.nombre,
+      contrasena: this.bedelData.contrasenia,
       apellido: this.bedelData.apellido,
       turno: this.mapTurno(this.bedelData.turno),
       usuario: this.bedelData.usuario
