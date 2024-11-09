@@ -1,3 +1,4 @@
+using Data.Utilities;
 using DisenioSistemas.Model.Enums;
 using Microsoft.EntityFrameworkCore;
 using Model.Entity;
@@ -16,7 +17,7 @@ namespace Data.DAO
         public List<Bedel> GetBedeles()
         {
             var bedeles = _dbContext.Bedeles.ToList();
-            if (bedeles == null || !bedeles.Any()) throw new Exception("No existen bedeles");
+            if (bedeles == null || !bedeles.Any()) throw new NotFoundException("No existen bedeles");
             return bedeles;
         }
 
@@ -37,14 +38,14 @@ namespace Data.DAO
         public Bedel obtenerUsuarioBedel(string usuario)
         {
             var bedel = _dbContext.Bedeles
-                      .AsEnumerable()  // Evalúa en el cliente después de traer los datos de la BD
+                      .AsEnumerable()
                       .FirstOrDefault(b => b.getUsuario() == usuario);
-            if (bedel == null) throw new Exception("No existe el bedel");
+            if (bedel == null) throw new NotFoundException("No existe el bedel");
             return bedel;
         }
         public List<Bedel> buscarBedeles(string apellido, Turno? turno)
         {
-            var query = _dbContext.Bedeles.AsEnumerable();  
+            var query = _dbContext.Bedeles.AsEnumerable().Where(b => b.getEstado() == true);  
             
             if (!string.IsNullOrEmpty(apellido))
             {
@@ -57,7 +58,7 @@ namespace Data.DAO
             }
 
             var bedeles = query.Distinct().ToList();
-
+            if (!bedeles.Any() || bedeles == null) throw new NotFoundException("Bedeles no encontrados");
             return bedeles;
         }
         public Bedel marcarEliminado(Bedel bedel)

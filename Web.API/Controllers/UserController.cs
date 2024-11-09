@@ -1,4 +1,5 @@
-﻿using DisenioSistemas.Model.Enums;
+﻿using Data.Utilities;
+using DisenioSistemas.Model.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTO;
 using Services.UserService;
@@ -77,13 +78,12 @@ namespace Web.API.Controllers
 
                 var bedeles = _userService.buscarBedel(apellido, turnoEnum);
 
-                if (bedeles == null || !bedeles.Any())
-                {
-                    HttpContext.Response.StatusCode = 404;
-                    return Response<List<BedelDTO>>.FailureResponse("No se encontraron bedeles con los datos proporcionados.");
-                }
-
                 return Response<List<BedelDTO>>.SuccessResponse(bedeles, "Bedeles encontrados con éxito.");
+            }
+            catch (NotFoundException)
+            {
+                HttpContext.Response.StatusCode = 404;
+                return Response<List<BedelDTO>>.FailureResponse("No se encontraron bedeles con los datos proporcionados.");
             }
             catch (Exception ex)
             {

@@ -3,6 +3,7 @@ using Model.Entity;
 using Data.DAO;
 using DisenioSistemas.Model.Enums;
 using DisenioSistemas.Model.Abstract;
+using Data.Utilities;
 
 namespace Services.UserService
 {
@@ -17,20 +18,27 @@ namespace Services.UserService
 
         public List<BedelDTO> buscarBedel(string apellido, Turno? turno)
         {
-            var bedeles = _userDAO.buscarBedeles(apellido, turno);
-            var bedelDTOs = new List<BedelDTO>();
-            foreach (var bedel in bedeles)
+            try
             {
-                bedelDTOs.Add(new BedelDTO(
-                    idBedel: bedel.getId(),
-                    contrasena: bedel.getContrasena(),
-                    apellido: bedel.getApellido(),
-                    nombre: bedel.getNombre(),
-                    turno: bedel.getTurno(),
-                    usuario: bedel.getUsuario()
-                ));
+                var bedeles = _userDAO.buscarBedeles(apellido, turno);
+                var bedelDTOs = new List<BedelDTO>();
+                foreach (var bedel in bedeles)
+                {
+                    bedelDTOs.Add(new BedelDTO(
+                        idBedel: bedel.getId(),
+                        contrasena: bedel.getContrasena(),
+                        apellido: bedel.getApellido(),
+                        nombre: bedel.getNombre(),
+                        turno: bedel.getTurno(),
+                        usuario: bedel.getUsuario()
+                    ));
+                }
+                return bedelDTOs;
             }
-            return bedelDTOs;
+            catch(NotFoundException ex)
+            {
+                throw new NotFoundException(ex.Message);
+            }
 
         }
         public Bedel crearNuevoBedel(BedelDTO bedelDTO)
@@ -62,7 +70,7 @@ namespace Services.UserService
             {
                 throw new ArgumentNullException(nameof(bedelDTO), "El Bedel no puede ser nulo.");
             }
-
+            
             try
             {
                 var bedel = _userDAO.obtenerUsuarioBedel(bedelDTO.Usuario);
