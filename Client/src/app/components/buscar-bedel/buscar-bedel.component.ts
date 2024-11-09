@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BedelService } from '../../services/bedel.service';
 import { BedelDTO } from '../../model/dto/BedelDTO';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-buscar-bedel',
@@ -18,7 +19,7 @@ export class BuscarBedelComponent {
     apellido: '',
     turno: 0
   };
-  constructor(private bedelService: BedelService, private router: Router) { }
+  constructor(private bedelService: BedelService, private router: Router, private toastr: ToastrService) { }
 
   buscarBedeles(e: Event) {
     e.preventDefault();
@@ -48,5 +49,18 @@ export class BuscarBedelComponent {
 
   onVolverHome() {
     this.router.navigate(['/home']);
+  }
+
+  onEliminarBedel(usuario: string | undefined) {
+
+    this.bedelService.eliminarBedel(usuario).subscribe(res => {
+      if (res.success) {
+        this.toastr.success('El bedel fue eliminado', 'Elminacion Exitosa', {
+          timeOut: 2000,
+          closeButton: true,
+          progressBar: true,
+        })
+      }
+    });
   }
 }

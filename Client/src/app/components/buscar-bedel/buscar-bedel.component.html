@@ -37,7 +37,7 @@
         <th>Acciones</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="bedeles && bedeles.length > 0">
       <tr *ngFor="let bedel of bedeles">
         <td>{{ bedel.idBedel }}</td>
         <td>{{ bedel.apellido }}</td>
@@ -47,7 +47,7 @@
         <td *ngIf="bedel.turno == 3">Noche</td>
         <td>
           <button class="action-button edit-button">✏️</button>
-          <button class="action-button delete-button">🗑️</button>
+          <button class="action-button delete-button" (click)="onEliminarBedel(bedel.usuario)">🗑️</button>
         </td>
       </tr>
     </tbody>
@@ -57,7 +57,7 @@
 
 <div class="container table-container" *ngIf="mostrarError">
   <p class="titulo titulo-busqueda">
-    No existen bedeles para los criterios ingresados:
+    No existen bedeles para los criterios ingresados
   </p>
   <button class="boton-volver" (click)="onVolver()">Volver</button>
 </div>

@@ -30,4 +30,8 @@ export class BedelService {
       return this._http.get<ApiResponse>(`${this.userUrl}/buscar-bedeles`);
     }
   }
+
+  eliminarBedel(usuario: string | undefined) {
+    return this._http.delete<ApiResponse>(`${this.userUrl}/eliminar-bedel?usuario=${usuario}`)
+  }
 }

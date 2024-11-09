@@ -38,7 +38,7 @@ import { PeriodicaComponent } from './components/reserva/periodica/periodica.com
     ReactiveFormsModule
   ],
   providers: [
-    provideAnimationsAsync()
+    // provideAnimationsAsync()
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
