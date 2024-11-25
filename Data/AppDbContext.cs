@@ -10,6 +10,7 @@ namespace Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<AnioLectivo> AnioLectivos { get; set; }
+        public DbSet<Cuatrimestre> cuatrimestres { get; set; }
         public DbSet<Administrador> Administradores { get; set; }
         public DbSet<Bedel> Bedeles { get; set; } 
         public DbSet<Usuario> Usuarios { get; set; }
@@ -17,10 +18,22 @@ namespace Data
         public DbSet<AulaInformatica> AulasInformatica { get; set; }
         public DbSet<AulaMultimedios> AulasMultimedios { get; set; }
         public DbSet<AulaSinRecursosAdicionales> AulasSinRecursosAdicionales { get; set; }
+        
+        public DbSet<Dia> dias { get; set; }
+        public DbSet<DiaPeriodica> diasPeriodica { get; set; }
+        public DbSet<DiaEsporadica> diasEsporadica { get; set; }
+
+        public DbSet<Reserva> reserva { get; set; }
+        public DbSet<ReservaEsporadica> reservaEsporadicas { get; set; }
+        public DbSet<ReservaPeriodica> reservaPeriodicas { get; set; }
+
+        
+       
 
 protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AnioLectivoConfiguration());
+            modelBuilder.ApplyConfiguration(new CuatrimestreConfiguration());
 
             modelBuilder.ApplyConfiguration(new UsuarioConfiguration());
             modelBuilder.Entity<Usuario>().UseTptMappingStrategy();
@@ -42,6 +55,24 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 
             modelBuilder.ApplyConfiguration(new AulaInformaticaConfiguration());
             modelBuilder.Entity<AulaInformatica>().UseTptMappingStrategy();
+
+            modelBuilder.ApplyConfiguration(new ReservaConfiguration());
+            modelBuilder.Entity<Reserva>().UseTptMappingStrategy();
+
+            modelBuilder.ApplyConfiguration(new ReservaEsporadicaConfiguration());
+            modelBuilder.Entity<ReservaEsporadica>().UseTptMappingStrategy();
+
+            modelBuilder.ApplyConfiguration(new ReservaPeriodicaConfiguration());
+            modelBuilder.Entity<ReservaPeriodica>().UseTptMappingStrategy();
+
+            modelBuilder.ApplyConfiguration(new DiaConfiguration());
+            modelBuilder.Entity<Dia>().UseTptMappingStrategy();
+
+            modelBuilder.ApplyConfiguration(new DiaEsporadicaConfiguration());
+            modelBuilder.Entity<DiaEsporadica>().UseTptMappingStrategy();
+
+            modelBuilder.ApplyConfiguration(new DiaPeriodicaConfiguration());
+            modelBuilder.Entity<DiaPeriodica>().UseTptMappingStrategy();
 
 
 

@@ -6,8 +6,9 @@ namespace Model.Abstract
 {
     public abstract class Dia
     {
+        
         [Key]
-        public int idDia { get; set; }
+        private int idDia { get; set; }
         [Required]
         [Column("duracionMinutos")]
         private int duracionMinutos { get; set; }
@@ -19,7 +20,22 @@ namespace Model.Abstract
         private DiaSemana diaSemana { get; set; }
         [Required]
         [Column("idAula")]
-        private int idAula { get; set; }
-        public virtual Aula aula { get; set; }
+        private Aula aula { get; set; }
+       
+
+        
+
+        public Dia()
+        {
+        }
+
+        protected Dia(int idDia, int duracionMinutos, TimeOnly horaInicio, DiaSemana diaSemana, Aula aula)
+        {
+            this.idDia = idDia;
+            this.duracionMinutos = duracionMinutos;
+            this.horaInicio = horaInicio;
+            this.diaSemana = diaSemana;
+            this.aula = aula;
+        }
     }
 }

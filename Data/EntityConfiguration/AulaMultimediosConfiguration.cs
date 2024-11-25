@@ -11,7 +11,6 @@ namespace Data.EntityConfiguration
         {
             builder.Property<int>("idAula")
                 .HasColumnName("idAula")
-                .ValueGeneratedOnAdd()
                 .IsRequired();
 
             builder.Property<int>("numero")
