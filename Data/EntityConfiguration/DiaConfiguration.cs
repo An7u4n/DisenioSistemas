@@ -27,11 +27,6 @@ namespace Data.EntityConfiguration
             builder.Property<DiaSemana>("diaSemana")
                 .HasColumnName("diaSemana")
                 .IsRequired();
-
-            builder.HasOne<Aula>("aula")
-                .WithMany()
-                .HasForeignKey("idAula")
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

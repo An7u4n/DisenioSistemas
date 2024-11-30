@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,7 +23,10 @@ namespace Model.Abstract
         [Required]
         [Column("correoElectronico")]
         private string correoElectronico { get; set; }
+        public virtual Dia Dia { get; set; }
 
+        public int idBedel {  get; set; }
+        public virtual Bedel Bedel { get; set; }
         public Reserva()
         {
         }

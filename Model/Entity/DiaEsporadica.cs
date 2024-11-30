@@ -14,20 +14,20 @@ namespace Model.Entity
     {
         [Required]
         [Column("dia")]
-        public DateTime dia { get; set; }
-        [Required]
-        [Column("idReservaEsporadica")]
-        public ReservaEsporadica reservaEsporadica { get; set; }
+        private DateTime dia { get; set; }
+
+        public int idReserva { get; set; }
+        public ReservaEsporadica ReservaEsporadica { get; set; }
 
         public DiaEsporadica()
         {
         }
 
-        public DiaEsporadica(int idDia,int duracionMinutos, TimeOnly horaInicio, DiaSemana diaSemana, Aula aula, DateTime dia, ReservaEsporadica reservaEsporadica)
+        public DiaEsporadica(int idDia,int duracionMinutos, TimeOnly horaInicio, DiaSemana diaSemana, Aula aula, DateTime dia)
         : base(idDia,duracionMinutos, horaInicio, diaSemana, aula)
         {
             this.dia = dia;
-            this.reservaEsporadica = reservaEsporadica;
+            
         }
 
     }

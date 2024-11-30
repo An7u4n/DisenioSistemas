@@ -8,7 +8,7 @@ namespace Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Cuatrimestre> builder)
         {
-            builder.ToTable("Cuatrimestres");
+            builder.ToTable("Cuatrimestre");
 
             
             builder.Property<int>("IdCuatrimestre")

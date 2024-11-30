@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Model.Abstract;
 using Model.Entity;
 
 namespace Data.EntityConfiguration
@@ -8,14 +9,12 @@ namespace Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<DiaEsporadica> builder)
         {
-            builder.Property<int>("idResevaPeriodica")
-           .HasColumnName("idResevaPeriodica")
-           .IsRequired();
+            
 
             builder.Property<DateTime>("dia")
                 .HasColumnName("dia")
                 .IsRequired();
-            
+
         }
     }
 }

@@ -19,6 +19,8 @@ namespace Model.Entity
         private DateTime fechaFin { get;set;}
         [Column("periodo")]
         private TipoPeriodo tipoPeriodo { get;set;}
+
+        public DiaPeriodica DiaPeriodica { get; set;}
         public ReservaPeriodica() { }
 
         public ReservaPeriodica(Cuatrimestre cuatrimestre, DateTime fechaInicio, DateTime fechaFin, TipoPeriodo tipoPeriodo)

@@ -9,8 +9,9 @@ namespace Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<ReservaPeriodica> builder)
         {
+          
             builder.Property<int>("idReserva")
-                .HasColumnName("idReserva")
+                .HasColumnName("idReservaPeriodica")
                 .IsRequired();
 
             builder.Property<int>("idCuatrimestre")

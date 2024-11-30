@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241130210506_correcciones2")]
+    partial class correcciones2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -64,9 +67,6 @@ namespace Web.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("estado");
 
-                    b.Property<int>("idDia")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("numero")
                         .HasColumnType("INTEGER")
                         .HasColumnName("numero");
@@ -107,12 +107,16 @@ namespace Web.API.Migrations
                         .HasColumnName("horaInicio");
 
                     b.Property<int>("idAula")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("idAula");
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("reservaId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("idDia");
 
-                    b.HasIndex("idAula")
+                    b.HasIndex("idAula");
+
+                    b.HasIndex("reservaId")
                         .IsUnique();
 
                     b.ToTable("dias");
@@ -127,17 +131,11 @@ namespace Web.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("idReservaPeriodica");
 
-                    b.Property<int>("DiaidDia")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("correoElectronico")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT")
                         .HasColumnName("correoElectronico");
-
-                    b.Property<int>("idBedel")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("nombreCatedra")
                         .IsRequired()
@@ -152,10 +150,6 @@ namespace Web.API.Migrations
                         .HasColumnName("profesor");
 
                     b.HasKey("idReserva");
-
-                    b.HasIndex("DiaidDia");
-
-                    b.HasIndex("idBedel");
 
                     b.ToTable("reserva");
 
@@ -295,24 +289,12 @@ namespace Web.API.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("dia");
 
-                    b.Property<int>("idReserva")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("idReserva")
-                        .IsUnique();
-
                     b.ToTable("diasEsporadica");
                 });
 
             modelBuilder.Entity("Model.Entity.DiaPeriodica", b =>
                 {
                     b.HasBaseType("Model.Abstract.Dia");
-
-                    b.Property<int>("idReserva")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("idReserva")
-                        .IsUnique();
 
                     b.ToTable("diasPeriodica");
                 });
@@ -351,32 +333,21 @@ namespace Web.API.Migrations
 
             modelBuilder.Entity("Model.Abstract.Dia", b =>
                 {
-                    b.HasOne("Model.Abstract.Aula", "Aula")
-                        .WithOne("Dia")
-                        .HasForeignKey("Model.Abstract.Dia", "idAula")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Aula");
-                });
-
-            modelBuilder.Entity("Model.Abstract.Reserva", b =>
-                {
-                    b.HasOne("Model.Abstract.Dia", "Dia")
+                    b.HasOne("Model.Abstract.Aula", "aula")
                         .WithMany()
-                        .HasForeignKey("DiaidDia")
+                        .HasForeignKey("idAula")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Model.Abstract.Reserva", "Reserva")
+                        .WithOne("Dia")
+                        .HasForeignKey("Model.Abstract.Dia", "reservaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Model.Entity.Bedel", "Bedel")
-                        .WithMany("Reservas")
-                        .HasForeignKey("idBedel")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Reserva");
 
-                    b.Navigation("Bedel");
-
-                    b.Navigation("Dia");
+                    b.Navigation("aula");
                 });
 
             modelBuilder.Entity("Model.Entity.Cuatrimestre", b =>
@@ -440,14 +411,6 @@ namespace Web.API.Migrations
                         .HasForeignKey("Model.Entity.DiaEsporadica", "idDia")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Model.Entity.ReservaEsporadica", "ReservaEsporadica")
-                        .WithOne("DiaEsporadica")
-                        .HasForeignKey("Model.Entity.DiaEsporadica", "idReserva")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ReservaEsporadica");
                 });
 
             modelBuilder.Entity("Model.Entity.DiaPeriodica", b =>
@@ -457,14 +420,6 @@ namespace Web.API.Migrations
                         .HasForeignKey("Model.Entity.DiaPeriodica", "idDia")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Model.Entity.ReservaPeriodica", "ReservaPeriodica")
-                        .WithOne("DiaPeriodica")
-                        .HasForeignKey("Model.Entity.DiaPeriodica", "idReserva")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ReservaPeriodica");
                 });
 
             modelBuilder.Entity("Model.Entity.ReservaEsporadica", b =>
@@ -493,26 +448,9 @@ namespace Web.API.Migrations
                     b.Navigation("cuatrimestre");
                 });
 
-            modelBuilder.Entity("Model.Abstract.Aula", b =>
+            modelBuilder.Entity("Model.Abstract.Reserva", b =>
                 {
                     b.Navigation("Dia")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Model.Entity.Bedel", b =>
-                {
-                    b.Navigation("Reservas");
-                });
-
-            modelBuilder.Entity("Model.Entity.ReservaEsporadica", b =>
-                {
-                    b.Navigation("DiaEsporadica")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Model.Entity.ReservaPeriodica", b =>
-                {
-                    b.Navigation("DiaPeriodica")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

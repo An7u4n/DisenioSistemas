@@ -20,9 +20,12 @@ namespace Model.Abstract
         private DiaSemana diaSemana { get; set; }
         [Required]
         [Column("idAula")]
-        private Aula aula { get; set; }
-       
+        public int idAula { get; set; }
+        public virtual Aula Aula { get; set; }
+        
+        
 
+       
         
 
         public Dia()
@@ -35,7 +38,7 @@ namespace Model.Abstract
             this.duracionMinutos = duracionMinutos;
             this.horaInicio = horaInicio;
             this.diaSemana = diaSemana;
-            this.aula = aula;
+            this.Aula = aula;
         }
     }
 }

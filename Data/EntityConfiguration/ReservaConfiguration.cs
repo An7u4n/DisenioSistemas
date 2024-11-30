@@ -8,6 +8,7 @@ namespace Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Reserva> builder)
         {
+           
             builder.Property<int>("idReserva")
             .HasColumnName("idReserva")
             .ValueGeneratedOnAdd();

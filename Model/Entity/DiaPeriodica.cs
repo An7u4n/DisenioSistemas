@@ -12,18 +12,17 @@ namespace Model.Entity
 {
     public class DiaPeriodica : Dia
     {
-        [Required]
-        [Column("idResevaPeriodica")]
-        public ReservaPeriodica reservaPeriodica { get; set; }
+        public int idReserva { get; set; }
+        public ReservaPeriodica ReservaPeriodica { get; set; }
 
         public DiaPeriodica() : base()
         {
         }
 
-        public DiaPeriodica(int idDia,int duracionMinutos, TimeOnly horaInicio, DiaSemana diaSemana, Aula aula, ReservaPeriodica reservaPeriodica)
+        public DiaPeriodica(int idDia,int duracionMinutos, TimeOnly horaInicio, DiaSemana diaSemana, Aula aula)
        : base(idDia,duracionMinutos, horaInicio, diaSemana, aula)
         {
-            this.reservaPeriodica = reservaPeriodica;
+           
         }
 
     }

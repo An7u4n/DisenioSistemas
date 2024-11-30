@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241130180153_correcciones")]
+    partial class correcciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -64,9 +67,6 @@ namespace Web.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("estado");
 
-                    b.Property<int>("idDia")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("numero")
                         .HasColumnType("INTEGER")
                         .HasColumnName("numero");
@@ -107,13 +107,11 @@ namespace Web.API.Migrations
                         .HasColumnName("horaInicio");
 
                     b.Property<int>("idAula")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("idAula");
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("idDia");
 
-                    b.HasIndex("idAula")
-                        .IsUnique();
+                    b.HasIndex("idAula");
 
                     b.ToTable("dias");
 
@@ -125,19 +123,13 @@ namespace Web.API.Migrations
                     b.Property<int>("idReserva")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
-                        .HasColumnName("idReservaPeriodica");
-
-                    b.Property<int>("DiaidDia")
-                        .HasColumnType("INTEGER");
+                        .HasColumnName("idReserva");
 
                     b.Property<string>("correoElectronico")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("TEXT")
                         .HasColumnName("correoElectronico");
-
-                    b.Property<int>("idBedel")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("nombreCatedra")
                         .IsRequired()
@@ -152,10 +144,6 @@ namespace Web.API.Migrations
                         .HasColumnName("profesor");
 
                     b.HasKey("idReserva");
-
-                    b.HasIndex("DiaidDia");
-
-                    b.HasIndex("idBedel");
 
                     b.ToTable("reserva");
 
@@ -206,7 +194,7 @@ namespace Web.API.Migrations
 
                     b.HasIndex("idAnio");
 
-                    b.ToTable("Cuatrimestre", (string)null);
+                    b.ToTable("Cuatrimestres", (string)null);
                 });
 
             modelBuilder.Entity("Model.Entity.Administrador", b =>
@@ -295,11 +283,9 @@ namespace Web.API.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("dia");
 
-                    b.Property<int>("idReserva")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("idReserva")
-                        .IsUnique();
+                    b.Property<int>("idResevaPeriodica")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("idResevaPeriodica");
 
                     b.ToTable("diasEsporadica");
                 });
@@ -308,11 +294,9 @@ namespace Web.API.Migrations
                 {
                     b.HasBaseType("Model.Abstract.Dia");
 
-                    b.Property<int>("idReserva")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("idReserva")
-                        .IsUnique();
+                    b.Property<int>("idReservaPeriodica")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("idReservaPeriodica");
 
                     b.ToTable("diasPeriodica");
                 });
@@ -351,32 +335,13 @@ namespace Web.API.Migrations
 
             modelBuilder.Entity("Model.Abstract.Dia", b =>
                 {
-                    b.HasOne("Model.Abstract.Aula", "Aula")
-                        .WithOne("Dia")
-                        .HasForeignKey("Model.Abstract.Dia", "idAula")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Aula");
-                });
-
-            modelBuilder.Entity("Model.Abstract.Reserva", b =>
-                {
-                    b.HasOne("Model.Abstract.Dia", "Dia")
+                    b.HasOne("Model.Abstract.Aula", "aula")
                         .WithMany()
-                        .HasForeignKey("DiaidDia")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("idAula")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Model.Entity.Bedel", "Bedel")
-                        .WithMany("Reservas")
-                        .HasForeignKey("idBedel")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bedel");
-
-                    b.Navigation("Dia");
+                    b.Navigation("aula");
                 });
 
             modelBuilder.Entity("Model.Entity.Cuatrimestre", b =>
@@ -440,14 +405,6 @@ namespace Web.API.Migrations
                         .HasForeignKey("Model.Entity.DiaEsporadica", "idDia")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Model.Entity.ReservaEsporadica", "ReservaEsporadica")
-                        .WithOne("DiaEsporadica")
-                        .HasForeignKey("Model.Entity.DiaEsporadica", "idReserva")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ReservaEsporadica");
                 });
 
             modelBuilder.Entity("Model.Entity.DiaPeriodica", b =>
@@ -457,14 +414,6 @@ namespace Web.API.Migrations
                         .HasForeignKey("Model.Entity.DiaPeriodica", "idDia")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Model.Entity.ReservaPeriodica", "ReservaPeriodica")
-                        .WithOne("DiaPeriodica")
-                        .HasForeignKey("Model.Entity.DiaPeriodica", "idReserva")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ReservaPeriodica");
                 });
 
             modelBuilder.Entity("Model.Entity.ReservaEsporadica", b =>
@@ -491,29 +440,6 @@ namespace Web.API.Migrations
                         .IsRequired();
 
                     b.Navigation("cuatrimestre");
-                });
-
-            modelBuilder.Entity("Model.Abstract.Aula", b =>
-                {
-                    b.Navigation("Dia")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Model.Entity.Bedel", b =>
-                {
-                    b.Navigation("Reservas");
-                });
-
-            modelBuilder.Entity("Model.Entity.ReservaEsporadica", b =>
-                {
-                    b.Navigation("DiaEsporadica")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Model.Entity.ReservaPeriodica", b =>
-                {
-                    b.Navigation("DiaPeriodica")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

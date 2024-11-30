@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using DisenioSistemas.Model.Abstract;
 using DisenioSistemas.Model.Enums;
+using Model.Abstract;
 
 namespace Model.Entity{
 public class Bedel : Usuario {
@@ -11,6 +12,8 @@ public class Bedel : Usuario {
         private string nombre;
         [Required]
         private Turno turno;
+
+        public ICollection<Reserva> Reservas;
     
         public Bedel(string usuario,string contrasena, string apellido, string nombre, Turno turno) :base (usuario,contrasena){
             this.apellido=apellido;

@@ -27,10 +27,10 @@ namespace Data
         public DbSet<ReservaEsporadica> reservaEsporadicas { get; set; }
         public DbSet<ReservaPeriodica> reservaPeriodicas { get; set; }
 
-        
-       
 
-protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AnioLectivoConfiguration());
             modelBuilder.ApplyConfiguration(new CuatrimestreConfiguration());
@@ -74,8 +74,24 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
             modelBuilder.ApplyConfiguration(new DiaPeriodicaConfiguration());
             modelBuilder.Entity<DiaPeriodica>().UseTptMappingStrategy();
 
+            modelBuilder.Entity<DiaEsporadica>()
+                .HasOne(d => d.ReservaEsporadica)
+                .WithOne(r => r.DiaEsporadica)
+                .HasForeignKey<DiaEsporadica>(d => d.idReserva);
+            modelBuilder.Entity<DiaPeriodica>()
+                .HasOne(d => d.ReservaPeriodica)
+                .WithOne(r => r.DiaPeriodica)
+                .HasForeignKey<DiaPeriodica>(d => d.idReserva);
 
+            modelBuilder.Entity<Dia>()
+                .HasOne(d => d.Aula)
+                .WithOne(a => a.Dia)
+                .HasForeignKey<Dia>(d => d.idAula);
 
+            modelBuilder.Entity<Reserva>()
+                .HasOne(r => r.Bedel)
+                .WithMany(b => b.Reservas)
+                .HasForeignKey(r => r.idBedel);
 
             base.OnModelCreating(modelBuilder);
         }

@@ -9,6 +9,6 @@ namespace Model.Entity
 {
     public class ReservaEsporadica : Reserva
     {
-
+        public DiaEsporadica DiaEsporadica { get; set; }
     }
 }
