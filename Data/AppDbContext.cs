@@ -78,6 +78,7 @@ namespace Data
                 .HasOne(d => d.ReservaEsporadica)
                 .WithOne(r => r.DiaEsporadica)
                 .HasForeignKey<DiaEsporadica>(d => d.idReserva);
+
             modelBuilder.Entity<DiaPeriodica>()
                 .HasOne(d => d.ReservaPeriodica)
                 .WithOne(r => r.DiaPeriodica)
