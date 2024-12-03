@@ -13,6 +13,7 @@ namespace Model.Abstract
     {
        
         [Key]
+        [Column("idReserva")]
         private int idReserva { get; set; }
         [Required]
         [Column("profesor")]
