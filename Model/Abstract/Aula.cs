@@ -27,8 +27,7 @@ namespace Model.Abstract
         [Column("tipoDePizarron")]
         private Pizarron tipoDePizarron { get; set; }
 
-        public int idDia { get; set; }
-        public virtual Dia Dia { get; set; }
+        public virtual HashSet<Dia> Dias { get; set; }
 
         public Aula() { }
         public Aula(int numero, int piso, bool aireAcondicionado, bool estado, int capacidad, Pizarron tipoDePizarron)
@@ -39,6 +38,44 @@ namespace Model.Abstract
             this.estado = estado;
             this.capacidad = capacidad;
             this.tipoDePizarron = tipoDePizarron;
+        }
+
+        public int IdAula { get { return idAula; }}
+
+        public int Numero
+        {
+            get { return numero; }
+            set { numero = value; }
+        }
+
+        public int Piso
+        {
+            get { return piso; }
+            set { piso = value; }
+        }
+
+        public bool AireAcondicionado
+        {
+            get { return aireAcondicionado; }
+            set { aireAcondicionado = value; }
+        }
+
+        public bool Estado
+        {
+            get { return estado; }
+            set { estado = value; }
+        }
+
+        public int Capacidad
+        {
+            get { return capacidad; }
+            set { capacidad = value; }
+        }
+
+        public Pizarron TipoDePizarron
+        {
+            get { return tipoDePizarron; }
+            set { tipoDePizarron = value; }
         }
     }
 }
