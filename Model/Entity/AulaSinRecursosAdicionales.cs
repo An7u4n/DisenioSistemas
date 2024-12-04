@@ -19,5 +19,25 @@ namespace Model.Entity
         {
             this.poseeVentiladores = poseeVentiladores;
         }
+        //getters and setters
+        public int getIdAula()
+        {
+            return this.idAula;
+        }
+
+        public void setIdAula(int idAula)
+        {
+            this.idAula = idAula;
+        }
+
+        public bool getPoseeVentiladores()
+        {
+            return poseeVentiladores;
+        }
+
+        public void setPoseeVentiladores(bool poseeVentiladores)
+        {
+            this.poseeVentiladores = poseeVentiladores;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace Model.DTO
 {
     public class AulaMultimediosDTO : AulaDTO
     {
-        public AulaMultimediosDTO(int idAula, int numero, int piso, bool aireAcondicionado, bool estado, int capacidad, Pizarron tipoDePizarron, bool televisor,bool poseeVentiladores, bool canion, int cantidadComputadoras) : base(idAula, numero, piso, aireAcondicionado, estado, capacidad, tipoDePizarron)
+        public AulaMultimediosDTO(int idAula, int numero, int piso, bool aireAcondicionado, bool estado, int capacidad, Pizarron tipoDePizarron, bool televisor, bool poseeVentiladores, bool canion, int cantidadComputadoras) : base(idAula, numero, piso, aireAcondicionado, estado, capacidad, tipoDePizarron)
         {
             this.televisor = televisor;
             this.poseeVentiladores = poseeVentiladores;
@@ -21,7 +21,7 @@ namespace Model.DTO
 
         public bool televisor { get; set; }
         public bool poseeVentiladores { get; set; }
-        public bool canion {  get; set; }
+        public bool canion { get; set; }
         public int cantidadComputadoras { get; set; }
 
 

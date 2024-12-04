@@ -114,7 +114,7 @@ namespace Web.API.Controllers
         }
 
         [HttpPut("modificar-bedel")]
-        public Response<BedelDTO> ModificarBedel([FromBody] BedelDTO bedelDTO)
+        public Response<BedelDTO> PutBedel([FromBody] BedelDTO bedelDTO)
         {
             try
             {

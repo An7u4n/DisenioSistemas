@@ -6,8 +6,7 @@ namespace Model.Abstract
 {
     public abstract class Aula
     {
-        [Key]
-        protected int idAula { get; set; }
+        [Key] protected int idAula;
         [Required]
         [Column("numero")]
         private int numero { get; set; }
@@ -38,6 +37,66 @@ namespace Model.Abstract
             this.aireAcondicionado = aireAcondicionado;
             this.estado = estado;
             this.capacidad = capacidad;
+            this.tipoDePizarron = tipoDePizarron;
+        }
+
+        public int getIdAula()
+        {
+            return idAula;
+        }
+        public void setIdAula(int idAula)
+        {
+            this.idAula = idAula;
+        }
+
+        public int getNumero()
+        {
+            return numero;
+        }
+        public void setNumero(int numero)
+        {
+            this.numero = numero;
+        }
+   
+        public int getPiso()
+        {
+            return piso;
+        }
+        public void setPiso(int piso)
+        {
+            this.piso = piso;
+        }
+     
+        public bool getAireAcondicionado()
+        {
+            return aireAcondicionado;
+        }
+        public void setAireAcondicionado(bool aireAcondicionado)
+        {
+            this.aireAcondicionado = aireAcondicionado;
+        }
+        public bool getEstado()
+        {
+            return estado;
+        }
+        public void setEstado(bool estado)
+        {
+            this.estado = estado;
+        }
+        public int getCapacidad()
+        {
+            return capacidad;
+        }
+        public void setCapacidad(int capacidad)
+        {
+            this.capacidad = capacidad;
+        }
+        public Pizarron getTipoDePizarron()
+        {
+            return tipoDePizarron;
+        }
+        public void setTipoDePizarron(Pizarron tipoDePizarron)
+        {
             this.tipoDePizarron = tipoDePizarron;
         }
     }

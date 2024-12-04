@@ -23,5 +23,36 @@ namespace Model.Entity
             this.canion = canion;
             this.cantidadComputadoras = cantidadComputadoras;
         }
+        public int getIdAula()
+        {
+            return idAula;
+        }
+
+        public void setIdAula(int idAula)
+        {
+            this.idAula = idAula;
+        }
+
+        public bool getCanion()
+        {
+            return canion;
+        }
+
+        public void setCanion(bool canion)
+        {
+            this.canion = canion;
+        }
+
+        public int getCantidadComputadoras()
+        {
+            return cantidadComputadoras;
+        }
+
+        public void setCantidadComputadoras(int cantidadComputadoras)
+        {
+            this.cantidadComputadoras = cantidadComputadoras;
+        }
+
+        
     }
 }
