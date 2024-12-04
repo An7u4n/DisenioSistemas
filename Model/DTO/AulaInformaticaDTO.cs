@@ -11,14 +11,15 @@ namespace Model.DTO
 {
     public class AulaInformaticaDTO : AulaDTO
     {
-        public bool canion;
+        public bool canion { get; set; }
 
-        public int cantidadComputadoras;
+        public int cantidadComputadoras { get; set; }
 
         public AulaInformaticaDTO(int idAula, int numero, int piso, bool aireAcondicionado, bool estado, int capacidad, Pizarron tipoDePizarron, bool canion, int cantidadComputadoras) : base(idAula, numero, piso, aireAcondicionado, estado, capacidad, tipoDePizarron)
         {
             this.canion = canion;
             this.cantidadComputadoras = cantidadComputadoras;
         }
+
     }
 }
