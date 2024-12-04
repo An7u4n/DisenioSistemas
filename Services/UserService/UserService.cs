@@ -112,6 +112,65 @@ namespace Services.UserService
             }
         }
 
-        
+        public BedelDTO actualizarBedel(BedelDTO bedelDTO)
+        {
+            try
+            {
+                var bedelExistente = _userDAO.obtenerUsuarioBedel(bedelDTO.Usuario);
+
+                if (bedelExistente == null)
+                {
+                    throw new ArgumentException("No existe el bedel");
+                }
+
+                var bedelActualizado = modificarBedel(bedelDTO, bedelExistente);
+
+                var updatedBedel = _userDAO.actualizarBedel(bedelActualizado);
+
+                return new BedelDTO(
+                    idBedel: updatedBedel.getId(),
+                    contrasena: updatedBedel.getContrasena(),
+                    apellido: updatedBedel.getApellido(),
+                    nombre: updatedBedel.getNombre(),
+                    turno: updatedBedel.getTurno(),
+                    usuario: updatedBedel.getUsuario()
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al actualizar el Bedel: " + ex.Message);
+            }
+        }
+        public Bedel modificarBedel(BedelDTO bedelNuevo, Bedel bedelAnterior)
+        {
+            try
+            {
+                if (bedelNuevo == null || bedelAnterior == null)
+                {
+                    throw new ArgumentNullException("Los datos del Bedel no pueden ser nulos.");
+                }
+                if (bedelNuevo.Apellido != bedelAnterior.getApellido())
+                {
+                    bedelAnterior.setApellido(bedelNuevo.Apellido);
+                }
+                if (bedelNuevo.Nombre != bedelAnterior.getNombre())
+                {
+                    bedelAnterior.setNombre(bedelNuevo.Nombre);
+                }
+                if (bedelNuevo.Turno != bedelAnterior.getTurno())
+                {
+                    bedelAnterior.setTurno(bedelNuevo.Turno);
+                }
+                if (bedelNuevo.Contrasena != bedelAnterior.getContrasena())
+                {
+                    bedelAnterior.setContrasena(bedelNuevo.Contrasena);
+                }
+                return bedelAnterior;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al modificar el Bedel: " + ex.Message);
+            }
+        }
     }
 }

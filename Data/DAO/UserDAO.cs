@@ -68,5 +68,11 @@ namespace Data.DAO
             _dbContext.SaveChanges();
             return bedel;
         }
+        public Bedel actualizarBedel(Bedel bedel)
+        {
+            _dbContext.Bedeles.Update(bedel);
+            _dbContext.SaveChanges();
+            return bedel;
+        }
     }
 }

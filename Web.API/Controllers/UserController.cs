@@ -112,5 +112,40 @@ namespace Web.API.Controllers
                 return Response<BedelDTO>.FailureResponse("Error interno del servidor: " + ex.Message);
             }
         }
+
+        [HttpPut("modificar-bedel")]
+        public Response<BedelDTO> ModificarBedel([FromBody] BedelDTO bedelDTO)
+        {
+            try
+            {
+                if (bedelDTO == null)
+                {
+                    HttpContext.Response.StatusCode = 400;
+                    return Response<BedelDTO>.FailureResponse("El Bedel no puede ser nulo.");
+                }
+
+                if (string.IsNullOrEmpty(bedelDTO.Apellido) || string.IsNullOrEmpty(bedelDTO.Nombre))
+                {
+                    HttpContext.Response.StatusCode = 400;
+                    return Response<BedelDTO>.FailureResponse("El nombre y apellido del Bedel son obligatorios.");
+                }
+
+                if (!Enum.IsDefined(typeof(Turno), bedelDTO.Turno))
+                {
+                    HttpContext.Response.StatusCode = 400;
+                    return Response<BedelDTO>.FailureResponse("El turno especificado no es válido.");
+                }
+
+                var actualizadoBedel = _userService.actualizarBedel(bedelDTO);
+
+                HttpContext.Response.StatusCode = 200;
+                return Response<BedelDTO>.SuccessResponse(actualizadoBedel, "Bedel modificado con éxito.");
+            }
+            catch (Exception ex)
+            {
+                HttpContext.Response.StatusCode = 500;
+                return Response<BedelDTO>.FailureResponse("Error interno del servidor: " + ex.Message);
+            }
+        }
     }
 }
