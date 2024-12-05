@@ -4,6 +4,7 @@ using Data.DAO;
 using DisenioSistemas.Model.Enums;
 using DisenioSistemas.Model.Abstract;
 using Data.Utilities;
+using Services.Utilities;
 
 namespace Services.UserService
 {
@@ -55,7 +56,7 @@ namespace Services.UserService
 
             var bedel = new Bedel(
                 usuario: bedelDTO.Usuario,
-                contrasena: bedelDTO.Contrasena,
+                contrasena: PasswordHasher.HashPassword(bedelDTO.Contrasena),
                 apellido: bedelDTO.Apellido,
                 nombre: bedelDTO.Nombre,
                 turno: bedelDTO.Turno
@@ -161,9 +162,11 @@ namespace Services.UserService
                 {
                     bedelAnterior.setTurno(bedelNuevo.Turno);
                 }
-                if (bedelNuevo.Contrasena != bedelAnterior.getContrasena())
+                //Verificar si la contraseña ha cambiado
+                if (!PasswordHasher.VerifyPassword(bedelNuevo.Contrasena, bedelAnterior.getContrasena()))
                 {
-                    bedelAnterior.setContrasena(bedelNuevo.Contrasena);
+                    string hashedPassword = PasswordHasher.HashPassword(bedelNuevo.Contrasena);
+                    bedelAnterior.setContrasena(hashedPassword);
                 }
                 return bedelAnterior;
             }
