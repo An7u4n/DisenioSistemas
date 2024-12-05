@@ -11,7 +11,7 @@ namespace Data.EntityConfiguration
         {
           
             builder.Property<int>("idReserva")
-                .HasColumnName("idReservaPeriodica")
+                .HasColumnName("idReserva")
                 .IsRequired();
 
             builder.Property<int>("idCuatrimestre")

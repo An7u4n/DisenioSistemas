@@ -4,6 +4,6 @@ namespace Services.AulaService
 {
     public interface IAulaService
     {
-        HashSet<AulaDTO> GetDisponibilidadAula(string periodo);
+        HashSet<AulaDTO> GetDisponibilidadAula(ReservaDTO reservaDTO);
     }
 }

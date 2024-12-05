@@ -72,6 +72,7 @@ namespace Services.AulaService
             aulaDTOs.OrderBy(aula =>
                 aula.capacidad
             );
+
             return aulaDTOs;
         }
 

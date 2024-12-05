@@ -23,9 +23,9 @@ namespace Data
         public DbSet<DiaPeriodica> DiasPeriodica { get; set; }
         public DbSet<DiaEsporadica> DiasEsporadica { get; set; }
 
-        public DbSet<Reserva> Reserva { get; set; }
-        public DbSet<ReservaEsporadica> ReservaEsporadicas { get; set; }
-        public DbSet<ReservaPeriodica> ReservaPeriodicas { get; set; }
+        public DbSet<Reserva> Reservas { get; set; }
+        public DbSet<ReservaEsporadica> ReservasEsporadica { get; set; }
+        public DbSet<ReservaPeriodica> ReservasPeriodica { get; set; }
 
 
 

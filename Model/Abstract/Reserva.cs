@@ -25,7 +25,6 @@ namespace Model.Abstract
         [Column("correoElectronico")]
         private string correoElectronico { get; set; }
         public virtual Dia Dia { get; set; }
-
         public int idBedel {  get; set; }
         public virtual Bedel Bedel { get; set; }
         public Reserva()

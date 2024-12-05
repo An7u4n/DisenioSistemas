@@ -40,38 +40,39 @@ namespace Model.Abstract
             this.tipoDePizarron = tipoDePizarron;
         }
 
+        [NotMapped]
         public int IdAula { get { return idAula; }}
-
+        [NotMapped]
         public int Numero
         {
             get { return numero; }
             set { numero = value; }
         }
-
+        [NotMapped]
         public int Piso
         {
             get { return piso; }
             set { piso = value; }
         }
-
+        [NotMapped]
         public bool AireAcondicionado
         {
             get { return aireAcondicionado; }
             set { aireAcondicionado = value; }
         }
-
+        [NotMapped]
         public bool Estado
         {
             get { return estado; }
             set { estado = value; }
         }
-
+        [NotMapped]
         public int Capacidad
         {
             get { return capacidad; }
             set { capacidad = value; }
         }
-
+        [NotMapped]
         public Pizarron TipoDePizarron
         {
             get { return tipoDePizarron; }

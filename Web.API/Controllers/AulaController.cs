@@ -18,17 +18,17 @@ namespace Web.API.Controllers
             _aulaService = aulaService;
         }
 
-        [HttpGet("disponibilidad-aula/{periodo}")]
-        public Response<HashSet<AulaDTO>> GetDisponibilidadAula(string periodo)
+        [HttpGet("disponibilidad-aula")]
+        public Response<HashSet<AulaDTO>> GetDisponibilidadAula([FromBody] ReservaDTO reservaDto)
         {
-            if (periodo == null)
+            if (reservaDto == null)
             {
-                return Response<HashSet<AulaDTO>>.FailureResponse("Periodo nulo");
+                return Response<HashSet<AulaDTO>>.FailureResponse("Reserva nula");
             }
 
             try
             {
-                _aulaService.GetDisponibilidadAula(periodo);
+                _aulaService.GetDisponibilidadAula(reservaDto);
             }catch (Exception ex)
             {
                 HttpContext.Response.StatusCode=500;
