@@ -1,4 +1,5 @@
-﻿using Data.Utilities;
+﻿using Microsoft.AspNetCore.Http;
+using Data.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Model.DTO;
 using Model.Enums;
@@ -15,6 +16,8 @@ namespace Web.API.Controllers
     {
         private readonly IAulaService _aulaService;
 
+        private IAulaService _aulaService { get; set; }
+        
         public AulaController(IAulaService aulaService)
         {
             _aulaService = aulaService;
@@ -72,6 +75,8 @@ namespace Web.API.Controllers
                     return Response<AulaMultimediosDTO>.FailureResponse("El AulaMultimedios no puede ser nula.");
                 }
 
+        [HttpGet("disponibilidad-aula")]
+        public Response<HashSet<AulaDTO>> GetDisponibilidadAula([FromBody] ReservaDTO reservaDto)
                 if (aulaDTO.numero <= 0)
                 {
                     HttpContext.Response.StatusCode = 400;
@@ -79,7 +84,8 @@ namespace Web.API.Controllers
                 }
 
                 if (aulaDTO.piso <= 0)
-                {
+        {
+            if (reservaDto == null)
                     HttpContext.Response.StatusCode = 400;
                     return Response<AulaMultimediosDTO>.FailureResponse("El piso del aula debe ser positivo.");
                 }
@@ -97,16 +103,19 @@ namespace Web.API.Controllers
             }
             catch (Exception ex)
             {
+                return Response<HashSet<AulaDTO>>.FailureResponse("Reserva nula");
                 HttpContext.Response.StatusCode = 500;
                 return Response<AulaMultimediosDTO>.FailureResponse("Error interno del servidor: " + ex.Message);
             }
-        }
+            }
 
         [HttpPut("modificar-aula-sin-recursos-adicionales")]
         public Response<AulaSinRecursosAdicionalesDTO> ModificarAulaSinRecursosAdicionales([FromBody] AulaSinRecursosAdicionalesDTO aulaDTO)
         {
             try
             {
+                _aulaService.GetDisponibilidadAula(reservaDto);
+            }catch (Exception ex)
                 if (aulaDTO == null)
                 {
                     HttpContext.Response.StatusCode = 400;
@@ -114,7 +123,9 @@ namespace Web.API.Controllers
                 }
 
                 if (aulaDTO.numero <= 0)
-                {
+            {
+                HttpContext.Response.StatusCode=500;
+                return Response<HashSet<AulaDTO>>.FailureResponse("Error interno");
                     HttpContext.Response.StatusCode = 400;
                     return Response<AulaSinRecursosAdicionalesDTO>.FailureResponse("El número del aula debe ser positivo.");
                 }
@@ -129,10 +140,11 @@ namespace Web.API.Controllers
                 {
                     HttpContext.Response.StatusCode = 400;
                     return Response<AulaSinRecursosAdicionalesDTO>.FailureResponse("La capacidad del aula debe ser mayor que 0.");
-                }
+            }
 
                 var aulaActualizada = _aulaService.actualizarAulaSinRecursosAdicionales(aulaDTO);
 
+            return null;
                 HttpContext.Response.StatusCode = 200;
                 return Response<AulaSinRecursosAdicionalesDTO>.SuccessResponse(aulaActualizada, "AulaSinRecursosAdicionales modificada con éxito.");
             }

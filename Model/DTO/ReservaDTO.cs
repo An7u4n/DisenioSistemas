@@ -21,6 +21,14 @@ namespace Model.DTO
         [Required(ErrorMessage = "Seleccione periodo")]
         public TipoPeriodo tipoPeriodo { get; set; }
 
+        public AulaDTO aula { get; set; }
+        public int cantidad_alumnos { get; set; }
+        public string fecha_inicio { get; set; }
+        public string fecha_fin { get; set; }
+
+        public Dictionary<DiaSemana, Tuple<TimeOnly, int>> horariosPorDia;
+
+
         public ReservaDTO(int idReserva, string profesor, string nombreCatedra, string correoElectronico, TipoPeriodo tipoPeriodo)
         {
             this.idReserva = idReserva;

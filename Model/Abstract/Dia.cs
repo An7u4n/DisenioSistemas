@@ -40,5 +40,33 @@ namespace Model.Abstract
             this.diaSemana = diaSemana;
             this.Aula = aula;
         }
+
+        [NotMapped]
+        public int IdDia
+        {
+            get { return idDia; }
+            set { idDia = value; }
+        }
+        [NotMapped]
+        public int DuracionMinutos
+        {
+            get { return duracionMinutos; }
+            set { duracionMinutos = value; }
+        }
+        [NotMapped]
+        public TimeOnly HoraInicio
+        {
+            get { return horaInicio; }
+            set { horaInicio = value; }
+        }
+        [NotMapped]
+        public DiaSemana DiaSemana
+        {
+            get { return diaSemana; }
+            set { diaSemana = value; }
+        }
+
+       
+       
     }
 }

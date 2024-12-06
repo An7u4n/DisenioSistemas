@@ -10,7 +10,7 @@ namespace Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<AnioLectivo> AnioLectivos { get; set; }
-        public DbSet<Cuatrimestre> cuatrimestres { get; set; }
+        public DbSet<Cuatrimestre> Cuatrimestres { get; set; }
         public DbSet<Administrador> Administradores { get; set; }
         public DbSet<Bedel> Bedeles { get; set; } 
         public DbSet<Usuario> Usuarios { get; set; }
@@ -19,13 +19,13 @@ namespace Data
         public DbSet<AulaMultimedios> AulasMultimedios { get; set; }
         public DbSet<AulaSinRecursosAdicionales> AulasSinRecursosAdicionales { get; set; }
         
-        public DbSet<Dia> dias { get; set; }
-        public DbSet<DiaPeriodica> diasPeriodica { get; set; }
-        public DbSet<DiaEsporadica> diasEsporadica { get; set; }
+        public DbSet<Dia> Dias { get; set; }
+        public DbSet<DiaPeriodica> DiasPeriodica { get; set; }
+        public DbSet<DiaEsporadica> DiasEsporadica { get; set; }
 
-        public DbSet<Reserva> reserva { get; set; }
-        public DbSet<ReservaEsporadica> reservaEsporadicas { get; set; }
-        public DbSet<ReservaPeriodica> reservaPeriodicas { get; set; }
+        public DbSet<Reserva> Reservas { get; set; }
+        public DbSet<ReservaEsporadica> ReservasEsporadica { get; set; }
+        public DbSet<ReservaPeriodica> ReservasPeriodica { get; set; }
 
 
 
@@ -85,9 +85,9 @@ namespace Data
                 .HasForeignKey<DiaPeriodica>(d => d.idReserva);
 
             modelBuilder.Entity<Dia>()
-                .HasOne(d => d.Aula)
-                .WithOne(a => a.Dia)
-                .HasForeignKey<Dia>(d => d.idAula);
+                        .HasOne(d => d.Aula)
+                        .WithMany(a => a.Dias)
+                        .HasForeignKey(d => d.idAula);
 
             modelBuilder.Entity<Reserva>()
                 .HasOne(r => r.Bedel)

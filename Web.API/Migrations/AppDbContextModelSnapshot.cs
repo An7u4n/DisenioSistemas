@@ -64,9 +64,6 @@ namespace Web.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("estado");
 
-                    b.Property<int>("idDia")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("numero")
                         .HasColumnType("INTEGER")
                         .HasColumnName("numero");
@@ -112,10 +109,9 @@ namespace Web.API.Migrations
 
                     b.HasKey("idDia");
 
-                    b.HasIndex("idAula")
-                        .IsUnique();
+                    b.HasIndex("idAula");
 
-                    b.ToTable("dias");
+                    b.ToTable("Dias");
 
                     b.UseTptMappingStrategy();
                 });
@@ -125,7 +121,7 @@ namespace Web.API.Migrations
                     b.Property<int>("idReserva")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
-                        .HasColumnName("idReservaPeriodica");
+                        .HasColumnName("idReserva");
 
                     b.Property<int>("DiaidDia")
                         .HasColumnType("INTEGER");
@@ -157,7 +153,7 @@ namespace Web.API.Migrations
 
                     b.HasIndex("idBedel");
 
-                    b.ToTable("reserva");
+                    b.ToTable("Reservas");
 
                     b.UseTptMappingStrategy();
                 });
@@ -301,7 +297,7 @@ namespace Web.API.Migrations
                     b.HasIndex("idReserva")
                         .IsUnique();
 
-                    b.ToTable("diasEsporadica");
+                    b.ToTable("DiasEsporadica");
                 });
 
             modelBuilder.Entity("Model.Entity.DiaPeriodica", b =>
@@ -314,14 +310,14 @@ namespace Web.API.Migrations
                     b.HasIndex("idReserva")
                         .IsUnique();
 
-                    b.ToTable("diasPeriodica");
+                    b.ToTable("DiasPeriodica");
                 });
 
             modelBuilder.Entity("Model.Entity.ReservaEsporadica", b =>
                 {
                     b.HasBaseType("Model.Abstract.Reserva");
 
-                    b.ToTable("reservaEsporadicas");
+                    b.ToTable("ReservasEsporadica");
                 });
 
             modelBuilder.Entity("Model.Entity.ReservaPeriodica", b =>
@@ -346,14 +342,14 @@ namespace Web.API.Migrations
 
                     b.HasIndex("idCuatrimestre");
 
-                    b.ToTable("reservaPeriodicas");
+                    b.ToTable("ReservasPeriodica");
                 });
 
             modelBuilder.Entity("Model.Abstract.Dia", b =>
                 {
                     b.HasOne("Model.Abstract.Aula", "Aula")
-                        .WithOne("Dia")
-                        .HasForeignKey("Model.Abstract.Dia", "idAula")
+                        .WithMany("Dias")
+                        .HasForeignKey("idAula")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -495,8 +491,7 @@ namespace Web.API.Migrations
 
             modelBuilder.Entity("Model.Abstract.Aula", b =>
                 {
-                    b.Navigation("Dia")
-                        .IsRequired();
+                    b.Navigation("Dias");
                 });
 
             modelBuilder.Entity("Model.Entity.Bedel", b =>
