@@ -12,7 +12,7 @@ namespace Web.API.Controllers
     [ApiController]
     public class ReservaController : ControllerBase
     {
-        IReservaService _reservaService { get; set; }
+        private IReservaService _reservaService { get; set; }
         public ReservaController(IReservaService reservaService)
         {
             _reservaService = reservaService;

@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 
 namespace Model.DTO
 {
-    public abstract class AulaDTO
+    public class AulaDTO
     {
+
+        public AulaDTO() { }
         protected AulaDTO(int idAula, int numero, int piso, bool aireAcondicionado, bool estado, int capacidad, Pizarron tipoDePizarron)
         {
             this.idAula = idAula;
@@ -22,13 +24,13 @@ namespace Model.DTO
             this.tipoDePizarron = tipoDePizarron;
         }
 
-        protected int idAula { get; set; }
-        private int numero { get; set; }
-        private int piso { get; set; }
-        private bool aireAcondicionado { get; set; }
-        private bool estado { get; set; }
-        private int capacidad { get; set; }
-        private Pizarron tipoDePizarron { get; set; }
+        public int idAula { get; set; }
+        public int numero { get; set; }
+        public int piso { get; set; }
+        public bool aireAcondicionado { get; set; }
+        public bool estado { get; set; }
+        public int capacidad { get; set; }
+        public Pizarron tipoDePizarron { get; set; }
             
         
 
