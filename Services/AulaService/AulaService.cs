@@ -48,7 +48,7 @@ namespace Services.AulaService
                                  .Where(aula =>
                                  {
                                      // Verifica si la capacidad del aula alcanza para los alumnos
-                                     if (aula.Capacidad < reservaDTO.cantidad_alumnos) return false;
+                                     if (aula.getCapacidad() < reservaDTO.cantidad_alumnos) return false;
 
                                      // Verifica si existen dias asociados al aula que están ocupados en el horario y día de la semana especificados
                                      return !aula.Dias
@@ -89,13 +89,13 @@ namespace Services.AulaService
             foreach (Aula aula in aulas)
             {
                 AulaDTO aulaDto = new AulaDTO();
-                aulaDto.idAula = aula.IdAula;
-                aulaDto.numero = aula.Numero;
-                aulaDto.piso = aula.Piso;
-                aulaDto.aireAcondicionado = aula.AireAcondicionado;
-                aulaDto.estado = aula.Estado;
-                aulaDto.capacidad = aula.Capacidad;
-                aulaDto.tipoDePizarron = aula.TipoDePizarron;
+                aulaDto.idAula = aula.getIdAula();
+                aulaDto.numero = aula.getNumero();
+                aulaDto.piso = aula.getPiso();
+                aulaDto.aireAcondicionado = aula.getAireAcondicionado();
+                aulaDto.estado = aula.getEstado();
+                aulaDto.capacidad = aula.getCapacidad();
+                aulaDto.tipoDePizarron = aula.getTipoDePizarron();
 
             }
 
