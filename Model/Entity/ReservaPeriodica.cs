@@ -1,4 +1,5 @@
 ﻿using Model.Abstract;
+using Model.DTO;
 using Model.Enums;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,13 @@ namespace Model.Entity
             this.fechaInicio = fechaInicio;
             this.fechaFin = fechaFin;
             this.tipoPeriodo = tipoPeriodo;
+        }
+
+        public ReservaPeriodica(ReservaPeriodicaDTO reservaDTO) : base(reservaDTO)
+        {
+            this.fechaInicio = reservaDTO.fecha_inicio;
+            this.fechaFin = reservaDTO.fecha_fin;
+
         }
     }
 }

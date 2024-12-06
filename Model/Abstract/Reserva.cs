@@ -1,4 +1,5 @@
-﻿using Model.Entity;
+﻿using Model.DTO;
+using Model.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -24,13 +25,21 @@ namespace Model.Abstract
         [Required]
         [Column("correoElectronico")]
         private string correoElectronico { get; set; }
-        public virtual Dia Dia { get; set; }
+        public virtual List<Dia> Dias { get; set; }
         public int idBedel {  get; set; }
         public virtual Bedel Bedel { get; set; }
         public Reserva()
         {
         }
 
+        public Reserva(ReservaDTO reservaDTO)
+        {
+            this.idReserva = reservaDTO.idReserva;
+            this.profesor = reservaDTO.profesor;
+            this.nombreCatedra = reservaDTO.nombreCatedra;
+            this.correoElectronico = reservaDTO.correoElectronico;
+
+        }
         public Reserva(int idReserva, string profesor, string nombreCatedra, string correoElectronico)
         {
             this.idReserva = idReserva;
@@ -39,6 +48,13 @@ namespace Model.Abstract
             this.correoElectronico = correoElectronico;
         }
 
-        
+        public int getId()
+        {
+            return idReserva;
+        }
+        public void setId(int id)
+        {
+            this.idReserva = id;
+        }
     }
 }

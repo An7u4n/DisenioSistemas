@@ -25,10 +25,11 @@ namespace Services.AulaService
             _aulaDao = aulaDao;
         }
 
+        //El metodo no esta 100% igual al diseño, esto es una base para probar
         public HashSet<AulaDTO> GetDisponibilidadAula(ReservaDTO reservaDTO)
         {
 
-           AulaDTO aula = reservaDTO.aula;
+            HashSet<AulaDTO> aula = reservaDTO.aulas;
 
 
             //Obtenemos segun el tipo de aula
@@ -39,7 +40,7 @@ namespace Services.AulaService
                     { typeof(AulaSinRecursosAdicionalesDTO), () => _aulaDao.getAulasByTipo<AulaSinRecursosAdicionales>() }
                 };
 
-            var aulaTipo = reservaDTO.aula.GetType();
+            var aulaTipo = reservaDTO.aulas.Any().GetType();
 
             if (!tipoAulaHandlers.TryGetValue(aulaTipo, out var aulas))
                 throw new NotFoundException($"El tipo de aula {aulaTipo.Name} no es válido.");
@@ -81,7 +82,9 @@ namespace Services.AulaService
             return aulaDTOs;
         }
 
-        private HashSet<AulaDTO> ConvertirADTO(HashSet<Aula> aulas) 
+        
+
+        private HashSet<AulaDTO> ConvertirADTO(HashSet<Aula> aulas)
         {
 
             HashSet<AulaDTO> result = new HashSet<AulaDTO>();
@@ -102,20 +105,12 @@ namespace Services.AulaService
             return result;
 
         }
-    public class AulaService : IAulaService
-    {
-        private readonly AulaDAO _aulaDAO;
-
-        public AulaService(AulaDAO aulaDAO)
-        {
-            _aulaDAO = aulaDAO;
-        }
 
         public AulaInformaticaDTO actualizarAulaInformatica(AulaInformaticaDTO aulaInformaticaDTO)
         {
             try
             {
-                var aulaExistente = _aulaDAO.obtenerAulaInformatica(aulaInformaticaDTO.idAula);
+                var aulaExistente = _aulaDao.obtenerAulaInformatica(aulaInformaticaDTO.idAula);
                 if (aulaExistente == null)
                 {
                     throw new ArgumentException("No existe el aula");
@@ -128,9 +123,9 @@ namespace Services.AulaService
 
                 var aulaInformaticaActualizada = modificarAulaInformatica(aulaInformaticaDTO, (AulaInformatica)aulaExistente);
 
-                var updatedAula = _aulaDAO.actualizarAulaInformatica(aulaInformaticaActualizada);
+                var updatedAula = _aulaDao.actualizarAulaInformatica(aulaInformaticaActualizada);
 
-                return new AulaInformaticaDTO (
+                return new AulaInformaticaDTO(
                    idAula: updatedAula.getIdAula(),
                    numero: updatedAula.getNumero(),
                    piso: updatedAula.getPiso(),
@@ -139,7 +134,7 @@ namespace Services.AulaService
                    capacidad: updatedAula.getCapacidad(),
                    tipoDePizarron: updatedAula.getTipoDePizarron(),
                    canion: updatedAula.getCanion(),
-                   cantidadComputadoras:updatedAula.getCantidadComputadoras()
+                   cantidadComputadoras: updatedAula.getCantidadComputadoras()
                );
             }
             catch (Exception ex)
@@ -147,7 +142,6 @@ namespace Services.AulaService
                 throw new Exception("Error al actualizar el Aula: " + ex.Message);
             }
         }
-
 
         public AulaInformatica modificarAulaInformatica(AulaInformaticaDTO aulaDTO, AulaInformatica aulaExistente)
         {
@@ -198,14 +192,14 @@ namespace Services.AulaService
         {
             try
             {
-                var aulaExistente = _aulaDAO.obtenerAulaMultimedios(aulaMultimediosDTO.idAula);
+                var aulaExistente = _aulaDao.obtenerAulaMultimedios(aulaMultimediosDTO.idAula);
                 if (aulaExistente == null)
                 {
                     throw new ArgumentException("No existe el aula");
                 }
                 var aulaMultimediosActualizada = modificarAulaMultimedios(aulaMultimediosDTO, aulaExistente);
 
-                var updatedAula = _aulaDAO.actualizarAulaMultimedios(aulaMultimediosActualizada);
+                var updatedAula = _aulaDao.actualizarAulaMultimedios(aulaMultimediosActualizada);
 
                 return new AulaMultimediosDTO(
                     idAula: updatedAula.getIdAula(),
@@ -286,13 +280,13 @@ namespace Services.AulaService
         {
             try
             {
-                var aulaExistente = _aulaDAO.obtenerAulaSinRecursosAdicionales(aulaSinRecursosAdicionalesDTO.idAula);
+                var aulaExistente = _aulaDao.obtenerAulaSinRecursosAdicionales(aulaSinRecursosAdicionalesDTO.idAula);
                 if (aulaExistente == null)
                 {
                     throw new ArgumentException("No existe el aula");
                 }
                 var aulaSinRecursosAdicionalesActualizada = modificarAulaSinRecursosAdicionales(aulaSinRecursosAdicionalesDTO, aulaExistente);
-                var updatedAula = _aulaDAO.actualizarAulaSinRecursosAdicionales(aulaSinRecursosAdicionalesActualizada);
+                var updatedAula = _aulaDao.actualizarAulaSinRecursosAdicionales(aulaSinRecursosAdicionalesActualizada);
                 return new AulaSinRecursosAdicionalesDTO(
                     idAula: updatedAula.getIdAula(),
                     numero: updatedAula.getNumero(),
@@ -303,7 +297,7 @@ namespace Services.AulaService
                     tipoDePizarron: updatedAula.getTipoDePizarron(),
                     poseeVentiladores: updatedAula.getPoseeVentiladores()
                 );
-                
+
             }
             catch (Exception ex)
             {

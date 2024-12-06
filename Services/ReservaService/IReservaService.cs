@@ -11,6 +11,6 @@ namespace Services.ReservaService
     {
         ReservaEsporadicaDTO GuardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO);
         ReservaPeriodicaDTO GuardarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO);
-        ReservaDTO reservarAulas(List<AulaDTO> aulaDTOs);
+        ReservaDTO reservarAulas(ReservaDTO reservaDTO, List<DiaDTO> diaDTOs);
     }
 }

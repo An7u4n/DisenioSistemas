@@ -1,4 +1,5 @@
 ﻿using Model.Abstract;
+using Model.DTO;
 using Model.Enums;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ namespace Model.Entity
 {
     public class DiaPeriodica : Dia
     {
+        private DiaDTO diaDto;
+
         public int idReserva { get; set; }
         public ReservaPeriodica ReservaPeriodica { get; set; }
 
@@ -25,5 +28,9 @@ namespace Model.Entity
            
         }
 
+        public DiaPeriodica(DiaDTO diaDto)
+        {
+            this.diaDto = diaDto;
+        }
     }
 }

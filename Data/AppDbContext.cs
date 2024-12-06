@@ -77,12 +77,14 @@ namespace Data
             modelBuilder.Entity<DiaEsporadica>()
                 .HasOne(d => d.ReservaEsporadica)
                 .WithOne(r => r.DiaEsporadica)
-                .HasForeignKey<DiaEsporadica>(d => d.idReserva);
+                .HasForeignKey<DiaEsporadica>(d => d.idReserva)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<DiaPeriodica>()
                 .HasOne(d => d.ReservaPeriodica)
                 .WithOne(r => r.DiaPeriodica)
-                .HasForeignKey<DiaPeriodica>(d => d.idReserva);
+                .HasForeignKey<DiaPeriodica>(d => d.idReserva)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Dia>()
                         .HasOne(d => d.Aula)

@@ -21,10 +21,10 @@ namespace Model.DTO
         [Required(ErrorMessage = "Seleccione periodo")]
         public TipoPeriodo tipoPeriodo { get; set; }
 
-        public AulaDTO aula { get; set; }
+        public HashSet<AulaDTO> aulas { get; set; }
         public int cantidad_alumnos { get; set; }
-        public string fecha_inicio { get; set; }
-        public string fecha_fin { get; set; }
+        public DateTime fecha_inicio { get; set; }
+        public DateTime fecha_fin { get; set; }
 
         public Dictionary<DiaSemana, Tuple<TimeOnly, int>> horariosPorDia;
 
