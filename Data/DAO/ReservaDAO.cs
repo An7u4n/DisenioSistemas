@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,9 @@ namespace Data.DAO
             _dbContext = dbContext;
         }
 
-
+        public Reserva guardarReserva(Reserva reserva)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

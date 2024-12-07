@@ -101,17 +101,17 @@ namespace Web.API.Controllers
         }
 
         [HttpPost("seleccionar-aulas")]
-        public Response<ReservaDTO> SeleccionarAulas([FromBody] List<AulaDTO> aulaDTOs)
+        public Response<ReservaDTO> SeleccionarAulas([FromBody] ReservaDTO reservaDTO,[FromBody] List<DiaDTO> diaDTOs)
         {
             try
             {
-                if (!aulaDTOs.Any())
+                if (!diaDTOs.Any())
                 {
                     HttpContext.Response.StatusCode = 400;
                     return Response<ReservaDTO>.FailureResponse("Seleccione las aulas a reservar");
                 }
 
-                var reserva = _reservaService.reservarAulas(aulaDTOs);
+                var reserva = _reservaService.reservarAulas(reservaDTO,diaDTOs);
 
                 HttpContext.Response.StatusCode = 201;
                 return Response<ReservaDTO>.SuccessResponse(reserva, "Reserva registrada con éxito");
