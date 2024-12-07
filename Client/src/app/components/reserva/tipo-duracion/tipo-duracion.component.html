@@ -2,7 +2,6 @@
   <form
     [formGroup]="datosReserva"
     novalidate
-    *ngIf="formulario1"
     (ngSubmit)="submitTipoReserva($event, calendario)"
   >
     <div class="formulario-1">
@@ -67,67 +66,6 @@
         <button
           type="submit"
           [disabled]="datosReserva.invalid"
-          class="boton-continuar"
-        >
-          Continuar
-        </button>
-        <button class="boton-cancelar-gris">Cancelar</button>
-      </div>
-    </div>
-  </form>
-
-  <form
-    [formGroup]="datosComision"
-    novalidate
-    *ngIf="formulario2"
-    (ngSubmit)="submitDatosComision()"
-  >
-    <div class="formulario-1">
-      <div class="fila-input">
-        <div class="input-container">
-          <label>Cantidad de Alumnos*</label>
-          <input type="number" required formControlName="cantidadAlumnos" />
-        </div>
-        <div class="input-container">
-          <label>Tipo de Aula*</label>
-          <select formControlName="tipoAula">
-            <option value="comun">Común</option>
-            <option value="informatica">Informatica</option>
-            <option value="multimedio">Multimedio</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="fila-input">
-        <div class="input-container">
-          <label>Nombre*</label>
-          <input type="text" required formControlName="nombre" />
-        </div>
-        <div class="input-container">
-          <label>Apellido*</label>
-          <input type="text" required formControlName="apellido" />
-        </div>
-      </div>
-
-      <div class="fila-input">
-        <div class="input-container">
-          <label>Catedra*</label>
-          <input type="text" required formControlName="catedra" />
-        </div>
-        <div class="input-container">
-          <label>Comision*</label>
-          <input type="text" required formControlName="comision" />
-        </div>
-      </div>
-      <div class="input-container">
-        <label>Correo*</label>
-        <input type="text" required formControlName="email" />
-      </div>
-      <div class="contenedor-botones">
-        <button class="boton-volver" (click)="volverReserva()">Volver</button>
-        <button
-          type="submit"
-          [disabled]="datosComision.invalid"
           class="boton-continuar"
         >
           Continuar

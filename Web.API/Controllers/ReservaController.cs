@@ -99,7 +99,7 @@ namespace Web.API.Controllers
             }
 
         }
-
+        /*
         [HttpPost("seleccionar-aulas")]
         public Response<ReservaDTO> SeleccionarAulas([FromBody] ReservaDTO reservaDTO,[FromBody] List<DiaDTO> diaDTOs)
         {
@@ -127,6 +127,6 @@ namespace Web.API.Controllers
                 HttpContext.Response.StatusCode = 500;
                 return Response<ReservaDTO>.FailureResponse("Error interno del servidor: " + ex.Message);
             }
-        }
+        }*/
     }
 }

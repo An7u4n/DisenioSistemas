@@ -8,6 +8,7 @@ import { LoginGuard } from './guards/login.guard';
 import { SeleccionReservaComponent } from './components/reserva/seleccion-reserva/seleccion-reserva.component';
 import { BuscarBedelComponent } from './components/buscar-bedel/buscar-bedel.component';
 import { PeriodicaComponent } from './components/reserva/periodica/periodica.component';
+import { DatosReservaComponent } from './components/reserva/datos-reserva/datos-reserva.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -17,6 +18,8 @@ const routes: Routes = [
   {path: 'registrar-reserva', component: SeleccionReservaComponent, pathMatch: 'full', canActivate: [LoginGuard]},
   {path: 'registrar-reserva/esporadica', component: TipoDuracionComponent, pathMatch: 'full', canActivate: [LoginGuard]},
   {path: 'registrar-reserva/periodica', component: PeriodicaComponent, pathMatch: 'full', canActivate: [LoginGuard]},
+  {path: 'registrar-reserva/periodica/datos-reserva', component: DatosReservaComponent, pathMatch: 'full', canActivate: [LoginGuard]},
+  {path: 'registrar-reserva/esporadica/datos-reserva', component: DatosReservaComponent, pathMatch: 'full', canActivate: [LoginGuard]},
   {path: 'login', component: LoginComponent, pathMatch: 'full'}
 ];
 

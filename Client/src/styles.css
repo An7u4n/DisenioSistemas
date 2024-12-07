@@ -77,9 +77,8 @@ button {
     color: #FFF;
     width: 40%;
     font-family: Inter;
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
-    font-weight: 700;
     line-height: 140%;
     cursor: pointer;
 }

@@ -1,54 +1,78 @@
-<div class="container">
-  <div class="form-group">
-    <label for="tipo-reserva">Tipo de Reserva</label>
-    <select
-      id="tipo-reserva"
-      formControlName="tipo-reserva"
-      class="form-control"
-    >
-      <option>Periódica</option>
-      <option>Esporádica</option>
-    </select>
-  </div>
+<form [formGroup]="tipoReservaForm">
+  <div class="container">
+    <div class="contenedor-tipo-reserva">
+      <div class="form-group">
+        <label for="tipo-reserva">Tipo de Reserva</label>
+        <select
+          id="tipo-reserva"
+          formControlName="tipoReserva"
+          class="form-control"
+        >
+          <option>Periódica</option>
+          <option>Esporádica</option>
+        </select>
+      </div>
 
-  <div class="form-group">
-    <label for="duracion">Duración</label>
-    <select id="duracion" formControlName="duracion" class="form-control">
-      <option>1er Cuatrimestre</option>
-      <option>2do Cuatrimestre</option>
-      <option>Anual</option>
-    </select>
-  </div>
+      <div class="form-group">
+        <label for="duracion">Duración</label>
+        <select id="duracion" formControlName="duracion" class="form-control">
+          <option>1er Cuatrimestre</option>
+          <option>2do Cuatrimestre</option>
+          <option>Anual</option>
+        </select>
+      </div>
+    </div>
 
-  <div class="seleccion-dia">
-    <div
-      *ngFor="let day of days"
-      (click)="toggleDay(day)"
-      [class.active]="selectedDays.includes(day)"
-    >
-      {{ day }}
+    <div formArrayName="dias">
+      <div
+        *ngFor="let dia of diasFormArray.controls; let i = index"
+        [formGroupName]="i"
+        class="contenedor-dias"
+      >
+        <label
+          class="label-dia"
+          [ngClass]="{ selected: dia.get('habilitado')?.value }"
+        >
+          <input
+            type="checkbox"
+            formControlName="habilitado"
+            (change)="toggleDia(i)"
+          />
+          {{ days[i] }}
+        </label>
+        <div *ngIf="dia.get('habilitado')?.value">
+          Desde*
+          <input
+            type="time"
+            formControlName="horaInicio"
+            [placeholder]="'Hora Inicio'"
+          />
+          Hasta*
+          <input
+            type="time"
+            formControlName="horaFin"
+            [placeholder]="'Hora Fin'"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="button-group">
+      <button class="boton-volver" (click)="goBack()">Volver</button>
+      <button
+        class="boton-continuar"
+        (click)="next()"
+        [disabled]="tipoReservaForm.invalid"
+      >
+        Siguiente
+      </button>
+      <button
+        class="boton-cancelar"
+        style="background: #3b4758"
+        (click)="cancel()"
+      >
+        Cancelar
+      </button>
     </div>
   </div>
-
-  <div class="time-selection" *ngFor="let day of selectedDays">
-    <span>{{ day }}</span>
-    <input
-      type="time"
-      placeholder="Desde*"
-      formControlName="startTime"
-      class="form-control-time"
-    />
-    <input
-      type="time"
-      placeholder="Hasta*"
-      formControlName="endTime"
-      class="form-control-time"
-    />
-  </div>
-
-  <div class="button-group">
-    <button class="boton-volver" (click)="goBack()">Volver</button>
-    <button class="boton-continuar" (click)="next()">Siguiente</button>
-    <button class="boton-cancelar" (click)="cancel()">Cancelar</button>
-  </div>
-</div>
+</form>

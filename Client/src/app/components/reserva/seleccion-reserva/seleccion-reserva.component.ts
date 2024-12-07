@@ -26,7 +26,6 @@ export class SeleccionReservaComponent implements OnInit{
 
   submitTipoReserva() {
     const tipo = this.tipoReserva.get('tipoReserva')?.value;
-    console.log(tipo);
     if(tipo == 'esporadica') {
       this.router.navigate(['registrar-reserva/esporadica']);
     } else if(tipo == 'periodica') {
