@@ -1,0 +1,54 @@
+.container-form{
+    width: 650px;
+    height: 750px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Desplaza el elemento hacia arriba y hacia la izquierda para centrarlo */
+}
+
+.container-popup {
+    height: 200px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.container-popup p {
+    align-self: flex-start;
+    margin-top: 10px;
+    font-size: 32px;
+}
+
+.botones-popup{
+    align-self: flex-end;
+    display: flex;
+    gap: 20px;
+}
+
+.popup-boton {
+    width: fit-content;
+    padding: 0 15px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.contenedor-nombre {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.contenedor-input{
+    display: flex;
+    flex-direction: column;
+}
+
+.contenedor-botones {
+    margin-top: 20px;
+}

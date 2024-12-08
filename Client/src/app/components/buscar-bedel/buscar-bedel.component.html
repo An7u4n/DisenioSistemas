@@ -46,8 +46,18 @@
         <td *ngIf="bedel.turno == 2">Tarde</td>
         <td *ngIf="bedel.turno == 3">Noche</td>
         <td>
-          <button class="action-button edit-button">✏️</button>
-          <button class="action-button delete-button" (click)="onEliminarBedel(bedel.usuario)">🗑️</button>
+          <button
+            class="action-button edit-button"
+            (click)="editarBedel(bedel)"
+          >
+            ✏️
+          </button>
+          <button
+            class="action-button delete-button"
+            (click)="onEliminarBedel(bedel.usuario)"
+          >
+            🗑️
+          </button>
         </td>
       </tr>
     </tbody>
@@ -61,3 +71,9 @@
   </p>
   <button class="boton-volver" (click)="onVolver()">Volver</button>
 </div>
+
+<app-modificar-bedel
+  [bedelActual]="bedelAActualizar"
+  *ngIf="mostrarEdicion"
+  (mostrar)="onCerrarModificarBedel($event)"
+></app-modificar-bedel>

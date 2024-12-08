@@ -14,6 +14,8 @@ export class BuscarBedelComponent {
   mostrarBedeles = false;
   mostrarError = false;
   bedeles: BedelDTO[] = [];
+  bedelAActualizar!: BedelDTO;
+  mostrarEdicion: boolean = false;
 
   bedelData = {
     apellido: '',
@@ -47,12 +49,20 @@ export class BuscarBedelComponent {
     this.mostrarBedeles = false;
   }
 
+  onCerrarModificarBedel(e: boolean) {
+    this.mostrarEdicion = e;
+  }
+
   onVolverHome() {
     this.router.navigate(['/home']);
   }
 
-  onEliminarBedel(usuario: string | undefined) {
+  editarBedel(bedel: any) {
+    this.bedelAActualizar = bedel;
+    this.mostrarEdicion = true;
+  }
 
+  onEliminarBedel(usuario: string | undefined) {
     this.bedelService.eliminarBedel(usuario).subscribe(res => {
       if (res.success) {
         this.toastr.success('El bedel fue eliminado', 'Elminacion Exitosa', {

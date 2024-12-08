@@ -17,6 +17,7 @@ import { SeleccionReservaComponent } from './components/reserva/seleccion-reserv
 import { BuscarBedelComponent } from './components/buscar-bedel/buscar-bedel.component';
 import { PeriodicaComponent } from './components/reserva/periodica/periodica.component';
 import { DatosReservaComponent } from './components/reserva/datos-reserva/datos-reserva.component';
+import { ModificarBedelComponent } from './components/modificar-bedel/modificar-bedel.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { DatosReservaComponent } from './components/reserva/datos-reserva/datos-
     BuscarBedelComponent,
     PeriodicaComponent,
     DatosReservaComponent,
+    ModificarBedelComponent,
   ],
   imports: [
     BrowserModule,

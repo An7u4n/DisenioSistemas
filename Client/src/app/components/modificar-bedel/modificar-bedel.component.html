@@ -1,0 +1,94 @@
+<div class="container-form container">
+  <form
+    (ngSubmit)="modificarBedelSubmit($event)"
+    [formGroup]="bedelActualizado"
+  >
+    <p class="titulo">Modificar Bedel</p>
+    <div class="contenedor-nombre">
+      <div class="contenedor-input">
+        <label for="nombre">Nombre</label>
+        <input
+          type="text"
+          name="nombre"
+          formControlName="nombre"
+          required
+          #primerInput
+        />
+        <span class="error" *ngIf="nombreError">
+          <span class="material-icons">error</span>
+          <span class="mensaje-error">Ingrese Nombre</span>
+        </span>
+      </div>
+      <div class="contenedor-input">
+        <label for="apellido">Apellido</label>
+        <input
+          type="text"
+          name="apellido"
+          formControlName="apellido"
+          required
+        />
+        <span class="error" *ngIf="apellidoError">
+          <span class="material-icons">error</span>
+          <span class="mensaje-error">Ingrese Apellido</span>
+        </span>
+      </div>
+    </div>
+    <div class="contenedor-input">
+      <label for="turno">Turno</label>
+      <select name="turno" formControlName="turno" required>
+        <option value="maniana">Mañana</option>
+        <option value="tarde">Tarde</option>
+        <option value="noche">Noche</option>
+      </select>
+      <span class="error" *ngIf="turnoError">
+        <span class="material-icons">error</span>
+        <span class="mensaje-error">Ingrese un Turno</span>
+      </span>
+    </div>
+
+    <div class="contenedor-input">
+      <label for="id-usuario">Identificación De Usuario*</label>
+      <input type="text" name="id-usuario" formControlName="usuario" required />
+      <span class="error" *ngIf="usuarioError">
+        <span class="material-icons">error</span>
+        <span class="mensaje-error">Ingrese un usuario</span>
+      </span>
+      <span class="error" *ngIf="usuarioExistente">
+        <span class="material-icons">error</span>
+        <span class="mensaje-error">El usuario ya existe</span>
+      </span>
+    </div>
+    <div class="contenedor-input">
+      <label for="contrasenia">Contraseña*</label>
+      <input
+        type="password"
+        name="contrasenia"
+        formControlName="contrasenia"
+        required
+      />
+      <span class="error" *ngIf="contraseniaIncorrecta">
+        <span class="material-icons">error</span>
+        <span class="mensaje-error">Formato inválido. 8-20 caracteres.</span>
+      </span>
+    </div>
+    <div class="contenedor-input">
+      <label for="confirmar-contrasenia">Confirmar Contraseña*</label>
+      <input
+        type="password"
+        name="confirmar-contrasenia"
+        formControlName="confirmarContrasenia"
+        required
+      />
+      <span class="error" *ngIf="confirmarContrasenia">
+        <span class="material-icons">error</span>
+        <span class="mensaje-error">Las contraseñas no coinciden</span>
+      </span>
+    </div>
+    <div class="contenedor-botones">
+      <button type="submit" class="boton-confirmar">Registrar</button>
+      <button type="button" class="boton-cancelar" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

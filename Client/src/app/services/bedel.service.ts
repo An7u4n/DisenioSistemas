@@ -34,4 +34,12 @@ export class BedelService {
   eliminarBedel(usuario: string | undefined) {
     return this._http.delete<ApiResponse>(`${this.userUrl}/eliminar-bedel?usuario=${usuario}`)
   }
+
+  actualizarBedel(bedel: BedelDTO) {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this._http.put<ApiResponse>(`${this.userUrl}/modificar-bedel`, JSON.stringify(bedel), { headers });
+  }
 }

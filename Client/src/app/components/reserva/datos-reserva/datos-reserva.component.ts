@@ -13,8 +13,7 @@ export class DatosReservaComponent {
   datosComision!: FormGroup;
   datosReserva!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private reservaService: ReservaService) {
-  }
+  constructor(private fb: FormBuilder, private router: Router, private reservaService: ReservaService) { }
 
   ngOnInit() {
     this.datosReserva = this.fb.group({
@@ -50,5 +49,9 @@ export class DatosReservaComponent {
 
   volverReserva() {
     this.router.navigate(['/registrar-reserva']);
+  }
+
+  cancelar(){
+    this.router.navigate(['/home']);
   }
 }
