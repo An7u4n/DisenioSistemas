@@ -90,3 +90,8 @@
   gap: 10px;
   align-self: flex-end;
 }
+
+button:disabled {
+  background-color: #3a3a3a;
+  cursor: not-allowed;
+}

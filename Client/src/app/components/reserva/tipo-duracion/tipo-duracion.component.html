@@ -13,7 +13,9 @@
           </select>
 
           <calendar-date #calendario [isDateDisallowed]="desactivarFechas">
-            <calendar-month (click)="chequearFormulario()"></calendar-month>
+            <calendar-month
+              (click)="chequearFormulario(calendario)"
+            ></calendar-month>
             <svg
               aria-label="Previous"
               slot="previous"
@@ -62,7 +64,7 @@
       </div>
 
       <div class="contenedor-botones">
-        <button class="boton-volver" (click)="volverHome()">Volver</button>
+        <button class="boton-volver" (click)="volver()">Volver</button>
         <button
           type="submit"
           [disabled]="datosReserva.invalid"
@@ -70,7 +72,9 @@
         >
           Continuar
         </button>
-        <button class="boton-cancelar-gris">Cancelar</button>
+        <button class="boton-cancelar-gris" (click)="volverHome()">
+          Cancelar
+        </button>
       </div>
     </div>
   </form>

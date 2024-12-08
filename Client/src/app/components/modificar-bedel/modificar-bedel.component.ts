@@ -23,6 +23,8 @@ export class ModificarBedelComponent {
   turnoError: boolean = false;
   usuarioError: boolean = false;
 
+  mostrarPopup: boolean = false;
+
   bedelActualizado!: FormGroup;
 
   @Output() mostrar: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -102,6 +104,10 @@ export class ModificarBedelComponent {
     if (turno == 1) return 'maniana';
     else if (turno == 2) return 'tarde';
     else return 'noche';
+  }
+
+  volver() {
+    this.mostrarPopup = !this.mostrarPopup;
   }
 
   cancelar() {

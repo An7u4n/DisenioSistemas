@@ -11,6 +11,8 @@ import { ReservaService } from '../../../services/reserva.service';
 export class PeriodicaComponent {
   tipoReservaForm!: FormGroup;
   days = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes'];
+  errorHorarios = false;
+  errorInicioMayor = false;
 
   constructor(private fb: FormBuilder, private router: Router, private _reservaService: ReservaService) {}
 
@@ -25,8 +27,8 @@ export class PeriodicaComponent {
   crearDiaFormGroup(): FormGroup {
     return this.fb.group({
       habilitado: new FormControl(false),
-      horaInicio: new FormControl({ value: '', disabled: true }),
-      horaFin: new FormControl({ value: '', disabled: true })
+      horaInicio: new FormControl({ value: '', disabled: true }, Validators.required),
+      horaFin: new FormControl({ value: '', disabled: true }, Validators.required)
     });
   }
 
@@ -44,6 +46,12 @@ export class PeriodicaComponent {
     }
   }
 
+  esMultiploDe30(time: string): boolean {
+    const [hour, minute] = time.split(':').map(Number);
+    const totalMinutes = hour * 60 + minute;
+    return totalMinutes % 30 === 0;
+  }
+
   get diasFormArray(): FormArray {
     return this.tipoReservaForm.get('dias') as FormArray;
   }
@@ -52,16 +60,24 @@ export class PeriodicaComponent {
     this.router.navigate(['/registrar-reserva']);
   }
 
-  next() {
+  submitReserva(e: Event) {
+    e.preventDefault();
     const diasSeleccionados = this.diasFormArray.value
-      .map((dia: any, index: number) => ({
-        dia: this.days[index],
-        habilitado: dia.habilitado,
-        horaInicio: dia.horaInicio,
-        horaFin: dia.horaFin
-      }))
-      .filter((dia: any) => dia.habilitado);
-
+    .map((dia: any, index: number) => ({
+      dia: this.days[index],
+      habilitado: dia.habilitado,
+      horaInicio: dia.horaInicio,
+      horaFin: dia.horaFin
+    }))
+    .filter((dia: any) => dia.habilitado);
+    if(diasSeleccionados.map((dia: any) => dia.horaInicio).some((hora: string) => !this.esMultiploDe30(hora)) || diasSeleccionados.map((dia: any) => dia.horaFin).some((hora: string) => !this.esMultiploDe30(hora))) {
+      this.errorHorarios = true;
+      return;
+    }
+    if(diasSeleccionados.some((dia: any) => dia.horaInicio >= dia.horaFin)) {
+      this.errorInicioMayor = true;
+      return;
+    }
     this._reservaService.setReserva(diasSeleccionados);
     this.router.navigate(['/registrar-reserva/periodica/datos-reserva']);
   }

@@ -1,4 +1,4 @@
-<form [formGroup]="tipoReservaForm">
+<form [formGroup]="tipoReservaForm" (ngSubmit)="submitReserva($event)">
   <div class="container">
     <div class="contenedor-tipo-reserva">
       <div class="form-group">
@@ -42,26 +42,26 @@
         </label>
         <div *ngIf="dia.get('habilitado')?.value">
           Desde*
-          <input
-            type="time"
-            formControlName="horaInicio"
-            [placeholder]="'Hora Inicio'"
-          />
+          <input type="time" formControlName="horaInicio" />
           Hasta*
-          <input
-            type="time"
-            formControlName="horaFin"
-            [placeholder]="'Hora Fin'"
-          />
+          <input type="time" formControlName="horaFin" />
         </div>
       </div>
     </div>
+
+    <span class="error" *ngIf="errorHorarios"
+      >Los horarios de reserva deben ser multiplo de 30 minutos</span
+    >
+    <span class="error" *ngIf="errorInicioMayor"
+      >Los horarios de final de reserva deben ser luego de su horario de
+      inicio</span
+    >
 
     <div class="button-group">
       <button class="boton-volver" (click)="goBack()">Volver</button>
       <button
         class="boton-continuar"
-        (click)="next()"
+        type="submit"
         [disabled]="tipoReservaForm.invalid"
       >
         Siguiente

@@ -1,7 +1,20 @@
 <div class="container-form container">
+  <div *ngIf="mostrarPopup" class="container-popup container">
+    <p class="titulo">¿Desea cancelar la modificacion?</p>
+    <div class="botones-popup">
+      <button (click)="volver()" class="boton-confirmar popup-boton">
+        Volver
+      </button>
+      <button (click)="cancelar()" class="boton-cancelar popup-boton">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
   <form
     (ngSubmit)="modificarBedelSubmit($event)"
     [formGroup]="bedelActualizado"
+    *ngIf="!mostrarPopup"
   >
     <p class="titulo">Modificar Bedel</p>
     <div class="contenedor-nombre">
@@ -85,8 +98,8 @@
       </span>
     </div>
     <div class="contenedor-botones">
-      <button type="submit" class="boton-confirmar">Registrar</button>
-      <button type="button" class="boton-cancelar" (click)="cancelar()">
+      <button type="submit" class="boton-confirmar">Guardar</button>
+      <button type="button" class="boton-cancelar" (click)="volver()">
         Cancelar
       </button>
     </div>

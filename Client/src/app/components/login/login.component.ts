@@ -18,7 +18,6 @@ export class LoginComponent {
 
   loginSubmit(e: Event) {
     e.preventDefault();
-    console.log("Form");
     if(this.loginForm.usuario == '!admin' && this.loginForm.contrasenia == 'admin') 
     {
       this.loginService.login();

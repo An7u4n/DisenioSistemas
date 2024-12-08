@@ -26,7 +26,13 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
       tipoReserva: ['esporadica', [Validators.required]],
       comienzoReserva: ['', [Validators.required]],
       finReserva: ['', [Validators.required]],
-      fechaClase: ['01-01-2000', [Validators.required]],
+      fechaClase: ['', [Validators.required, Validators.minLength(2)]],
+    }, {
+      validators: (formGroup: FormGroup) => {
+        const comienzoReserva = formGroup.get('comienzoReserva')?.value;
+        const finReserva = formGroup.get('finReserva')?.value;
+        return comienzoReserva < finReserva ? null : { 'comienzoMayorQueFin': true };
+      }
     });
   }
 
@@ -59,21 +65,27 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
   submitTipoReserva(event: Event, calendario: any) {
     this.multiploDe30ErrorDesde = !this.esMultiploDe30(this.datosReserva.value.comienzoReserva);
     this.multiploDe30ErrorHasta = !this.esMultiploDe30(this.datosReserva.value.finReserva);
-    if(!this.multiploDe30ErrorDesde && !this.multiploDe30ErrorHasta) {
+    if(!this.multiploDe30ErrorDesde && !this.multiploDe30ErrorHasta && this.datosReserva.value.comienzoReserva < this.datosReserva.value.finReserva) {
         this.datosReserva.value.fechaClase = calendario.value;
         this._reservaService.setReserva(this.datosReserva.value);
         this.router.navigate(['/registrar-reserva/esporadica/datos-reserva']);
     }
   }
 
-  chequearFormulario() {
+  chequearFormulario(calendario: any) {
     this.activo = !this.activo;
+    this.datosReserva.value.fechaClase = calendario.value;
+    this.datosReserva.controls['fechaClase'].setValue(calendario.value);
   }
 
   esMultiploDe30(time: string): boolean {
     const [hour, minute] = time.split(':').map(Number);
     const totalMinutes = hour * 60 + minute;
     return totalMinutes % 30 === 0;
+  }
+
+  volver() {
+    this.router.navigate(['/registrar-reserva']);
   }
 
   volverHome() {
