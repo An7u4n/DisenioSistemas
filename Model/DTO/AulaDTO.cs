@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model.Abstract;
 
 namespace Model.DTO
 {
@@ -13,6 +14,17 @@ namespace Model.DTO
     {
         public AulaDTO()
         {
+        }
+
+        public AulaDTO(Aula aula)
+        {
+            this.idAula = aula.getIdAula();
+            this.numero = aula.getNumero();
+            this.piso = aula.getPiso();
+            this.aireAcondicionado = aula.getAireAcondicionado();
+            this.estado = aula.getEstado();
+            this.capacidad = aula.getCapacidad();
+            this.tipoDePizarron = aula.getTipoDePizarron();
         }
 
         public AulaDTO(int idAula, int numero, int piso, bool aireAcondicionado, bool estado, int capacidad, Pizarron tipoDePizarron)

@@ -13,11 +13,9 @@ namespace Model.Entity
 {
     public class DiaEsporadica : Dia
     {
-        private DiaDTO diaDto;
-
         [Required]
         [Column("dia")]
-        private DateTime dia { get; set; }
+        public DateTime dia { get; set; }
 
         public int idReserva { get; set; }
         public ReservaEsporadica ReservaEsporadica { get; set; }
@@ -27,15 +25,15 @@ namespace Model.Entity
         }
 
         public DiaEsporadica(int idDia,int duracionMinutos, TimeOnly horaInicio, DiaSemana diaSemana, Aula aula, DateTime dia)
-        : base(idDia,duracionMinutos, horaInicio, diaSemana, aula)
+        : base(idDia,duracionMinutos, horaInicio, aula)
         {
             this.dia = dia;
             
         }
 
-        public DiaEsporadica(DiaDTO diaDto)
+        public DiaEsporadica(DiaEsporadicaDTO diaDto, Aula aula) : base(diaDto.idDia, diaDto.duracionMinutos, TimeOnly.Parse(diaDto.horaInicio), aula)
         {
-            this.diaDto = diaDto;
+            this.dia = diaDto.fecha;
         }
     }
 }

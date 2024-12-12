@@ -3,30 +3,22 @@ using Data.Utilities;
 using Model.Abstract;
 using Model.DTO;
 using Model.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model.DTO;
-using Data.DAO;
-using Model.Abstract;
-using Microsoft.EntityFrameworkCore;
-using Model.Entity;
-
+using Model.Enums;
 namespace Services.AulaService
 {
     public class AulaService : IAulaService
     {
         private readonly AulaDAO _aulaDao;
+        private readonly ReservaDAO _reservaDao;
 
-        public AulaService(AulaDAO aulaDao)
+        public AulaService(AulaDAO aulaDao, ReservaDAO reservaDao)
         {
             _aulaDao = aulaDao;
+            _reservaDao = reservaDao;
         }
 
         //El metodo no esta 100% igual al diseño, esto es una base para probar
-        public HashSet<AulaDTO> GetDisponibilidadAula(ReservaDTO reservaDTO)
+        /*public HashSet<AulaDTO> GetDisponibilidadAula(ReservaDTO reservaDTO)
         {
 
             HashSet<AulaDTO> aula = reservaDTO.aulas;
@@ -80,32 +72,124 @@ namespace Services.AulaService
             );
 
             return aulaDTOs;
+        }*/
+
+        public List<List<AulaDTO>> obtenerAulasDisponibles(ReservaEsporadicaDTO reserva)
+        {
+            var aulas = _aulaDao.ObtenerAulas().ToList();
+            aulas = aulas.Where(a => a.getEstado() == true && a.getCapacidad() >= reserva.cantidadAlumnos).ToList();
+            var aulasDisponibles = new List<List<Aula>>();
+            var reservasEsporadicas = _reservaDao.obtenerReservasEsporadicas();
+
+            var reservasPeriodicas = _reservaDao.obtenerReservasPeriodica();
+            foreach(DiaEsporadicaDTO d in reserva.dias)
+            {
+                var aulasParaDiad = aulas;
+                foreach(ReservaEsporadica r in reservasEsporadicas) 
+                {
+                    // Falta agregar comprobacion correcta
+                    if(r.DiaEsporadica.dia.Date == d.fecha.Date)
+                    {
+                        aulasParaDiad.Remove(r.DiaEsporadica.Aula);
+                    }
+                }
+                aulasDisponibles.Add(aulasParaDiad);
+            }
+
+
+
+
+
+
+
+
+            // TODO: CAMBIAR A DICCIONARIO
+            /*List<List<Aula>> aulasDisponiblesPorDia = new List<List<Aula>>();
+
+            foreach (var aula in aulas)
+            {
+                foreach (var dia in reserva.dias)
+                {
+                    var horaInicio = TimeOnly.Parse(dia.horaInicio);
+                    if (disponibilidadAulaParaEsporadica(dia.fecha, horaInicio, horaInicio.AddMinutes(dia.duracionMinutos), aula))
+                    {
+                        aulasDisponiblesPorDia.Add(aulas.Where(a => a.getNumero() == aula.getNumero()).ToList());
+                    }
+                }
+
+            }*/
+            return ConvertirADTO(aulasDisponibles);
         }
 
-        
+    
+        private bool disponibilidadAulaParaEsporadica(DateTime dia, TimeOnly horaInicio, TimeOnly horaFin, Aula aula)
+        {
+            var diaSemana = dia.DayOfWeek;
 
-        private HashSet<AulaDTO> ConvertirADTO(HashSet<Aula> aulas)
+            foreach (Dia d in aula.Dias)
+            {
+                if (d.GetType() == typeof(DiaEsporadica))
+                {
+                    DiaEsporadica diaEsporadica = (DiaEsporadica)d;
+                    if (dia == dia)
+                    {
+                        TimeOnly horaFinDia = diaEsporadica.HoraInicio.AddMinutes(diaEsporadica.DuracionMinutos);
+                        TimeOnly horaFinReserva = horaFin;
+
+                        if (diaEsporadica.HoraInicio < horaFinReserva && horaFinDia > horaInicio)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+    
+
+
+        /*private bool disponibilidadAulaParaPeriodo(DiaSemana dia, TimeOnly horaInicio, TimeOnly horaFin, Aula aula)
+        {
+            foreach (Dia d in aula.Dias)
+            {
+                if (d.DiaSemana == dia)
+                {
+                    TimeOnly horaFinDia = d.HoraInicio.AddMinutes(d.DuracionMinutos);
+                    TimeOnly horaFinReserva = horaFin;
+
+                    if (d.HoraInicio < horaFinReserva && horaFinDia > horaInicio)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }*/
+
+
+
+        private List<List<AulaDTO>> ConvertirADTO(List<List<Aula>> aulas)
         {
 
-            HashSet<AulaDTO> result = new HashSet<AulaDTO>();
+            List<List<AulaDTO>> result = new List<List<AulaDTO>>();
 
-            foreach (Aula aula in aulas)
+            foreach (var aula in aulas)
             {
-                AulaDTO aulaDto = new AulaDTO();
-                aulaDto.idAula = aula.getIdAula();
-                aulaDto.numero = aula.getNumero();
-                aulaDto.piso = aula.getPiso();
-                aulaDto.aireAcondicionado = aula.getAireAcondicionado();
-                aulaDto.estado = aula.getEstado();
-                aulaDto.capacidad = aula.getCapacidad();
-                aulaDto.tipoDePizarron = aula.getTipoDePizarron();
-
+                List<AulaDTO> aulaDTOs = new List<AulaDTO>();
+                foreach (var a in aula)
+                {
+                    aulaDTOs.Add(new AulaDTO(a));
+                }
+                result.Add(aulaDTOs);
             }
 
             return result;
 
         }
 
-       
+        public HashSet<AulaDTO> GetDisponibilidadAula(ReservaDTO reservaDTO)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

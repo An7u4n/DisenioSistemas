@@ -2,27 +2,26 @@
 using Model.Abstract;
 using Model.DTO;
 using Model.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using Services.AulaService;
 namespace Services.ReservaService
 {
     public class ReservaService : IReservaService
     {
 
-        ReservaDAO _reservaDAO;
+        private readonly ReservaDAO _reservaDAO;
+        private readonly IAulaService _aulaService;
+        private readonly AulaDAO _aulaDAO;
 
-        public ReservaService(ReservaDAO reservaDAO)
+        public ReservaService(ReservaDAO reservaDAO, IAulaService aulaService, AulaDAO aulaDAO)
         {
             _reservaDAO = reservaDAO;
+            _aulaService = aulaService;
+            _aulaDAO = aulaDAO;
         }
-        public ReservaEsporadicaDTO GuardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO)
+
+        public List<List<AulaDTO>> ObtenerAulasParaReserva(ReservaEsporadicaDTO reservaEsporadicaDTO)
         {
-            
-            throw new NotImplementedException();
+            return _aulaService.obtenerAulasDisponibles(reservaEsporadicaDTO);
         }
 
         public ReservaPeriodicaDTO GuardarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO)
@@ -32,8 +31,9 @@ namespace Services.ReservaService
         }
 
         
-        public ReservaDTO reservarAulas(ReservaDTO reservaDTO, List<DiaDTO> diaDTOs)
+        public ReservaDTO reservarAulas(ReservaDTO reservaDTO, List<DiaPeriodicaDTO> diaDTOs)
         {
+            /*
             Reserva reserva;
 
             if (reservaDTO is ReservaEsporadicaDTO esporadicaDTO)
@@ -61,12 +61,14 @@ namespace Services.ReservaService
             reservaDTO.idReserva = reserva.getId();
 
             return reservaDTO;
+            */
+            throw new NotImplementedException();
         }
 
-        private List<Dia> crearDias(Type type, List<DiaDTO> diaDTOs)
+        /*private List<Dia> crearDias(Type type, List<DiaPeriodicaDTO> diaDTOs)
         {
             List<Dia> dias = new List<Dia>();
-            foreach (DiaDTO diaDto in diaDTOs)
+            foreach (DiaPeriodicaDTO diaDto in diaDTOs)
             {
                 Dia dia;
                 if(type == typeof(ReservaEsporadica))
@@ -86,6 +88,26 @@ namespace Services.ReservaService
                 
             }
             return dias;
+        }*/
+
+        public void GuardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO)
+        {
+            try
+            {
+                var numeroAula = reservaEsporadicaDTO.dias.First().numeroAula;
+                if (numeroAula == null) throw new Exception("No se especifica aula");
+                var aula = _aulaDAO.ObtenerAula((int)numeroAula);
+            
+                var diaReserva = new DiaEsporadica(reservaEsporadicaDTO.dias.First(), aula);
+                var reserva = new ReservaEsporadica(reservaEsporadicaDTO);
+                reserva.DiaEsporadica = diaReserva;
+                reserva.idBedel = 1;
+                _reservaDAO.guardarReserva(reserva);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

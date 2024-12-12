@@ -1,15 +1,5 @@
-
-﻿using Data.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Model.Abstract;
-using Model.Entity;
-using Model.Enums;
-
-﻿using Microsoft.EntityFrameworkCore;
-using Model.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Data.DAO
 {
@@ -32,6 +22,14 @@ namespace Data.DAO
             return aulas;
         }
 
-       
+       public ICollection<Aula> ObtenerAulas()
+       {
+            return _dbContext.Aulas.Include(a => a.Dias).ToList();
+       }
+
+        public Aula ObtenerAula(int numeroAula)
+        {
+            return _dbContext.Aulas.ToList().FirstOrDefault(a => a.getNumero() == numeroAula);
+        }
     }
 }

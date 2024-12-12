@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Services.UserService;
 using Services.AulaService;
+using Services.ReservaService;
 
 namespace Web.API
 {
@@ -40,6 +41,8 @@ namespace Web.API
             // Registering UserService and AulaService
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAulaService, AulaService>();
+            builder.Services.AddScoped<IReservaService, ReservaService>();
+            builder.Services.AddScoped<ReservaDAO>();
             builder.Services.AddScoped<UserDAO>();
             builder.Services.AddScoped<AulaDAO>();
             builder.Services.AddScoped<AnioLectivoDAO>();

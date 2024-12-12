@@ -26,7 +26,7 @@ namespace Model.Abstract
         [Column("tipoDePizarron")]
         private Pizarron tipoDePizarron { get; set; }
 
-        public virtual HashSet<Dia> Dias { get; set; }
+        public virtual ICollection<Dia> Dias { get; set; }
 
         public Aula() { }
         public Aula(int numero, int piso, bool aireAcondicionado, bool estado, int capacidad, Pizarron tipoDePizarron)

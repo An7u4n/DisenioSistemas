@@ -1,4 +1,5 @@
-﻿using Model.Enums;
+﻿using Model.Entity;
+using Model.Enums;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,28 +17,20 @@ namespace Model.Abstract
         [Column("horaInicio")]
         private TimeOnly horaInicio { get; set; }
         [Required]
-        [Column("diaSemana")]
-        private DiaSemana diaSemana { get; set; }
-        [Required]
         [Column("idAula")]
         public int idAula { get; set; }
         public virtual Aula Aula { get; set; }
-        
-        
 
-       
-        
 
         public Dia()
         {
         }
 
-        protected Dia(int idDia, int duracionMinutos, TimeOnly horaInicio, DiaSemana diaSemana, Aula aula)
+        protected Dia(int idDia, int duracionMinutos, TimeOnly horaInicio, Aula aula)
         {
             this.idDia = idDia;
             this.duracionMinutos = duracionMinutos;
             this.horaInicio = horaInicio;
-            this.diaSemana = diaSemana;
             this.Aula = aula;
         }
 
@@ -59,14 +52,5 @@ namespace Model.Abstract
             get { return horaInicio; }
             set { horaInicio = value; }
         }
-        [NotMapped]
-        public DiaSemana DiaSemana
-        {
-            get { return diaSemana; }
-            set { diaSemana = value; }
-        }
-
-       
-       
     }
 }

@@ -1,22 +1,14 @@
 ﻿using Model.Enums;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Model.DTO
 {
     public class ReservaEsporadicaDTO : ReservaDTO
     {
-        [Required(ErrorMessage = "Seleccione dia")] 
-        private DiaDTO dia { get; set; }
+        public ICollection<DiaEsporadicaDTO> dias { get; set; }
 
-        public ReservaEsporadicaDTO(int idReserva, string profesor, string nombreCatedra, string correoElectronico, TipoPeriodo tipoPeriodo,DiaDTO dia) 
-            :base(idReserva,profesor,nombreCatedra,correoElectronico,tipoPeriodo)
+        public ReservaEsporadicaDTO() { }
+        public ReservaEsporadicaDTO(int idReserva, string profesor, string nombreCatedra, string correoElectronico, TipoPeriodo tipoPeriodo, int cantidad_alumnos)
+           :base(idReserva, profesor, nombreCatedra, correoElectronico, tipoPeriodo, cantidad_alumnos)
         {
-            this.dia = dia;
         }
     }
 }

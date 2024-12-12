@@ -1,10 +1,6 @@
-﻿using Model.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿using Microsoft.EntityFrameworkCore;
+using Model.Abstract;
+using Model.Entity;
 namespace Data.DAO
 {
     public class ReservaDAO
@@ -15,9 +11,20 @@ namespace Data.DAO
             _dbContext = dbContext;
         }
 
-        public Reserva guardarReserva(Reserva reserva)
+        public void guardarReserva(Reserva reserva)
         {
-            throw new NotImplementedException();
+            _dbContext.Reservas.Add(reserva);
+            _dbContext.SaveChanges();
+        }
+
+        public List<ReservaEsporadica> obtenerReservasEsporadicas()
+        {
+            return _dbContext.ReservasEsporadica.Include(r => r.DiaEsporadica).ToList();
+        }
+
+        public List<ReservaPeriodica> obtenerReservasPeriodica()
+        {
+            return _dbContext.ReservasPeriodica.ToList();
         }
     }
 }

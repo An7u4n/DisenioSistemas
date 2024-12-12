@@ -1,12 +1,7 @@
 ﻿using Model.Abstract;
 using Model.DTO;
 using Model.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Model.Entity
 {
@@ -34,9 +29,6 @@ namespace Model.Entity
 
         public ReservaPeriodica(ReservaPeriodicaDTO reservaDTO) : base(reservaDTO)
         {
-            this.fechaInicio = reservaDTO.fecha_inicio;
-            this.fechaFin = reservaDTO.fecha_fin;
-
         }
     }
 }

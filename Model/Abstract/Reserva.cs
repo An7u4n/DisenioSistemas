@@ -1,13 +1,7 @@
 ﻿using Model.DTO;
 using Model.Entity;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Model.Abstract
 {
     public abstract class Reserva
@@ -25,7 +19,6 @@ namespace Model.Abstract
         [Required]
         [Column("correoElectronico")]
         private string correoElectronico { get; set; }
-        public virtual List<Dia> Dias { get; set; }
         public int idBedel {  get; set; }
         public virtual Bedel Bedel { get; set; }
         public Reserva()

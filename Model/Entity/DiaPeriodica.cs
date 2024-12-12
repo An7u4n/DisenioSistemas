@@ -13,22 +13,22 @@ namespace Model.Entity
 {
     public class DiaPeriodica : Dia
     {
-        private DiaDTO diaDto;
+        private DiaPeriodicaDTO diaDto;
 
         public int idReserva { get; set; }
-        public ReservaPeriodica ReservaPeriodica { get; set; }
+        public virtual ReservaPeriodica ReservaPeriodica { get; set; }
 
         public DiaPeriodica() : base()
         {
         }
 
         public DiaPeriodica(int idDia,int duracionMinutos, TimeOnly horaInicio, DiaSemana diaSemana, Aula aula)
-       : base(idDia,duracionMinutos, horaInicio, diaSemana, aula)
+       : base(idDia,duracionMinutos, horaInicio, aula)
         {
            
         }
 
-        public DiaPeriodica(DiaDTO diaDto)
+        public DiaPeriodica(DiaPeriodicaDTO diaDto)
         {
             this.diaDto = diaDto;
         }

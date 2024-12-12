@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241211171222_checkmigracion")]
+    partial class checkmigracion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -91,6 +94,9 @@ namespace Web.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("idDia");
 
+                    b.Property<int?>("ReservaidReserva")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("diaSemana")
                         .HasColumnType("INTEGER")
                         .HasColumnName("diaSemana");
@@ -108,6 +114,8 @@ namespace Web.API.Migrations
                         .HasColumnName("idAula");
 
                     b.HasKey("idDia");
+
+                    b.HasIndex("ReservaidReserva");
 
                     b.HasIndex("idAula");
 
@@ -342,6 +350,10 @@ namespace Web.API.Migrations
 
             modelBuilder.Entity("Model.Abstract.Dia", b =>
                 {
+                    b.HasOne("Model.Abstract.Reserva", null)
+                        .WithMany("Dias")
+                        .HasForeignKey("ReservaidReserva");
+
                     b.HasOne("Model.Abstract.Aula", "Aula")
                         .WithMany("Dias")
                         .HasForeignKey("idAula")
@@ -477,6 +489,11 @@ namespace Web.API.Migrations
                 });
 
             modelBuilder.Entity("Model.Abstract.Aula", b =>
+                {
+                    b.Navigation("Dias");
+                });
+
+            modelBuilder.Entity("Model.Abstract.Reserva", b =>
                 {
                     b.Navigation("Dias");
                 });
