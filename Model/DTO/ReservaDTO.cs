@@ -9,11 +9,13 @@ namespace Model.DTO
         public string correoElectronico { get; set; }
         public TipoPeriodo tipoPeriodo { get; set; }
         public int cantidadAlumnos { get; set; }
+        public int idBedel { get; set; }
+        public int idCuatrimestre { get; set; }
 
         public ReservaDTO() { }
 
 
-        public ReservaDTO(int idReserva, string profesor, string nombreCatedra, string correoElectronico, TipoPeriodo tipoPeriodo, int cantidad_alumnos)
+        public ReservaDTO(int idReserva, string profesor, string nombreCatedra, string correoElectronico, TipoPeriodo tipoPeriodo, int cantidad_alumnos, int idBedel)
         {
             this.idReserva = idReserva;
             this.profesor = profesor;
@@ -21,6 +23,7 @@ namespace Model.DTO
             this.correoElectronico = correoElectronico;
             this.tipoPeriodo = tipoPeriodo;
             this.cantidadAlumnos = cantidad_alumnos;
+            this.idBedel = idBedel;
         }
     }
 }

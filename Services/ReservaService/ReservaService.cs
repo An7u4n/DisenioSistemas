@@ -24,11 +24,6 @@ namespace Services.ReservaService
             return _aulaService.obtenerAulasDisponibles(reservaEsporadicaDTO);
         }
 
-        public ReservaPeriodicaDTO GuardarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO)
-        {
-            //en desarrollo
-            throw new NotImplementedException();
-        }
 
         
         public ReservaDTO reservarAulas(ReservaDTO reservaDTO, List<DiaPeriodicaDTO> diaDTOs)
@@ -89,6 +84,28 @@ namespace Services.ReservaService
             }
             return dias;
         }*/
+        public void GuardarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO)
+        {
+            try
+            {
+                //TODO : Crear chequeo de disponibilidad de aula antes de agregar
+                //if (_aulaService.GetDisponibilidadAula(reservaPeriodicaDTO) == false)
+                var reserva = new ReservaPeriodica(reservaPeriodicaDTO);
+                reserva.idCuatrimestre = reservaPeriodicaDTO.idCuatrimestre;
+                foreach (var diaAReservar in reservaPeriodicaDTO.dias)
+                {
+                    if(diaAReservar.numeroAula == null) throw new ArgumentNullException("No se especifica aula");
+                    var aula = _aulaDAO.ObtenerAula((int)diaAReservar.numeroAula);
+                    var dia = new DiaPeriodica(diaAReservar, aula);
+                    reserva.DiasPeriodica.Add(dia);
+                }
+                _reservaDAO.guardarReserva(reserva);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public void GuardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO)
         {
@@ -101,7 +118,7 @@ namespace Services.ReservaService
                 var diaReserva = new DiaEsporadica(reservaEsporadicaDTO.dias.First(), aula);
                 var reserva = new ReservaEsporadica(reservaEsporadicaDTO);
                 reserva.DiaEsporadica = diaReserva;
-                reserva.idBedel = 1;
+                reserva.idBedel = reservaEsporadicaDTO.idBedel;
                 _reservaDAO.guardarReserva(reserva);
             }
             catch(Exception ex)

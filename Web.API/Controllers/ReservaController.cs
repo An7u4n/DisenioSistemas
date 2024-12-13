@@ -18,7 +18,7 @@ namespace Web.API.Controllers
             _reservaService = reservaService;
         }
 
-        [HttpPost("guardar-reserva")]
+        [HttpPost("guardar-reserva-esporadica")]
         public Response<bool> GuardarReservaEsporadica([FromBody] ReservaEsporadicaDTO reservaEsporadicaDTO)
         {
             try
@@ -33,8 +33,23 @@ namespace Web.API.Controllers
             }
         }
 
-            // POST api/<ReservaController>
-            [HttpPost("reserva-esporadica")]
+        [HttpPost("guardar-reserva-periodica")]
+        public Response<bool> GuardarReservaPeriodica([FromBody] ReservaPeriodicaDTO reservaPeriodicaDTO)
+        {
+            try
+            {
+                _reservaService.GuardarReservaPeriodica(reservaPeriodicaDTO);
+                return Response<bool>.SuccessResponse(true, "Se guardo la reserva");
+            }
+            catch (Exception ex)
+            {
+                HttpContext.Response.StatusCode = 500;
+                return Response<bool>.FailureResponse("Error interno del servidor: " + ex.Message);
+            }
+        }
+
+        // POST api/<ReservaController>
+        [HttpPost("reserva-esporadica")]
             public Response<List<List<AulaDTO>>> PostReservaEsporadica([FromBody] ReservaEsporadicaDTO reservaEsporadicaDTO)
             {
                 try
@@ -80,11 +95,11 @@ namespace Web.API.Controllers
                         HttpContext.Response.StatusCode = 400;
                         return Response<ReservaPeriodicaDTO>.FailureResponse("El periodo especificado no es válido.");
                     }
-
-                    var reservaRegistrada = _reservaService.GuardarReservaPeriodica(reservaPeriodicaDTO);
+                    //TODO: Esta funcion deberia chequear la disponibilidad y devolver las aulas  posibles
+                    //_reservaService.GuardarReservaPeriodica(reservaPeriodicaDTO);
 
                     HttpContext.Response.StatusCode = 201;
-                    return Response<ReservaPeriodicaDTO>.SuccessResponse(reservaRegistrada, "Reserva registrada con éxito.");
+                    return Response<ReservaPeriodicaDTO>.SuccessResponse(/*reservaRegistrada*/ reservaPeriodicaDTO, "Reserva registrada con éxito.");
 
                 }
 

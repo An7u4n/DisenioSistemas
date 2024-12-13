@@ -82,46 +82,37 @@ namespace Services.AulaService
             var reservasEsporadicas = _reservaDao.obtenerReservasEsporadicas();
 
             var reservasPeriodicas = _reservaDao.obtenerReservasPeriodica();
-            foreach(DiaEsporadicaDTO d in reserva.dias)
+            foreach (DiaEsporadicaDTO d in reserva.dias)
             {
                 var aulasParaDiad = aulas;
-                foreach(ReservaEsporadica r in reservasEsporadicas) 
+                foreach (ReservaEsporadica r in reservasEsporadicas)
                 {
                     // Falta agregar comprobacion correcta
-                    if(r.DiaEsporadica.dia.Date == d.fecha.Date)
+                    if (r.DiaEsporadica.dia.Date == d.fecha.Date)
                     {
-                        aulasParaDiad.Remove(r.DiaEsporadica.Aula);
+                        var horaInicio = TimeOnly.Parse(d.horaInicio);
+                        if (r.DiaEsporadica.HoraInicio < horaInicio.AddMinutes(d.duracionMinutos) && r.DiaEsporadica.HoraInicio.AddMinutes(r.DiaEsporadica.DuracionMinutos) > horaInicio)
+                            aulasParaDiad.Remove(r.DiaEsporadica.Aula);
                     }
                 }
-                aulasDisponibles.Add(aulasParaDiad);
-            }
 
-
-
-
-
-
-
-
-            // TODO: CAMBIAR A DICCIONARIO
-            /*List<List<Aula>> aulasDisponiblesPorDia = new List<List<Aula>>();
-
-            foreach (var aula in aulas)
-            {
-                foreach (var dia in reserva.dias)
+                foreach (ReservaPeriodica r in reservasPeriodicas)
                 {
-                    var horaInicio = TimeOnly.Parse(dia.horaInicio);
-                    if (disponibilidadAulaParaEsporadica(dia.fecha, horaInicio, horaInicio.AddMinutes(dia.duracionMinutos), aula))
+                    foreach (DiaPeriodica dp in r.DiasPeriodica)
                     {
-                        aulasDisponiblesPorDia.Add(aulas.Where(a => a.getNumero() == aula.getNumero()).ToList());
+                        if ((int)dp.getDiaSemana() == (int)d.fecha.DayOfWeek)
+                        {
+                            var horaInicio = TimeOnly.Parse(d.horaInicio);
+                            if (dp.HoraInicio < horaInicio.AddMinutes(d.duracionMinutos) && dp.HoraInicio.AddMinutes(dp.DuracionMinutos) > horaInicio)
+                                aulasParaDiad.Remove(dp.Aula);
+                        }
                     }
+                    aulasDisponibles.Add(aulasParaDiad);
                 }
-
-            }*/
+            }
+            //Maybe TODO: CAMBIAR A DICCIONARIO
             return ConvertirADTO(aulasDisponibles);
         }
-
-    
         private bool disponibilidadAulaParaEsporadica(DateTime dia, TimeOnly horaInicio, TimeOnly horaFin, Aula aula)
         {
             var diaSemana = dia.DayOfWeek;

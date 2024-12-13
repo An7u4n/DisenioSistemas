@@ -12,13 +12,13 @@ namespace Data
         public DbSet<AnioLectivo> AnioLectivos { get; set; }
         public DbSet<Cuatrimestre> Cuatrimestres { get; set; }
         public DbSet<Administrador> Administradores { get; set; }
-        public DbSet<Bedel> Bedeles { get; set; } 
+        public DbSet<Bedel> Bedeles { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Aula> Aulas { get; set; }
         public DbSet<AulaInformatica> AulasInformatica { get; set; }
         public DbSet<AulaMultimedios> AulasMultimedios { get; set; }
         public DbSet<AulaSinRecursosAdicionales> AulasSinRecursosAdicionales { get; set; }
-        
+
         public DbSet<Dia> Dias { get; set; }
         public DbSet<DiaPeriodica> DiasPeriodica { get; set; }
         public DbSet<DiaEsporadica> DiasEsporadica { get; set; }
@@ -26,9 +26,6 @@ namespace Data
         public DbSet<Reserva> Reservas { get; set; }
         public DbSet<ReservaEsporadica> ReservasEsporadica { get; set; }
         public DbSet<ReservaPeriodica> ReservasPeriodica { get; set; }
-
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -82,14 +79,14 @@ namespace Data
 
             modelBuilder.Entity<DiaPeriodica>()
                 .HasOne(d => d.ReservaPeriodica)
-                .WithOne(r => r.DiaPeriodica)
-                .HasForeignKey<DiaPeriodica>(d => d.idReserva)
+                .WithMany(r => r.DiasPeriodica)
+                .HasForeignKey(d => d.idReserva)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Dia>()
-                        .HasOne(d => d.Aula)
-                        .WithMany(a => a.Dias)
-                        .HasForeignKey(d => d.idAula);
+                .HasOne(d => d.Aula)
+                .WithMany(a => a.Dias)
+                .HasForeignKey(d => d.idAula);
 
             modelBuilder.Entity<Reserva>()
                 .HasOne(r => r.Bedel)

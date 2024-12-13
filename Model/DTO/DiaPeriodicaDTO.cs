@@ -5,7 +5,7 @@ namespace Model.DTO
     {
         public int idDia { get; set; }
         public int? numeroAula { get; set; }
-        public TimeOnly horaInicio { get; set; }
+        public string horaInicio { get; set; }
         public int duracionMinutos { get; set; }
         public DiaSemana diaSemana { get; set; }
     }

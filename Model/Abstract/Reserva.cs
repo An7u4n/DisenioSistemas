@@ -31,7 +31,7 @@ namespace Model.Abstract
             this.profesor = reservaDTO.profesor;
             this.nombreCatedra = reservaDTO.nombreCatedra;
             this.correoElectronico = reservaDTO.correoElectronico;
-
+            this.idBedel = reservaDTO.idBedel;
         }
         public Reserva(int idReserva, string profesor, string nombreCatedra, string correoElectronico)
         {

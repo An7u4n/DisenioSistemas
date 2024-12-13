@@ -3,16 +3,19 @@ namespace Model.DTO
 {
     public class ReservaPeriodicaDTO : ReservaDTO
     {
-        private DateOnly fechaInicio {  get; set; }
-        private DateOnly fechaFin { get; set; }
-        private List<DiaPeriodicaDTO> diaDTOs { get; set; }
+        //TODO pasar a private
+        public string fechaInicio {  get; set; }
+        public string fechaFin { get; set; }
+        public List<DiaPeriodicaDTO> dias { get; set; }
 
-        public ReservaPeriodicaDTO(int idReserva, string profesor, string nombreCatedra, string correoElectronico, TipoPeriodo tipoPeriodo, DateOnly fechaInicio, DateOnly fechaFin, int cantidad_alumnos, List<DiaPeriodicaDTO> diaDTOs)
-            :base(idReserva, profesor,nombreCatedra, correoElectronico,tipoPeriodo, cantidad_alumnos)
+        public ReservaPeriodicaDTO() { }
+
+        public ReservaPeriodicaDTO(int idReserva, string profesor, string nombreCatedra, string correoElectronico, TipoPeriodo tipoPeriodo, DateOnly fechaInicio, DateOnly fechaFin, int cantidad_alumnos, List<DiaPeriodicaDTO> diaDTOs, int idBedel)
+            :base(idReserva, profesor,nombreCatedra, correoElectronico,tipoPeriodo, cantidad_alumnos, idBedel)
         {
-            this.fechaInicio = fechaInicio;
-            this.fechaFin = fechaFin;
-            this.diaDTOs = diaDTOs;
+            this.fechaInicio = fechaInicio.ToString();
+            this.fechaFin = fechaFin.ToString();
+            this.dias = diaDTOs;
         }
     }
 }
