@@ -117,7 +117,7 @@ namespace Services.ReservaService
             
                 var diaReserva = new DiaEsporadica(reservaEsporadicaDTO.dias.First(), aula);
                 var reserva = new ReservaEsporadica(reservaEsporadicaDTO);
-                reserva.DiaEsporadica = diaReserva;
+                reserva.DiaEsporadica.Add(diaReserva);
                 reserva.idBedel = reservaEsporadicaDTO.idBedel;
                 _reservaDAO.guardarReserva(reserva);
             }
