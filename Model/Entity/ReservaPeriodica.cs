@@ -29,6 +29,14 @@ namespace Model.Entity
             this.fechaFin = fechaFin;
             this.tipoPeriodo = tipoPeriodo;
         }
+        
+        public ReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDto, List<DiaPeriodica> dias) : base(reservaPeriodicaDto)
+        {
+            this.tipoPeriodo = reservaPeriodicaDto.tipoPeriodo;
+            this.fechaInicio = DateTime.Parse(reservaPeriodicaDto.fechaInicio);
+            this.fechaFin = DateTime.Parse(reservaPeriodicaDto.fechaFin);
+            this.DiasPeriodica = dias;
+        }
 
         public ReservaPeriodica(ReservaPeriodicaDTO reservaDTO) : base(reservaDTO)
         {

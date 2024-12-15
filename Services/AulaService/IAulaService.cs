@@ -21,5 +21,9 @@ namespace Services.AulaService
         List<DisponibilidadAulaDTO> comprobarDisponibilidadAulasPeriodica(List<DiaPeriodicaDTO> dias, List<Aula> aulas);
         List<DisponibilidadAulaDTO> obtenerAulasPeriodica(ReservaPeriodicaDTO reserva);
         List<DisponibilidadAulaDTO> obtenerAulas(ReservaDTO reserva);
+
+        bool disponibilidadAulaParaEsporadica(DiaEsporadicaDTO dia, Aula aula);
+        bool disponibilidadAulaParaPeriodica(DiaPeriodicaDTO dia, Aula aula);
+        void CrearAula(Aula aula);
     }
 }

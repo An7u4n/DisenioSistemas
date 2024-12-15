@@ -7,9 +7,9 @@ namespace Model.Entity
     public class ReservaEsporadica : Reserva
     {
         
-        public ReservaEsporadica(ReservaEsporadicaDTO esporadicaDTO): base(esporadicaDTO)
+        public ReservaEsporadica(ReservaEsporadicaDTO esporadicaDTO , List<DiaEsporadica> dias): base(esporadicaDTO)
         {
-            
+            this.DiaEsporadica = dias;
         }
 
         public ReservaEsporadica() { }

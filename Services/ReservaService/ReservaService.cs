@@ -210,19 +210,21 @@ namespace Services.ReservaService
         {
             try
             {
-                //TODO : Crear chequeo de disponibilidad de aula antes de agregar
-
-                //if (_aulaService.GetDisponibilidadAula(reservaPeriodicaDTO) == false)
-                var reserva = new ReservaPeriodica(reservaPeriodicaDTO);
-                reserva.idCuatrimestre = reservaPeriodicaDTO.idCuatrimestre;
-                foreach (var diaAReservar in reservaPeriodicaDTO.dias)
+                List<DiaPeriodica> diasReserva = new List<DiaPeriodica>();
+                foreach(var dia in reservaPeriodicaDTO.dias)
                 {
-                    if(diaAReservar.numeroAula == null) throw new ArgumentNullException("No se especifica aula");
-                    var aula = _aulaDAO.ObtenerAulaPorNumero((int)diaAReservar.numeroAula);
-                    var dia = new DiaPeriodica(diaAReservar, aula);
-                    reserva.DiasPeriodica.Add(dia);
+                    if (dia.numeroAula == null) throw new ArgumentNullException("No se especifica aula");
+                    var aulaReserva = _aulaDAO.ObtenerAulaPorNumero((int)dia.numeroAula);
+                    if (_aulaService.disponibilidadAulaParaPeriodica(dia, aulaReserva) == false)
+                        throw new Exception("El aula ya se encuentra reservada para los horarios solicitados");
+
+                    var diaReservaPeriodica = new DiaPeriodica(dia, aulaReserva);
+                    
+                    diasReserva.Add(diaReservaPeriodica);
                 }
+                var reserva = new ReservaPeriodica(reservaPeriodicaDTO, diasReserva);
                 _reservaDAO.guardarReserva(reserva);
+
             }
             catch(Exception ex)
             {
@@ -234,6 +236,7 @@ namespace Services.ReservaService
         {
             try
             {
+                List<DiaEsporadica> diasReserva = new List<DiaEsporadica>();
                 foreach(var dia in reservaEsporadicaDTO.dias)
                 {
                     if (dia.numeroAula == null) throw new ArgumentNullException("No se especifica aula");
@@ -242,9 +245,11 @@ namespace Services.ReservaService
                         throw new Exception("El aula ya se encuentra reservada para los horarios solicitados");
 
                     var diaReservaEsporadica = new DiaEsporadica(dia, aulaReserva);
-                    var reserva = new ReservaEsporadica(reservaEsporadicaDTO, diaReservaEsporadica);
-                    _reservaDAO.guardarReserva(reserva);
+                    
+                    diasReserva.Add(diaReservaEsporadica);
                 }
+                var reserva = new ReservaEsporadica(reservaEsporadicaDTO, diasReserva);
+                _reservaDAO.guardarReserva(reserva);
 
             }
             catch(Exception ex)

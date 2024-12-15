@@ -55,5 +55,10 @@ namespace Data.DAO
         {
             return _dbContext.Aulas.ToList().FirstOrDefault(a => a.getNumero() == numeroAula);
         }
+        public void GuardarAula(Aula aula)
+        {
+            _dbContext.Aulas.Add(aula);
+            _dbContext.SaveChanges();
+        }
     }
 }
