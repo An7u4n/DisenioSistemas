@@ -29,6 +29,14 @@ namespace Model.Entity
             this.fechaFin = fechaFin;
             this.tipoPeriodo = tipoPeriodo;
         }
+        
+        public ReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDto, List<DiaPeriodica> dias) : base(reservaPeriodicaDto)
+        {
+            this.tipoPeriodo = reservaPeriodicaDto.tipoPeriodo;
+            this.fechaInicio = DateTime.Parse(reservaPeriodicaDto.fechaInicio);
+            this.fechaFin = DateTime.Parse(reservaPeriodicaDto.fechaFin);
+            this.DiasPeriodica = dias;
+        }
 
         public ReservaPeriodica(ReservaPeriodicaDTO reservaDTO) : base(reservaDTO)
         {
@@ -36,6 +44,47 @@ namespace Model.Entity
             this.fechaInicio = DateTime.Parse(reservaDTO.fechaInicio);
             this.fechaFin= DateTime.Parse(reservaDTO.fechaFin);
             this.DiasPeriodica = new List<DiaPeriodica>();
+        }
+        
+        public void addDia(DiaPeriodica dia)
+        {
+            DiasPeriodica.Add(dia);
+        }
+        public void removeDia(DiaPeriodica dia)
+        {
+            DiasPeriodica.Remove(dia);
+        }
+        public TipoPeriodo getTipoPeriodo()
+        {
+            return tipoPeriodo;
+        }
+        public void setTipoPeriodo(TipoPeriodo tipoPeriodo)
+        {
+            this.tipoPeriodo = tipoPeriodo;
+        }
+        public DateTime getFechaInicio()
+        {
+            return fechaInicio;
+        }
+        public void setFechaInicio(DateTime fechaInicio)
+        {
+            this.fechaInicio = fechaInicio;
+        }
+        public DateTime getFechaFin()
+        {
+            return fechaFin;
+        }
+        public void setFechaFin(DateTime fechaFin)
+        {
+            this.fechaFin = fechaFin;
+        }
+        public Cuatrimestre getCuatrimestre()
+        {
+            return cuatrimestre;
+        }
+        public void setCuatrimestre(Cuatrimestre cuatrimestre)
+        {
+            this.cuatrimestre = cuatrimestre;
         }
     }
 }

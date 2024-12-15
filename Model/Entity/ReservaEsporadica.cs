@@ -1,17 +1,19 @@
 ﻿using Model.Abstract;
 using Model.DTO;
+using Model.Enums;
+
 namespace Model.Entity
 {
     public class ReservaEsporadica : Reserva
     {
-
-        public ReservaEsporadica(ReservaEsporadicaDTO esporadicaDTO, DiaEsporadica dia): base(esporadicaDTO)
+        
+        public ReservaEsporadica(ReservaEsporadicaDTO esporadicaDTO , List<DiaEsporadica> dias): base(esporadicaDTO)
         {
-            this.DiaEsporadica = dia;
+            this.DiaEsporadica = dias;
         }
 
         public ReservaEsporadica() { }
 
-        public DiaEsporadica DiaEsporadica { get; set; }
+        public List<DiaEsporadica> DiaEsporadica { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿    using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Model.Abstract;
 using Model.Enums;
@@ -10,6 +10,7 @@ namespace Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<Aula> builder)
         {
+
             builder.Property<int>("idAula")
                 .HasColumnName("idAula")
                 .ValueGeneratedOnAdd()
