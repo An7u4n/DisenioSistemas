@@ -10,5 +10,6 @@ namespace Services.AulaService
     {
         HashSet<AulaDTO> GetDisponibilidadAula(ReservaDTO reservaDTO);
         public List<List<AulaDTO>> obtenerAulasDisponibles(ReservaEsporadicaDTO reserva);
+        public bool disponibilidadAulaParaEsporadica(DiaEsporadicaDTO dia, Aula aula);
     }
 }

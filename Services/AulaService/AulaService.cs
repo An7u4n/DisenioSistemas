@@ -80,7 +80,6 @@ namespace Services.AulaService
             aulas = aulas.Where(a => a.getEstado() == true && a.getCapacidad() >= reserva.cantidadAlumnos).ToList();
             var aulasDisponibles = new List<List<Aula>>();
             var reservasEsporadicas = _reservaDao.obtenerReservasEsporadicas();
-
             var reservasPeriodicas = _reservaDao.obtenerReservasPeriodica();
             foreach (DiaEsporadicaDTO d in reserva.dias)
             {
@@ -113,24 +112,29 @@ namespace Services.AulaService
             //Maybe TODO: CAMBIAR A DICCIONARIO
             return ConvertirADTO(aulasDisponibles);
         }
-        private bool disponibilidadAulaParaEsporadica(DateTime dia, TimeOnly horaInicio, TimeOnly horaFin, Aula aula)
+        public bool disponibilidadAulaParaEsporadica(DiaEsporadicaDTO dia, Aula aula)
         {
-            var diaSemana = dia.DayOfWeek;
-
-            foreach (Dia d in aula.Dias)
+            var reservasEsporadicas = _reservaDao.obtenerReservasEsporadicas().Where(r => r.DiaEsporadica.idAula == aula.getIdAula());
+            var reservasPeriodicas = _reservaDao.obtenerReservasPeriodica();
+            var horaInicio = TimeOnly.Parse(dia.horaInicio);
+            foreach (ReservaEsporadica reservaEsporadicaGuardada in reservasEsporadicas)
             {
-                if (d.GetType() == typeof(DiaEsporadica))
+                // Falta agregar comprobacion correcta
+                if (reservaEsporadicaGuardada.DiaEsporadica.dia.Date == dia.fecha)
                 {
-                    DiaEsporadica diaEsporadica = (DiaEsporadica)d;
-                    if (dia == dia)
-                    {
-                        TimeOnly horaFinDia = diaEsporadica.HoraInicio.AddMinutes(diaEsporadica.DuracionMinutos);
-                        TimeOnly horaFinReserva = horaFin;
+                    if (reservaEsporadicaGuardada.DiaEsporadica.HoraInicio < horaInicio.AddMinutes(dia.duracionMinutos) && reservaEsporadicaGuardada.DiaEsporadica.HoraInicio.AddMinutes(reservaEsporadicaGuardada.DiaEsporadica.DuracionMinutos) > horaInicio)
+                        return false;
+                }
+            }
 
-                        if (diaEsporadica.HoraInicio < horaFinReserva && horaFinDia > horaInicio)
-                        {
+            foreach (ReservaPeriodica reservaPeriodicaGuardada in reservasPeriodicas)
+            {
+                foreach (DiaPeriodica diaPeriodicaDelaReserva in reservaPeriodicaGuardada.DiasPeriodica)
+                {
+                    if ((int)diaPeriodicaDelaReserva.getDiaSemana() == (int)dia.fecha.DayOfWeek)
+                    {
+                        if (diaPeriodicaDelaReserva.HoraInicio < horaInicio.AddMinutes(dia.duracionMinutos) && diaPeriodicaDelaReserva.HoraInicio.AddMinutes(diaPeriodicaDelaReserva.DuracionMinutos) > horaInicio)
                             return false;
-                        }
                     }
                 }
             }

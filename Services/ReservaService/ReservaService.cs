@@ -89,13 +89,14 @@ namespace Services.ReservaService
             try
             {
                 //TODO : Crear chequeo de disponibilidad de aula antes de agregar
+
                 //if (_aulaService.GetDisponibilidadAula(reservaPeriodicaDTO) == false)
                 var reserva = new ReservaPeriodica(reservaPeriodicaDTO);
                 reserva.idCuatrimestre = reservaPeriodicaDTO.idCuatrimestre;
                 foreach (var diaAReservar in reservaPeriodicaDTO.dias)
                 {
                     if(diaAReservar.numeroAula == null) throw new ArgumentNullException("No se especifica aula");
-                    var aula = _aulaDAO.ObtenerAula((int)diaAReservar.numeroAula);
+                    var aula = _aulaDAO.ObtenerAulaPorNumero((int)diaAReservar.numeroAula);
                     var dia = new DiaPeriodica(diaAReservar, aula);
                     reserva.DiasPeriodica.Add(dia);
                 }
@@ -111,15 +112,18 @@ namespace Services.ReservaService
         {
             try
             {
-                var numeroAula = reservaEsporadicaDTO.dias.First().numeroAula;
-                if (numeroAula == null) throw new Exception("No se especifica aula");
-                var aula = _aulaDAO.ObtenerAula((int)numeroAula);
-            
-                var diaReserva = new DiaEsporadica(reservaEsporadicaDTO.dias.First(), aula);
-                var reserva = new ReservaEsporadica(reservaEsporadicaDTO);
-                reserva.DiaEsporadica = diaReserva;
-                reserva.idBedel = reservaEsporadicaDTO.idBedel;
-                _reservaDAO.guardarReserva(reserva);
+                foreach(var dia in reservaEsporadicaDTO.dias)
+                {
+                    if (dia.numeroAula == null) throw new ArgumentNullException("No se especifica aula");
+                    var aulaReserva = _aulaDAO.ObtenerAulaPorNumero((int)dia.numeroAula);
+                    if (_aulaService.disponibilidadAulaParaEsporadica(dia, aulaReserva) == false)
+                        throw new Exception("El aula ya se encuentra reservada para los horarios solicitados");
+
+                    var diaReservaEsporadica = new DiaEsporadica(dia, aulaReserva);
+                    var reserva = new ReservaEsporadica(reservaEsporadicaDTO, diaReservaEsporadica);
+                    _reservaDAO.guardarReserva(reserva);
+                }
+
             }
             catch(Exception ex)
             {
