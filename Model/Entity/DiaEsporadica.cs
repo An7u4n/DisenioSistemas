@@ -16,7 +16,6 @@ namespace Model.Entity
         [Required]
         [Column("dia")]
         public DateTime dia { get; set; }
-
         public int idReserva { get; set; }
         public ReservaEsporadica ReservaEsporadica { get; set; }
 

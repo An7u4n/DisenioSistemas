@@ -67,6 +67,7 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
     this.multiploDe30ErrorHasta = !this.esMultiploDe30(this.datosReserva.value.finReserva);
     if(!this.multiploDe30ErrorDesde && !this.multiploDe30ErrorHasta && this.datosReserva.value.comienzoReserva < this.datosReserva.value.finReserva) {
         this.datosReserva.value.fechaClase = calendario.value;
+        console.log(this.datosReserva.value);
         this._reservaService.setReserva(this.datosReserva.value);
         this.router.navigate(['/registrar-reserva/esporadica/datos-reserva']);
     }

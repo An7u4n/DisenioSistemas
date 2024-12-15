@@ -2,6 +2,7 @@ import { Component, Input, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ReservaService } from '../../../services/reserva.service';
+import { config } from 'rxjs';
 
 @Component({
   selector: 'app-datos-reserva',
@@ -36,11 +37,36 @@ export class DatosReservaComponent {
   submitDatosComision() {
     const configCombinada = {
       ...this.reservaService.getReserva(),
-      ...this.datosComision.value,
-      fechaClase: this.fechaClase
+      ...this.datosComision.value
     };
 
+    var reserva = {
+      profesor: configCombinada.nombre + ' ' + configCombinada.apellido,
+      nombreCatedra: configCombinada.catedra + ' ' + configCombinada.comision,
+      correoElectronico: configCombinada.email,
+      cantidadAlumnos: configCombinada.cantidadAlumnos,
+      idBedel: 1, // Hardcoded, TODO: cambiar por el id del bedel logueado
+      idCuatrimestre: 1, // Hardcoded, TODO: cambiar por el id del cuatrimestre actual
+      tipoAula: configCombinada.tipoAula,
+      dias: [ {
+        fecha: configCombinada.fechaClase,
+          horaInicio: configCombinada.comienzoReserva,
+          duracionMinutos: this.minutosEntreDosHoras(configCombinada.comienzoReserva, configCombinada.finReserva),
+      }]
+    }
+    this.reservaService.setReserva(reserva);
     console.log(configCombinada);
+    console.log(reserva);
+  }
+
+  minutosEntreDosHoras(horaInicio: string, horaFin: string): number {
+    const horaInicioArray = horaInicio.split(':');
+    const horaFinArray = horaFin.split(':');
+
+    const minutosInicio = parseInt(horaInicioArray[0]) * 60 + parseInt(horaInicioArray[1]);
+    const minutosFin = parseInt(horaFinArray[0]) * 60 + parseInt(horaFinArray[1]);
+
+    return minutosFin - minutosInicio;
   }
 
   volverHome() {
