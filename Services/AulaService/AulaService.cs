@@ -38,9 +38,15 @@ namespace Services.AulaService
             // Obtener aulas del tipo especificado en la reserva
             Type tipoAula = GetTipoAula(reserva.tipoAula);
             var aulas = _aulaDao.getAulasByTipo(tipoAula);
+            
+            var aulasFiltradas = aulas.Where(aula => aula.getCapacidad() >= reserva.cantidadAlumnos && aula.getEstado()).ToList();
 
+            if (!aulasFiltradas.Any())
+            {
+                throw new Exception("No hay aulas disponibles que cumplan con la capacidad requerida.");
+            }
             List<DiaPeriodicaDTO> dias = reserva.dias;
-            return comprobarDisponibilidadAulasPeriodica(dias, aulas.ToList());
+            return comprobarDisponibilidadAulasPeriodica(dias, aulasFiltradas.ToList());
         }
 
 
@@ -131,9 +137,14 @@ namespace Services.AulaService
             // Obtener aulas del tipo especificado en la reserva
             Type tipoAula = GetTipoAula(reserva.tipoAula);
             var aulas = _aulaDao.getAulasByTipo(tipoAula);
+            var aulasFiltradas = aulas.Where(aula => aula.getCapacidad() >= reserva.cantidadAlumnos && aula.getEstado()).ToList();
 
+            if (!aulasFiltradas.Any())
+            {
+                throw new Exception("No hay aulas disponibles que cumplan con la capacidad requerida.");
+            }
             List<DiaEsporadicaDTO> dias = reserva.dias.ToList();
-            return comprobarDisponibilidadAulasEsporadica(dias, aulas.ToList());
+            return comprobarDisponibilidadAulasEsporadica(dias, aulasFiltradas.ToList());
         }
         
         private Type GetTipoAula(TipoAula tipoAula)
@@ -368,19 +379,33 @@ namespace Services.AulaService
             }
         }
         
-        public List<AulaDTO> validarAulas(List<Aula> aulas)
+        public bool disponibilidadAulaParaEsporadica(DiaEsporadicaDTO dia, Aula aula)
         {
-            // Filtrar aulas que cumplen con las condiciones requeridas
-            var aulasValidadas = aulas.Where(aula =>
-                        aula.getEstado() &&             
-                        aula.getCapacidad() > 0 &&  
-                        aula.getPiso() >= 0 &&       
-                        aula.getNumero() > 0 
-                ).Select(aula => ConvertirADTO(aula)) 
-                .ToList();
+            var reservasEsporadicas = _reservaDao.obtenerReservasEsporadicas().Where(r => r.DiaEsporadica.idAula == aula.getIdAula());
+            var reservasPeriodicas = _reservaDao.obtenerReservasPeriodica();
+            var horaInicio = TimeOnly.Parse(dia.horaInicio);
+            foreach (ReservaEsporadica reservaEsporadicaGuardada in reservasEsporadicas)
+            {
+                // Falta agregar comprobacion correcta
+                if (reservaEsporadicaGuardada.DiaEsporadica.dia.Date == dia.fecha)
+                {
+                    if (reservaEsporadicaGuardada.DiaEsporadica.HoraInicio < horaInicio.AddMinutes(dia.duracionMinutos) && reservaEsporadicaGuardada.DiaEsporadica.HoraInicio.AddMinutes(reservaEsporadicaGuardada.DiaEsporadica.DuracionMinutos) > horaInicio)
+                        return false;
+                }
+            }
 
-            return aulasValidadas;
+            foreach (ReservaPeriodica reservaPeriodicaGuardada in reservasPeriodicas)
+            {
+                foreach (DiaPeriodica diaPeriodicaDelaReserva in reservaPeriodicaGuardada.DiasPeriodica)
+                {
+                    if ((int)diaPeriodicaDelaReserva.getDiaSemana() == (int)dia.fecha.DayOfWeek)
+                    {
+                        if (diaPeriodicaDelaReserva.HoraInicio < horaInicio.AddMinutes(dia.duracionMinutos) && diaPeriodicaDelaReserva.HoraInicio.AddMinutes(diaPeriodicaDelaReserva.DuracionMinutos) > horaInicio)
+                            return false;
+                    }
+                }
+            }
+            return true;
         }
-
     }
 }

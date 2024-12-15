@@ -206,5 +206,51 @@ namespace Services.ReservaService
             
             _reservaDAO.guardarReserva(reservaPeriodica);
         }
+         public void GuardarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO)
+        {
+            try
+            {
+                //TODO : Crear chequeo de disponibilidad de aula antes de agregar
+
+                //if (_aulaService.GetDisponibilidadAula(reservaPeriodicaDTO) == false)
+                var reserva = new ReservaPeriodica(reservaPeriodicaDTO);
+                reserva.idCuatrimestre = reservaPeriodicaDTO.idCuatrimestre;
+                foreach (var diaAReservar in reservaPeriodicaDTO.dias)
+                {
+                    if(diaAReservar.numeroAula == null) throw new ArgumentNullException("No se especifica aula");
+                    var aula = _aulaDAO.ObtenerAulaPorNumero((int)diaAReservar.numeroAula);
+                    var dia = new DiaPeriodica(diaAReservar, aula);
+                    reserva.DiasPeriodica.Add(dia);
+                }
+                _reservaDAO.guardarReserva(reserva);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void GuardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO)
+        {
+            try
+            {
+                foreach(var dia in reservaEsporadicaDTO.dias)
+                {
+                    if (dia.numeroAula == null) throw new ArgumentNullException("No se especifica aula");
+                    var aulaReserva = _aulaDAO.ObtenerAulaPorNumero((int)dia.numeroAula);
+                    if (_aulaService.disponibilidadAulaParaEsporadica(dia, aulaReserva) == false)
+                        throw new Exception("El aula ya se encuentra reservada para los horarios solicitados");
+
+                    var diaReservaEsporadica = new DiaEsporadica(dia, aulaReserva);
+                    var reserva = new ReservaEsporadica(reservaEsporadicaDTO, diaReservaEsporadica);
+                    _reservaDAO.guardarReserva(reserva);
+                }
+
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

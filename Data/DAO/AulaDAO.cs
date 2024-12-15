@@ -40,14 +40,18 @@ namespace Data.DAO
 
             return aulasFiltradas;
         }
-
-
+        
        public ICollection<Aula> ObtenerAulas()
        {
             return _dbContext.Aulas.Include(a => a.Dias).ToList();
        }
 
         public Aula ObtenerAula(int numeroAula)
+        {
+            return _dbContext.Aulas.ToList().FirstOrDefault(a => a.getNumero() == numeroAula);
+        }
+        
+        public Aula ObtenerAulaPorNumero(int numeroAula)
         {
             return _dbContext.Aulas.ToList().FirstOrDefault(a => a.getNumero() == numeroAula);
         }
