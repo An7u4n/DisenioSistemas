@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Model.DTO;
 using Model.Enums;
+using Services.AulaService;
 using Services.ReservaService;
 using Web.API.Utilities;
-
-
 
 namespace Web.API.Controllers
 {
@@ -13,138 +12,123 @@ namespace Web.API.Controllers
     public class ReservaController : ControllerBase
     {
         private IReservaService _reservaService { get; set; }
-        public ReservaController(IReservaService reservaService)
+        private IAulaService _aulaService { get; set; }
+
+        public ReservaController(IReservaService reservaService, IAulaService aulaService)
         {
             _reservaService = reservaService;
+            _aulaService = aulaService;
         }
 
+
         [HttpPost("guardar-reserva-esporadica")]
-        public Response<bool> GuardarReservaEsporadica([FromBody] ReservaEsporadicaDTO reservaEsporadicaDTO)
+        public IActionResult GuardarReservaEsporadica([FromBody] ReservaEsporadicaDTO reservaEsporadicaDTO)
         {
             try
             {
-                _reservaService.GuardarReservaEsporadica(reservaEsporadicaDTO);
-                return Response<bool>.SuccessResponse(true, "Se guardo el aula");
+                _reservaService.validarReservaEsporadica(reservaEsporadicaDTO);
+                List<DisponibilidadAulaDTO> aulasDisponibles = _aulaService.obtenerAulasEsporadica(reservaEsporadicaDTO);
+                
+                // Filtrar las 3 aulas con mayor capacidad por cada día
+                List<DisponibilidadAulaDTO> aulasConMayorCapacidad = aulasDisponibles.Select(disponibilidad =>
+                {
+                    disponibilidad.AulasDisponibles = disponibilidad.AulasDisponibles
+                        .OrderByDescending(aula => aula.capacidad)
+                        .Take(3)
+                        .ToList();
+                    return disponibilidad;
+                }).ToList();
+                
+                List<List<SuperposicionInfoDTO>> superposiciones = new List<List<SuperposicionInfoDTO>>();
+
+                foreach (DisponibilidadAulaDTO disponibilidad in aulasDisponibles)
+                {
+                    if (disponibilidad.AulasDisponibles.Count == 0)
+                    {
+                        superposiciones.Add(disponibilidad.SuperposicionesMinimas);
+                    }
+                }
+
+                if (superposiciones.Count > 0)
+                {
+                    var response = Response<List<List<SuperposicionInfoDTO>>>.FailureResponse(
+                        "No hay aulas disponibles en los horarios seleccionados", superposiciones);
+                    return StatusCode(409, response); // Código 409: Conflicto
+                }
+                
+                // Si no hay conflictos, guardar la reserva periódica
+                _reservaService.guardarReservaEsporadica(reservaEsporadicaDTO);
+                
+                var successResponse = Response<List<DisponibilidadAulaDTO>>.SuccessResponse(
+                    aulasConMayorCapacidad,
+                    "Se guardó la reserva con aulas disponibles"
+                );
+                return Ok(successResponse);
             }
             catch (Exception ex)
             {
-                HttpContext.Response.StatusCode = 500;
-                return Response<bool>.FailureResponse("Error interno del servidor: " + ex.Message);
+                var errorResponse = Response<string>.FailureResponse($"Error interno del servidor: {ex.Message}");
+                return StatusCode(500, errorResponse); // Código 500: Error interno del servidor
             }
         }
 
         [HttpPost("guardar-reserva-periodica")]
-        public Response<bool> GuardarReservaPeriodica([FromBody] ReservaPeriodicaDTO reservaPeriodicaDTO)
+        public IActionResult GuardarReservaPeriodica([FromBody] ReservaPeriodicaDTO reservaPeriodicaDTO)
         {
             try
             {
-                _reservaService.GuardarReservaPeriodica(reservaPeriodicaDTO);
-                return Response<bool>.SuccessResponse(true, "Se guardo la reserva");
+                // Validar la reserva periódica
+                _reservaService.validarReservaPeriodica(reservaPeriodicaDTO);
+
+                // Obtener la disponibilidad de aulas para la reserva periódica
+                List<DisponibilidadAulaDTO> aulasDisponibles = _aulaService.obtenerAulasPeriodica(reservaPeriodicaDTO);
+
+                // Filtrar las 3 aulas con mayor capacidad por cada día
+                List<DisponibilidadAulaDTO> aulasConMayorCapacidad = aulasDisponibles.Select(disponibilidad =>
+                {
+                    disponibilidad.AulasDisponibles = disponibilidad.AulasDisponibles
+                        .OrderByDescending(aula => aula.capacidad)
+                        .Take(3)
+                        .ToList();
+                    return disponibilidad;
+                }).ToList();
+
+                // Verificar si hay días sin aulas disponibles y recopilar superposiciones
+                List<List<SuperposicionInfoDTO>> superposiciones = new List<List<SuperposicionInfoDTO>>();
+                foreach (DisponibilidadAulaDTO disponibilidad in aulasConMayorCapacidad)
+                {
+                    if (disponibilidad.AulasDisponibles.Count == 0)
+                    {
+                        superposiciones.Add(disponibilidad.SuperposicionesMinimas);
+                    }
+                }
+
+                // Si hay superposiciones, devolver un error
+                if (superposiciones.Count > 0)
+                {
+                    var conflictResponse = Response<List<List<SuperposicionInfoDTO>>>.FailureResponse(
+                        "No hay aulas disponibles en los horarios seleccionados para algunos días.",
+                        superposiciones
+                    );
+                    return StatusCode(409, conflictResponse); // Código 409: Conflicto
+                }
+
+                // Si no hay conflictos, guardar la reserva periódica
+                _reservaService.guardarReservaPeriodica(reservaPeriodicaDTO);
+
+                var successResponse = Response<List<DisponibilidadAulaDTO>>.SuccessResponse(
+                    aulasConMayorCapacidad,
+                    "Se guardó la reserva periódica con aulas disponibles."
+                );
+                return Ok(successResponse);
             }
             catch (Exception ex)
             {
-                HttpContext.Response.StatusCode = 500;
-                return Response<bool>.FailureResponse("Error interno del servidor: " + ex.Message);
+                var errorResponse = Response<string>.FailureResponse($"Error interno del servidor: {ex.Message}");
+                return StatusCode(500, errorResponse); // Código 500: Error interno del servidor
             }
         }
 
-        // POST api/<ReservaController>
-        [HttpPost("reserva-esporadica")]
-            public Response<List<List<AulaDTO>>> PostReservaEsporadica([FromBody] ReservaEsporadicaDTO reservaEsporadicaDTO)
-            {
-                try
-                {
-                    Console.WriteLine(reservaEsporadicaDTO);
-                    if (reservaEsporadicaDTO == null || reservaEsporadicaDTO.dias == null) {
-                        HttpContext.Response.StatusCode = 400;
-                        return Response<List<List<AulaDTO>>>.FailureResponse("La reseva no puede ser nula");
-                    }
-
-                    var reservaRegistrada = _reservaService.ObtenerAulasParaReserva(reservaEsporadicaDTO);
-                    HttpContext.Response.StatusCode = 201;
-                    return Response<List<List<AulaDTO>>>.SuccessResponse(reservaRegistrada, "Aulas encontradas.");
-                }
-                catch (ArgumentException ex) when (ex.Message == "Ya existen reservas en ese horario")
-                {
-
-                    HttpContext.Response.StatusCode = 409;  // Código 409 - Conflicto
-                    return Response<List<List<AulaDTO>>>.FailureResponse("Ya existen reservas en ese horario");
-                }
-                catch (Exception ex)
-                {
-                    HttpContext.Response.StatusCode = 500;
-                    return Response<List<List<AulaDTO>>>.FailureResponse("Error interno del servidor: " + ex.Message);
-                }
-
-            }
-
-            [HttpPost("reserva-periodica")]
-            public Response<ReservaPeriodicaDTO> PostReservaPeriodica([FromBody] ReservaPeriodicaDTO reservaPeriodicaDTO)
-            {
-                try
-                {
-                    if (reservaPeriodicaDTO == null)
-                    {
-                        HttpContext.Response.StatusCode = 400;
-                        return Response<ReservaPeriodicaDTO>.FailureResponse("La reseva no puede ser nula");
-                    }
-
-
-                    if (!Enum.IsDefined(typeof(TipoPeriodo), reservaPeriodicaDTO.tipoPeriodo))
-                    {
-                        HttpContext.Response.StatusCode = 400;
-                        return Response<ReservaPeriodicaDTO>.FailureResponse("El periodo especificado no es válido.");
-                    }
-                    //TODO: Esta funcion deberia chequear la disponibilidad y devolver las aulas  posibles
-                    //_reservaService.GuardarReservaPeriodica(reservaPeriodicaDTO);
-
-                    HttpContext.Response.StatusCode = 201;
-                    return Response<ReservaPeriodicaDTO>.SuccessResponse(/*reservaRegistrada*/ reservaPeriodicaDTO, "Reserva registrada con éxito.");
-
-                }
-
-                catch (ArgumentException ex) when (ex.Message == "Ya existen reservas en ese horario")
-                {
-
-                    HttpContext.Response.StatusCode = 409;  // Código 409 - Conflicto
-                    return Response<ReservaPeriodicaDTO>.FailureResponse("Ya existen reservas en ese horario");
-                }
-                catch (Exception ex)
-                {
-                    HttpContext.Response.StatusCode = 500;
-                    return Response<ReservaPeriodicaDTO>.FailureResponse("Error interno del servidor: " + ex.Message);
-                }
-
-            }
-            /*
-            [HttpPost("seleccionar-aulas")]
-            public Response<ReservaDTO> SeleccionarAulas([FromBody] ReservaDTO reservaDTO,[FromBody] List<DiaDTO> diaDTOs)
-            {
-                try
-                {
-                    if (!diaDTOs.Any())
-                    {
-                        HttpContext.Response.StatusCode = 400;
-                        return Response<ReservaDTO>.FailureResponse("Seleccione las aulas a reservar");
-                    }
-
-                    var reserva = _reservaService.reservarAulas(reservaDTO,diaDTOs);
-
-                    HttpContext.Response.StatusCode = 201;
-                    return Response<ReservaDTO>.SuccessResponse(reserva, "Reserva registrada con éxito");
-                }
-                catch (ArgumentException ex) when (ex.Message == "Ya existen reservas en ese horario")
-                {
-
-                    HttpContext.Response.StatusCode = 409;  // Código 409 - Conflicto
-                    return Response<ReservaDTO>.FailureResponse("Ya existen reservas en ese horario");
-                }
-                catch (Exception ex)
-                {
-                    HttpContext.Response.StatusCode = 500;
-                    return Response<ReservaDTO>.FailureResponse("Error interno del servidor: " + ex.Message);
-                }
-            }*/
-        
     }
 }
+

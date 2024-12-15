@@ -10,7 +10,7 @@ using Model.Abstract;
 
 namespace Model.DTO
 {
-    public class AulaDTO
+    public abstract class AulaDTO
     {
         public AulaDTO()
         {

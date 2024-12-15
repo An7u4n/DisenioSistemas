@@ -35,10 +35,14 @@ namespace Services.AulaService
         
         public List<DisponibilidadAulaDTO> obtenerAulasPeriodica(ReservaPeriodicaDTO reserva)
         {
-            List<Aula> aulas = (List<Aula>)_aulaDao.ObtenerAulas();
+            // Obtener aulas del tipo especificado en la reserva
+            Type tipoAula = GetTipoAula(reserva.tipoAula);
+            var aulas = _aulaDao.getAulasByTipo(tipoAula);
+
             List<DiaPeriodicaDTO> dias = reserva.dias;
-            return comprobarDisponibilidadAulasPeriodica(dias, aulas);
+            return comprobarDisponibilidadAulasPeriodica(dias, aulas.ToList());
         }
+
 
         public List<DisponibilidadAulaDTO> comprobarDisponibilidadAulasPeriodica(List<DiaPeriodicaDTO> dias, List<Aula> aulas)
         {
@@ -95,7 +99,7 @@ namespace Services.AulaService
             return disponibilidadPorDia;
         }
 
-        List<SuperposicionInfoDTO> CalcularSuperposicionPeriodica(DiaSemana diaSemana, TimeOnly horaInicio, TimeOnly horaFin, Aula aula)
+        public List<SuperposicionInfoDTO> CalcularSuperposicionPeriodica(DiaSemana diaSemana, TimeOnly horaInicio, TimeOnly horaFin, Aula aula)
         {
             List<SuperposicionInfoDTO> superposiciones = new List<SuperposicionInfoDTO>();
 
@@ -124,12 +128,27 @@ namespace Services.AulaService
         
         public List<DisponibilidadAulaDTO> obtenerAulasEsporadica(ReservaEsporadicaDTO reserva)
         {
-            List<Aula> aulas = (List<Aula>)_aulaDao.ObtenerAulas();
-            List<DiaEsporadicaDTO> dias = (List<DiaEsporadicaDTO>)reserva.dias;
-            return comprobarDisponibilidadAulasEsporadica(dias, aulas);
+            // Obtener aulas del tipo especificado en la reserva
+            Type tipoAula = GetTipoAula(reserva.tipoAula);
+            var aulas = _aulaDao.getAulasByTipo(tipoAula);
+
+            List<DiaEsporadicaDTO> dias = reserva.dias.ToList();
+            return comprobarDisponibilidadAulasEsporadica(dias, aulas.ToList());
         }
         
-        List<DisponibilidadAulaDTO> comprobarDisponibilidadAulasEsporadica(List<DiaEsporadicaDTO> dias, List<Aula> aulas)
+        private Type GetTipoAula(TipoAula tipoAula)
+        {
+            return tipoAula switch
+            {
+                TipoAula.Informatica => typeof(AulaInformatica),
+                TipoAula.Multimedios => typeof(AulaMultimedios),
+                TipoAula.SinRecursosAdicionales => typeof(AulaSinRecursosAdicionales),
+                _ => throw new ArgumentException("Tipo de aula no soportado")
+            };
+        }
+
+        
+        public List<DisponibilidadAulaDTO> comprobarDisponibilidadAulasEsporadica(List<DiaEsporadicaDTO> dias, List<Aula> aulas)
         {
             List<DisponibilidadAulaDTO> disponibilidadPorDia = new List<DisponibilidadAulaDTO>();
 
@@ -184,7 +203,7 @@ namespace Services.AulaService
         }
 
         
-        List<SuperposicionInfoDTO> CalcularSuperposicion(DateTime dia, TimeOnly horaInicio, TimeOnly horaFin, Aula aula)
+        public List<SuperposicionInfoDTO> CalcularSuperposicion(DateTime dia, TimeOnly horaInicio, TimeOnly horaFin, Aula aula)
         {
             List<SuperposicionInfoDTO> superposiciones = new List<SuperposicionInfoDTO>();
 
@@ -231,7 +250,7 @@ namespace Services.AulaService
         }
 
         
-        private ReservaDTO ConvertirReservaADTO(Reserva reserva)
+        public ReservaDTO ConvertirReservaADTO(Reserva reserva)
         {
             if (reserva is ReservaEsporadica reservaEsporadica)
             {
@@ -242,7 +261,7 @@ namespace Services.AulaService
                 nombreCatedra = reservaEsporadica.getNombreCatedra(),
                 correoElectronico = reservaEsporadica.getCorreoElectronico(),
                 idBedel = reservaEsporadica.idBedel,
-                dias = ConvertirDiasEsporadicos((IEnumerable<DiaEsporadica>)reservaEsporadica.DiaEsporadica)
+                dias = ConvertirDiasEsporadicos(reservaEsporadica.DiaEsporadica)
                 };
             }
             else if (reserva is ReservaPeriodica reservaPeriodica)
@@ -265,7 +284,7 @@ namespace Services.AulaService
                 throw new ArgumentException("Tipo de reserva no soportado");
             }
         }
-        private ICollection<DiaEsporadicaDTO> ConvertirDiasEsporadicos(IEnumerable<DiaEsporadica> diasEsporadicos)
+        public ICollection<DiaEsporadicaDTO> ConvertirDiasEsporadicos(IEnumerable<DiaEsporadica> diasEsporadicos)
         {
             return diasEsporadicos.Select(d => new DiaEsporadicaDTO
             {
@@ -276,7 +295,7 @@ namespace Services.AulaService
                 fecha = d.dia
             }).ToList();
         }
-        private List<DiaPeriodicaDTO> ConvertirDiasPeriodicos(IEnumerable<DiaPeriodica> diasPeriodicos)
+        public List<DiaPeriodicaDTO> ConvertirDiasPeriodicos(IEnumerable<DiaPeriodica> diasPeriodicos)
         {
             return diasPeriodicos.Select(d => new DiaPeriodicaDTO
             {
@@ -287,11 +306,8 @@ namespace Services.AulaService
                 diaSemana = d.getDiaSemana()
             }).ToList();
         }
-
-
-
         
-        double CalcularHorasSolapadas(TimeOnly inicio1, TimeOnly fin1, TimeOnly inicio2, TimeOnly fin2)
+        public double CalcularHorasSolapadas(TimeOnly inicio1, TimeOnly fin1, TimeOnly inicio2, TimeOnly fin2)
         {
             var overlapStart = inicio1 > inicio2 ? inicio1 : inicio2;
             var overlapEnd = fin1 < fin2 ? fin1 : fin2;
@@ -301,7 +317,7 @@ namespace Services.AulaService
             }
             return 0;
         }
-        private AulaDTO ConvertirADTO(Aula aula)
+        public AulaDTO ConvertirADTO(Aula aula)
         {
             if (aula is AulaInformatica aulaInformatica)
             {
@@ -348,27 +364,23 @@ namespace Services.AulaService
             }
             else
             {
-                // Manejo por defecto para otras subclases o la clase base
-                return new AulaDTO(
-                    idAula: aula.getIdAula(),
-                    numero: aula.getNumero(),
-                    piso: aula.getPiso(),
-                    aireAcondicionado: aula.getAireAcondicionado(),
-                    estado: aula.getEstado(),
-                    capacidad: aula.getCapacidad(),
-                    tipoDePizarron: aula.getTipoDePizarron()
-                    );
+                throw new ArgumentException("Tipo de aula no soportado");
             }
         }
-
-        public HashSet<AulaDTO> GetDisponibilidadAula(ReservaDTO reservaDTO)
+        
+        public List<AulaDTO> validarAulas(List<Aula> aulas)
         {
-            throw new NotImplementedException();
+            // Filtrar aulas que cumplen con las condiciones requeridas
+            var aulasValidadas = aulas.Where(aula =>
+                        aula.getEstado() &&             
+                        aula.getCapacidad() > 0 &&  
+                        aula.getPiso() >= 0 &&       
+                        aula.getNumero() > 0 
+                ).Select(aula => ConvertirADTO(aula)) 
+                .ToList();
+
+            return aulasValidadas;
         }
 
-        public List<List<AulaDTO>> obtenerAulasDisponibles(ReservaEsporadicaDTO reserva)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

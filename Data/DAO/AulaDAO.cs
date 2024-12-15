@@ -21,6 +21,26 @@ namespace Data.DAO
 
             return aulas;
         }
+        public HashSet<Aula> getAulasByTipo(Type tipoAula)
+        {
+            if (tipoAula == null || !typeof(Aula).IsAssignableFrom(tipoAula))
+            {
+                throw new ArgumentException("El tipo especificado no es válido para aulas.");
+            }
+
+            // Obtener todas las aulas desde la base de datos
+            var aulas = _dbContext.Aulas
+                .Include(a => a.Dias) // Incluir los días relacionados
+                .ToList();
+
+            // Filtrar solo las aulas que sean del tipo especificado
+            var aulasFiltradas = aulas
+                .Where(a => tipoAula.IsInstanceOfType(a)) // Usar typeof para validar el tipo
+                .ToHashSet();
+
+            return aulasFiltradas;
+        }
+
 
        public ICollection<Aula> ObtenerAulas()
        {

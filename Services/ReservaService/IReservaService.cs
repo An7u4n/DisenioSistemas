@@ -3,9 +3,9 @@ namespace Services.ReservaService
 {
     public interface IReservaService
     {
-        List<List<AulaDTO>> ObtenerAulasParaReserva(ReservaEsporadicaDTO reservaEsporadicaDTO);
-        void GuardarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO);
-        void GuardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO);
-        ReservaDTO reservarAulas(ReservaDTO reservaDTO, List<DiaPeriodicaDTO> diaDTOs);
+        void validarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO);
+        void validarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO);
+        void guardarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO);
+        void guardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO);
     }
 }
