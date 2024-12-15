@@ -41,12 +41,12 @@ namespace Data.DAO
             return aulasFiltradas;
         }
         
-       public ICollection<Aula> ObtenerAulas()
-       {
+        public ICollection<Aula> ObtenerAulas()
+        {
             return _dbContext.Aulas.Include(a => a.Dias).ToList();
-       }
+        }
 
-        public Aula ObtenerAulaPorNumero(int numeroAula)
+        public Aula ObtenerAula(int numeroAula)
         {
             return _dbContext.Aulas.ToList().FirstOrDefault(a => a.getNumero() == numeroAula);
         }

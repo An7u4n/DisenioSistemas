@@ -223,12 +223,13 @@ namespace Services.AulaService
             return disponibilidadPorDia;
         }
 
+
         public List<SuperposicionInfoDTO> CalcularSuperposicion(DateTime dia, TimeOnly horaInicio, TimeOnly horaFin,
             Aula aula)
         {
             List<SuperposicionInfoDTO> superposiciones = new List<SuperposicionInfoDTO>();
 
-            foreach (ReservaPeriodica reservaPeriodicaGuardada in reservasPeriodicas)
+            foreach (Dia d in aula.Dias)
             {
                 if (d is DiaEsporadica diaEsporadica && diaEsporadica.dia.Date == dia.Date)
                 {
