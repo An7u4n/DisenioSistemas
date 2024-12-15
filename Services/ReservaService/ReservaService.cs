@@ -250,7 +250,6 @@ namespace Services.ReservaService
                 }
                 var reserva = new ReservaEsporadica(reservaEsporadicaDTO, diasReserva);
                 _reservaDAO.guardarReserva(reserva);
-
             }
             catch(Exception ex)
             {

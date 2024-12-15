@@ -2,6 +2,8 @@ import { Component, Input, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ReservaService } from '../../../services/reserva.service';
+import { config } from 'rxjs';
+import { AulaService } from '../../../services/aula.service';
 
 @Component({
   selector: 'app-datos-reserva',
@@ -13,7 +15,7 @@ export class DatosReservaComponent {
   datosComision!: FormGroup;
   datosReserva!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private reservaService: ReservaService) { }
+  constructor(private fb: FormBuilder, private router: Router, private reservaService: ReservaService, private aulaService: AulaService) { }
 
   ngOnInit() {
     this.datosReserva = this.fb.group({
@@ -36,11 +38,38 @@ export class DatosReservaComponent {
   submitDatosComision() {
     const configCombinada = {
       ...this.reservaService.getReserva(),
-      ...this.datosComision.value,
-      fechaClase: this.fechaClase
+      ...this.datosComision.value
     };
 
-    console.log(configCombinada);
+    var reserva = {
+      profesor: configCombinada.nombre + ' ' + configCombinada.apellido,
+      nombreCatedra: configCombinada.catedra + ' ' + configCombinada.comision,
+      correoElectronico: configCombinada.email,
+      cantidadAlumnos: configCombinada.cantidadAlumnos,
+      idBedel: 1, // Hardcoded, TODO: cambiar por el id del bedel logueado
+      idCuatrimestre: 1, // Hardcoded, TODO: cambiar por el id del cuatrimestre actual
+      tipoAula: configCombinada.tipoAula,
+      dias: [ {
+        fecha: configCombinada.fechaClase,
+          horaInicio: configCombinada.comienzoReserva,
+          duracionMinutos: this.minutosEntreDosHoras(configCombinada.comienzoReserva, configCombinada.finReserva),
+      }]
+    }
+    this.reservaService.postReserva(reserva).subscribe(res => {
+      console.log(res);
+      this.aulaService.setAulas(res);
+      this.router.navigate(['/registrar-reserva/seleccionar-aula']);
+    });
+  }
+
+  minutosEntreDosHoras(horaInicio: string, horaFin: string): number {
+    const horaInicioArray = horaInicio.split(':');
+    const horaFinArray = horaFin.split(':');
+
+    const minutosInicio = parseInt(horaInicioArray[0]) * 60 + parseInt(horaInicioArray[1]);
+    const minutosFin = parseInt(horaFinArray[0]) * 60 + parseInt(horaFinArray[1]);
+
+    return minutosFin - minutosInicio;
   }
 
   volverHome() {
