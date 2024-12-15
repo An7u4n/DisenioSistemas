@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ReservaService {
-  private urlReserva = 'http://localhost:7044/api/reserva';
+  private urlReserva = 'https://localhost:7030/api/Reserva';
   constructor(private _http: HttpClient) {}
   private datosReserva: any;
   setReserva(reserva: any) {
@@ -16,9 +16,7 @@ export class ReservaService {
     return this.datosReserva;
   }
 
-  postReserva(){
-    this._http.post(this.urlReserva+'/guardar-reserva-esporadica', this.datosReserva).subscribe((res) => {
-      console.log(res);
-    });
+  postReserva(reserva: any){
+    return this._http.post(this.urlReserva+'/reserva-esporadica', reserva);
   }
 }

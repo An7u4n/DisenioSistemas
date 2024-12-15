@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ReservaService } from '../../../services/reserva.service';
 import { config } from 'rxjs';
+import { AulaService } from '../../../services/aula.service';
 
 @Component({
   selector: 'app-datos-reserva',
@@ -14,7 +15,7 @@ export class DatosReservaComponent {
   datosComision!: FormGroup;
   datosReserva!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private reservaService: ReservaService) { }
+  constructor(private fb: FormBuilder, private router: Router, private reservaService: ReservaService, private aulaService: AulaService) { }
 
   ngOnInit() {
     this.datosReserva = this.fb.group({
@@ -54,9 +55,11 @@ export class DatosReservaComponent {
           duracionMinutos: this.minutosEntreDosHoras(configCombinada.comienzoReserva, configCombinada.finReserva),
       }]
     }
-    this.reservaService.setReserva(reserva);
-    console.log(configCombinada);
-    console.log(reserva);
+    this.reservaService.postReserva(reserva).subscribe(res => {
+      console.log(res);
+      this.aulaService.setAulas(res);
+      this.router.navigate(['/registrar-reserva/seleccionar-aula']);
+    });
   }
 
   minutosEntreDosHoras(horaInicio: string, horaFin: string): number {
