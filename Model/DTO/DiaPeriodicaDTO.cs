@@ -8,6 +8,8 @@ namespace Model.DTO
         public string horaInicio { get; set; }
         public int duracionMinutos { get; set; }
         public DiaSemana diaSemana { get; set; }
+        
+        public TipoPeriodo tipoPeriodo { get; set; }
     }
 
     public class DiaEsporadicaDTO
