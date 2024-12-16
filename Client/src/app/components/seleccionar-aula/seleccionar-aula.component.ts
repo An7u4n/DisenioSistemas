@@ -17,7 +17,7 @@ export class SeleccionarAulaComponent implements OnInit {
   
   ngOnInit(){
     var aulas = this.aulaService.getAulas().data;
-    console.log(aulas);
+    console.log("LOL LAS AULAS ", aulas);
     this.aulas = aulas;
   }
 

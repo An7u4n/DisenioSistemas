@@ -17,6 +17,6 @@ export class ReservaService {
   }
 
   postReserva(reserva: any){
-    return this._http.post(this.urlReserva+'/reserva-esporadica', reserva);
+    return this._http.post(this.urlReserva+'/guardar-reserva-esporadica', reserva);
   }
 }

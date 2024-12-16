@@ -48,7 +48,7 @@ export class DatosReservaComponent {
       cantidadAlumnos: configCombinada.cantidadAlumnos,
       idBedel: 1, // Hardcoded, TODO: cambiar por el id del bedel logueado
       idCuatrimestre: 1, // Hardcoded, TODO: cambiar por el id del cuatrimestre actual
-      tipoAula: configCombinada.tipoAula,
+      tipoAula: Number(configCombinada.tipoAula),
       dias: [ {
         fecha: configCombinada.fechaClase,
           horaInicio: configCombinada.comienzoReserva,
