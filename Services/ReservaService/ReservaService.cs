@@ -175,7 +175,6 @@ namespace Services.ReservaService
                 throw new Exception($"Errores de validación:\n{string.Join("\n", errores)}");
             }
         }
-        
         public void guardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO)
         {
             // Crear instancia de ReservaEsporadica y asignar propiedades
@@ -189,7 +188,6 @@ namespace Services.ReservaService
             // Guardar en la base de datos
             _reservaDAO.guardarReserva(reservaEsporadica);
         }
-
         public void guardarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO)
         {
             // Crear instancia de ReservaPeriodica y asignar propiedades
@@ -231,7 +229,6 @@ namespace Services.ReservaService
                 throw new Exception(ex.Message);
             }
         }
-
         public void GuardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO)
         {
             try

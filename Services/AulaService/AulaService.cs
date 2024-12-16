@@ -213,6 +213,7 @@ namespace Services.AulaService
                 var disponibilidadAulaDTO = new DisponibilidadAulaDTO
                 {
                     Dia = fecha,
+                    DiaSemana = (DiaSemana)fecha.DayOfWeek,
                     AulasDisponibles = aulasDisponibles,
                     SuperposicionesMinimas = superposicionesMinimas // Esto estará vacío si hay aulas disponibles
                 };

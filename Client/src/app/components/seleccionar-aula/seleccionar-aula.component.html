@@ -14,10 +14,10 @@
       </thead>
       <tbody>
         <tr
-          *ngFor="let aula of aulas[0].aulasDisponibles; let i = index"
+          *ngFor="let aula of aulas; let i = index"
           [class.impar]="i % 2 == 1"
         >
-          <td>{{ aula.idAula }}</td>
+          <td>{{ aula.numero }}</td>
           <td>Piso: {{ aula.piso }}</td>
           <td>{{ aula.capacidad }}</td>
           <td *ngFor="let dia of dias">
