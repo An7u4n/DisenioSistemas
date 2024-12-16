@@ -36,29 +36,20 @@ export class DatosReservaComponent {
   }
 
   submitDatosComision() {
-    const configCombinada = {
-     diasSeleccionados: this.reservaService.getReserva(),
-     datos: this.datosComision.value
-    };
-    console.log(configCombinada)
+    let datos = this.datosComision.value;
+  
 
     var reserva = {
-      profesor: configCombinada.datos.nombre + ' ' + configCombinada.datos.apellido,
-      nombreCatedra: configCombinada.datos.catedra + ' ' + configCombinada.datos.comision,
-      correoElectronico: configCombinada.datos.email,
-      cantidadAlumnos: configCombinada.datos.cantidadAlumnos,
+      profesor: datos.nombre + ' ' + datos.apellido,
+      nombreCatedra: datos.catedra + ' ' + datos.comision,
+      correoElectronico: datos.email,
+      cantidadAlumnos: datos.cantidadAlumnos,
       idBedel: 1, // Hardcoded, TODO: cambiar por el id del bedel logueado
       idCuatrimestre: 1, // Hardcoded, TODO: cambiar por el id del cuatrimestre actual
-      tipoAula: Number(configCombinada.datos.tipoAula),
-      dias: configCombinada.diasSeleccionados.map((diaSeleccionado: { dia: any; comienzoReserva: string; finReserva: string; }) => ({
-        fecha: diaSeleccionado.dia,
-        horaInicio: diaSeleccionado.comienzoReserva,
-        duracionMinutos: this.minutosEntreDosHoras(
-          diaSeleccionado.comienzoReserva,
-          diaSeleccionado.finReserva
-        ),
-      }))
+      tipoAula: Number(datos.tipoAula),
+      dias: this.reservaService.getDias(),
     };
+    console.log(reserva);
     this.reservaService.postReserva(reserva).subscribe(res => {
       console.log(res);
       this.aulaService.setAulas(res);

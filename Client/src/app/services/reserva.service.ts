@@ -8,6 +8,20 @@ export class ReservaService {
   private urlReserva = 'https://localhost:7030/api/Reserva';
   constructor(private _http: HttpClient) {}
   private datosReserva: any;
+  private diasEsporadica: any;
+  private diasPeriodica: any;
+  setDiasEsporadica(dias: any) {
+    this.diasEsporadica = dias;
+  }
+
+  getDias() {
+    if(this.diasEsporadica != undefined)
+      return this.diasEsporadica;
+    else if(this.diasPeriodica != undefined)
+      return this.diasPeriodica;
+    else throw new Error("No se setearon dias");
+  }
+
   setReserva(reserva: any) {
     this.datosReserva = reserva;
   }
@@ -17,6 +31,6 @@ export class ReservaService {
   }
 
   postReserva(reserva: any){
-    return this._http.post(this.urlReserva+'/guardar-reserva-esporadica', reserva);
+    return this._http.post(this.urlReserva+'/retornar-aulas-esporadica', reserva);
   }
 }

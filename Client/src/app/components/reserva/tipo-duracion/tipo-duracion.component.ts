@@ -93,6 +93,7 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
         });
       
         if (reservasValidas) {
+
           const reservas = this.formulariosCard.map(formGroup => {
             return {
               dia: formGroup.get('dia')?.value,
@@ -100,20 +101,29 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
               finReserva: formGroup.get('finReserva')?.value
             };
           });
-      
+          var dias: { fecha: any; horaInicio: any; duracionMinutos: any; }[] = [];
           reservas.forEach((reserva, index) => {
-            reserva.dia = this.dias[index];
+            dias.push(
+              {
+                "fecha": this.dias[index],
+                "horaInicio": reserva.comienzoReserva,
+                "duracionMinutos": this.minutosEntreDosHoras(reserva.comienzoReserva, reserva.finReserva)
+              });
           });      
-          console.log("Reservas:", reservas);
-          this._reservaService.setReserva(reservas);  // Llamar al servicio para guardar la reserva
+          console.log("Dias:", dias);
+          this._reservaService.setDiasEsporadica(dias);  // Llamar al servicio para guardar los dias
           this.router.navigate(['/registrar-reserva/esporadica/datos-reserva']);
         }
   }
 
-  chequearFormulario(calendario: any) {
-   /* this.activo = !this.activo;
-    this.dia.value.fechaClase = calendario.value;
-    this.datosReserva.controls['fechaClase'].setValue(calendario.value);*/
+  minutosEntreDosHoras(horaInicio: string, horaFin: string): number {
+    const horaInicioArray = horaInicio.split(':');
+    const horaFinArray = horaFin.split(':');
+
+    const minutosInicio = parseInt(horaInicioArray[0]) * 60 + parseInt(horaInicioArray[1]);
+    const minutosFin = parseInt(horaFinArray[0]) * 60 + parseInt(horaFinArray[1]);
+
+    return minutosFin - minutosInicio;
   }
 
   esMultiploDe30(time: string): boolean {
