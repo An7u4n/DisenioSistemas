@@ -1,6 +1,8 @@
 .container {
+    display: flex;
     width: 915px;
     height: 750px;
+
 }
 
 form {
@@ -13,6 +15,7 @@ form {
 .formulario-1 {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     gap: 80px;
     width: 100%;
 }
@@ -47,17 +50,30 @@ form {
 }
 
 .contenedor-derecha {
+    overflow-y: auto; 
+    overflow-x: hidden; 
     display: flex;
     flex-direction: column;
     align-content: space-evenly;
     gap: 20px;
+    max-height: 550px;
 }
 
-calendar-date {
+::-webkit-scrollbar{
+    background-color: #161B21;
+    width: 5px;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #0077E4;
+}
+
+calendar-multi {
     &::part(heading) {
         font-size: 24px;
         font-weight: bold;
     }
+
+    
     &::part(button) {
         border: none;
         background-color: transparent;
@@ -115,15 +131,53 @@ calendar-date svg[slot="previous"] {
     position: relative;
 }
 
+.card{
+    h4{
+        margin:0
+    }
+    .dia-card{
+        width: 100%;
+        margin:0;
+        background-color: #161B21;
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        justify-content: center;
+        border-top-right-radius: 5px;
+        border-top-left-radius: 5px;
+
+    }
+    .time-container{
+        display: flex;
+        flex-direction: column;
+        padding:5px;
+        gap:5px;
+    }
+
+    background-color: #3B4758;
+    
+    border-radius: 5px;
+    color:white;
+    gap:5px;
+}
+
 .time-input-container {
+    label{
+        color:white;
+    }
     width: 100%;
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
 }
 
+
 input[type="time"] {
     width: 100%;
+    background-color: #161B21;
+    color: white;
 }
 
 .contenedor-botones {

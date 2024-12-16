@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, NgControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, NgControl, FormControl,ValidationErrors, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ReservaService } from '../../../services/reserva.service';
 
@@ -9,11 +9,16 @@ import { ReservaService } from '../../../services/reserva.service';
   styleUrl: './tipo-duracion.component.css'
 })
 export class TipoDuracionComponent implements OnInit, AfterViewInit{
+
+
+  dias: string[] = [];
   activo: boolean = false;
   fechaClase: any;
-  datosReserva!: FormGroup;
   multiploDe30ErrorDesde: boolean = false;
   multiploDe30ErrorHasta: boolean = false;
+
+  formulariosCard: FormGroup[] = [];
+
 
   constructor(private fb: FormBuilder, private renderer: Renderer2, private router: Router, private _reservaService: ReservaService) {
 
@@ -22,18 +27,6 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
   @ViewChild('calendario', { static: false }) calendarElement!: ElementRef;
 
   ngOnInit() {
-    this.datosReserva = this.fb.group({
-      tipoReserva: ['esporadica', [Validators.required]],
-      comienzoReserva: ['', [Validators.required]],
-      finReserva: ['', [Validators.required]],
-      fechaClase: ['', [Validators.required, Validators.minLength(2)]],
-    }, {
-      validators: (formGroup: FormGroup) => {
-        const comienzoReserva = formGroup.get('comienzoReserva')?.value;
-        const finReserva = formGroup.get('finReserva')?.value;
-        return comienzoReserva < finReserva ? null : { 'comienzoMayorQueFin': true };
-      }
-    });
   }
 
   ngAfterViewInit(): void {
@@ -63,6 +56,7 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
   }
   
   submitTipoReserva(event: Event, calendario: any) {
+    /*
     this.multiploDe30ErrorDesde = !this.esMultiploDe30(this.datosReserva.value.comienzoReserva);
     this.multiploDe30ErrorHasta = !this.esMultiploDe30(this.datosReserva.value.finReserva);
     if(!this.multiploDe30ErrorDesde && !this.multiploDe30ErrorHasta && this.datosReserva.value.comienzoReserva < this.datosReserva.value.finReserva) {
@@ -70,13 +64,56 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
         console.log(this.datosReserva.value);
         this._reservaService.setReserva(this.datosReserva.value);
         this.router.navigate(['/registrar-reserva/esporadica/datos-reserva']);
-    }
+    }*/
+        let reservasValidas = true; 
+        this.formulariosCard.forEach((formGroup, index) => {
+          const comienzoReserva = formGroup.get('comienzoReserva')?.value;
+          const finReserva = formGroup.get('finReserva')?.value;
+      
+          const esMultiploDe30Desde = this.esMultiploDe30(comienzoReserva);
+          const esMultiploDe30Hasta = this.esMultiploDe30(finReserva);
+      
+          if (!esMultiploDe30Desde) {
+            this.multiploDe30ErrorDesde = true;
+            reservasValidas = false;
+          } else {
+            this.multiploDe30ErrorDesde = false;
+          }
+      
+          if (!esMultiploDe30Hasta) {
+            this.multiploDe30ErrorHasta = true;
+            reservasValidas = false;
+          } else {
+            this.multiploDe30ErrorHasta = false;
+          }
+      
+          if (comienzoReserva >= finReserva) {
+            reservasValidas = false;
+          }
+        });
+      
+        if (reservasValidas) {
+          const reservas = this.formulariosCard.map(formGroup => {
+            return {
+              dia: formGroup.get('dia')?.value,
+              comienzoReserva: formGroup.get('comienzoReserva')?.value,
+              finReserva: formGroup.get('finReserva')?.value
+            };
+          });
+      
+          reservas.forEach((reserva, index) => {
+            reserva.dia = this.dias[index];
+          });      
+          console.log("Reservas:", reservas);
+          this._reservaService.setReserva(reservas);  // Llamar al servicio para guardar la reserva
+          this.router.navigate(['/registrar-reserva/esporadica/datos-reserva']);
+        }
   }
 
   chequearFormulario(calendario: any) {
-    this.activo = !this.activo;
-    this.datosReserva.value.fechaClase = calendario.value;
-    this.datosReserva.controls['fechaClase'].setValue(calendario.value);
+   /* this.activo = !this.activo;
+    this.dia.value.fechaClase = calendario.value;
+    this.datosReserva.controls['fechaClase'].setValue(calendario.value);*/
   }
 
   esMultiploDe30(time: string): boolean {
@@ -91,6 +128,37 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
 
   volverHome() {
     this.router.navigate(['/home']);
+  }
+
+  seleccionarDia(calendario: any) {
+    this.dias = calendario.value.split(' ');
+    this.formulariosCard = [];
+    this.dias.forEach(dia => {
+      const formGroup = new FormGroup({
+        'comienzoReserva': new FormControl('', [Validators.required]),
+        'finReserva': new FormControl('', [Validators.required]),
+      },[this.validarHora]);
+      
+    
+      this.formulariosCard.push(formGroup);
+    });
+  }
+
+  validarHora(control: AbstractControl): ValidationErrors | null {
+    const formGroup = control as FormGroup; // Convertir a FormGroup explícitamente
+    const comienzoReserva = formGroup.get('comienzoReserva')?.value;
+    const finReserva = formGroup.get('finReserva')?.value;
+  
+    // Verifica si la hora de inicio es mayor que la hora de fin
+    if (comienzoReserva && finReserva && comienzoReserva >= finReserva) {
+      return { 'comienzoMayorQueFin': true };
+    }
+    return null;
+  }
+
+
+  checkTodosValidos(): boolean {
+    return this.formulariosCard.every(formGroup => formGroup.valid) && this.dias.length != 0;
   }
 
 }
