@@ -31,7 +31,6 @@ export class SeleccionarAulaComponent implements OnInit {
   
   ngOnInit(){
     var aulasData = this.aulaService.getAulas().data;
-    console.log("LOL LAS AULAS ", aulasData);
     this.dias = aulasData
       .filter((a: any) => typeof a.diaSemana === 'number' && a.diaSemana >= 0 && a.diaSemana <= 6)
       .map((a: any) => this.DiasSemana[a.diaSemana]);
@@ -51,6 +50,7 @@ export class SeleccionarAulaComponent implements OnInit {
     })
     this.aulas= [...aulas].sort((a:any,b:any) => a.capacidad - b.capacidad);
     this.aulas.splice(3);
+    this.aulas = this.eliminarAulasDuplicadas(this.aulas);
   }
 
 
@@ -70,7 +70,18 @@ export class SeleccionarAulaComponent implements OnInit {
   }
 
   seleccionarAula(aula: any, diaIndex: number): void {
-    console.log("LOOOL",aula,diaIndex);
     this.selectedAulas[diaIndex] = aula;
+  }
+
+  eliminarAulasDuplicadas(aulas: any[]): any[] {
+    const mapaAulas = new Map<number, any>();
+  
+    aulas.forEach(aula => {
+      if (!mapaAulas.has(aula.numero)) {
+        mapaAulas.set(aula.numero, aula);
+      }
+    });
+  
+    return Array.from(mapaAulas.values());
   }
 }
