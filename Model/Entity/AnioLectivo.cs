@@ -6,6 +6,7 @@ namespace Model.Entity
     {
         [Key] private int IdAnioLectivo;
         private string Anio;
+        public virtual ICollection<Cuatrimestre> Cuatrimestres { get; set; }
 
         public AnioLectivo() { }
         public AnioLectivo(string anio) 

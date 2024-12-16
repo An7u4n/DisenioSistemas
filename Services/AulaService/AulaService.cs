@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Security.Cryptography;
 using Data.DAO;
 using Data.Utilities;
 using Model.Abstract;
@@ -114,6 +115,8 @@ namespace Services.AulaService
             TimeOnly horaFin, Aula aula)
         {
             List<SuperposicionInfoDTO> superposiciones = new List<SuperposicionInfoDTO>();
+            var reservasPeriodicas = _reservaDao.obtenerReservasPeriodica();
+            var reservasEsporadicas = _reservaDao.obtenerReservasEsporadicas();
 
             foreach (Dia d in aula.Dias)
             {
@@ -127,14 +130,32 @@ namespace Services.AulaService
                         superposiciones.Add(new SuperposicionInfoDTO
                         {
                             Aula = ConvertirADTO(aula),
-                            Reserva = ConvertirReservaADTO(diaPeriodica.ReservaPeriodica),
+                            Reserva = ConvertirReservaADTO(reservasPeriodicas.FirstOrDefault(r => r.getId() == diaPeriodica.idReserva)),
                             HoraInicio = diaPeriodica.HoraInicio,
+                            HoraFin = horaFinDia,
+                            HorasSuperpuestas = horasSolapadas
+                        });
+                    }
+                } else if(d is DiaEsporadica diaEsporadica && (int)diaEsporadica.dia.DayOfWeek == (int)diaSemana)
+                {
+                    TimeOnly horaFinDia = diaEsporadica.HoraInicio.AddMinutes(diaEsporadica.DuracionMinutos);
+                    if (diaEsporadica.HoraInicio < horaFin && horaFinDia > horaInicio)
+                    {
+                        double horasSolapadas =
+                            CalcularHorasSolapadas(horaInicio, horaFin, diaEsporadica.HoraInicio, horaFinDia);
+                        superposiciones.Add(new SuperposicionInfoDTO
+                        {
+                            Aula = ConvertirADTO(aula),
+                            Reserva = ConvertirReservaADTO(reservasEsporadicas.FirstOrDefault(r => r.getId() == diaEsporadica.idReserva)),
+                            HoraInicio = diaEsporadica.HoraInicio,
                             HoraFin = horaFinDia,
                             HorasSuperpuestas = horasSolapadas
                         });
                     }
                 }
             }
+
+           
 
             return superposiciones;
         }
@@ -229,6 +250,8 @@ namespace Services.AulaService
             Aula aula)
         {
             List<SuperposicionInfoDTO> superposiciones = new List<SuperposicionInfoDTO>();
+            var reservasEsporadicas = _reservaDao.obtenerReservasEsporadicas();
+            var reservasPeriodicas = _reservaDao.obtenerReservasPeriodica();
 
             foreach (Dia d in aula.Dias)
             {
@@ -242,7 +265,7 @@ namespace Services.AulaService
                         superposiciones.Add(new SuperposicionInfoDTO
                         {
                             Aula = ConvertirADTO(aula),
-                            Reserva = ConvertirReservaADTO(diaEsporadica.ReservaEsporadica),
+                            Reserva = ConvertirReservaADTO(reservasEsporadicas.FirstOrDefault(r => r.getId() == diaEsporadica.idReserva)),
                             HoraInicio = diaEsporadica.HoraInicio,
                             HoraFin = horaFinDia,
                             HorasSuperpuestas = horasSolapadas
@@ -251,7 +274,7 @@ namespace Services.AulaService
                 }
                 else if (d is DiaPeriodica diaPeriodica)
                 {
-                    if ((int)diaPeriodica.getDiaSemana() == (int)dia.DayOfWeek + 1)
+                    if ((int)diaPeriodica.getDiaSemana() == (int)dia.DayOfWeek)
                     {
                         TimeOnly horaFinDia = diaPeriodica.HoraInicio.AddMinutes(diaPeriodica.DuracionMinutos);
                         if (diaPeriodica.HoraInicio < horaFin && horaFinDia > horaInicio)
@@ -261,7 +284,7 @@ namespace Services.AulaService
                             superposiciones.Add(new SuperposicionInfoDTO
                             {
                                 Aula = ConvertirADTO(aula),
-                                Reserva = ConvertirReservaADTO(diaPeriodica.ReservaPeriodica),
+                                Reserva = ConvertirReservaADTO(reservasEsporadicas.FirstOrDefault(r => r.getId() == diaPeriodica.idReserva)),
                                 HoraInicio = diaPeriodica.HoraInicio,
                                 HoraFin = horaFinDia,
                                 HorasSuperpuestas = horasSolapadas

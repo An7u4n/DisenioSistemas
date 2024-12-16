@@ -18,7 +18,7 @@ namespace Data.DAO
 
         public AnioLectivo GetAnioLectivo(string anio)
         {
-            var anioLectivo = _dbContext.AnioLectivos.FirstOrDefault(a => EF.Property<string>(a, "Anio") == anio);
+            var anioLectivo = _dbContext.AnioLectivos.Include(a => a.Cuatrimestres).FirstOrDefault(a => EF.Property<string>(a, "Anio") == anio);
             if (anioLectivo == null) throw new Exception("No existe el año lectivo");
             return anioLectivo;
         }

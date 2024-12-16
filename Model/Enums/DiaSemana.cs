@@ -2,6 +2,7 @@
 {
     public enum DiaSemana
     {
+        Domingo = 0,
         Lunes = 1,
         Martes = 2,
         Miercoles = 3,

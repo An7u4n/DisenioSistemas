@@ -2,6 +2,7 @@
 using Model.Abstract;
 using Model.DTO;
 using Model.Entity;
+using Model.Enums;
 using Services.AulaService;
 namespace Services.ReservaService
 {
@@ -11,12 +12,14 @@ namespace Services.ReservaService
         private readonly ReservaDAO _reservaDAO;
         private readonly IAulaService _aulaService;
         private readonly AulaDAO _aulaDAO;
+        private readonly AnioLectivoDAO _anioLectivoDAO;
 
-        public ReservaService(ReservaDAO reservaDAO, IAulaService aulaService, AulaDAO aulaDAO)
+        public ReservaService(ReservaDAO reservaDAO, IAulaService aulaService, AulaDAO aulaDAO, AnioLectivoDAO anioLectivoDAO)
         {
             _reservaDAO = reservaDAO;
             _aulaService = aulaService;
             _aulaDAO = aulaDAO;
+            _anioLectivoDAO = anioLectivoDAO;
         }
         public void validarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO)
         {
@@ -192,7 +195,10 @@ namespace Services.ReservaService
         {
             // Crear instancia de ReservaPeriodica y asignar propiedades
             var reservaPeriodica = new ReservaPeriodica();
-
+            var anio = DateOnly.Parse(reservaPeriodicaDTO.fechaInicio).Year;
+            var anioLectivo = _anioLectivoDAO.GetAnioLectivo(anio.ToString());
+            
+            // TOOD: Crear Dias, configurarle aulas y dias
             reservaPeriodica.setId(reservaPeriodicaDTO.idReserva);
             reservaPeriodica.setProfesor(reservaPeriodicaDTO.profesor);
             reservaPeriodica.setNombreCatedra(reservaPeriodicaDTO.nombreCatedra);
@@ -201,6 +207,20 @@ namespace Services.ReservaService
             reservaPeriodica.setFechaInicio(DateTime.Parse(reservaPeriodicaDTO.fechaInicio));
             reservaPeriodica.setFechaFin(DateTime.Parse(reservaPeriodicaDTO.fechaFin));
             reservaPeriodica.setTipoPeriodo(reservaPeriodicaDTO.tipoPeriodo);
+            
+            if(reservaPeriodica.getTipoPeriodo() == TipoPeriodo.anual)
+            {
+                reservaPeriodica.Cuatrimestres = anioLectivo.Cuatrimestres;
+            } else if(reservaPeriodica.getTipoPeriodo() == TipoPeriodo.cuatrimestral)
+            {
+                if(reservaPeriodicaDTO.numeroCuatrimestre == 1)
+                {
+                    reservaPeriodica.Cuatrimestres.Add(anioLectivo.Cuatrimestres.First(c => c.GetIdCuatrimestre() == 1));
+                } else if(reservaPeriodicaDTO.numeroCuatrimestre == 2)
+                {
+                    reservaPeriodica.Cuatrimestres.Add(anioLectivo.Cuatrimestres.First(c => c.GetIdCuatrimestre() == 2));
+                }
+            }
             
             _reservaDAO.guardarReserva(reservaPeriodica);
         }

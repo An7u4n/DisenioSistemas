@@ -30,11 +30,9 @@ namespace Data.EntityConfiguration
                 .HasColumnName("periodo")
                 .IsRequired();
 
-          
-            builder.HasOne<Cuatrimestre>("cuatrimestre")
-                .WithMany()
-                .HasForeignKey("idCuatrimestre")
-                .OnDelete(DeleteBehavior.Restrict);
+            builder.HasMany<Cuatrimestre>("Cuatrimestres")
+                .WithMany(c => c.ReservaPeriodica)
+                .UsingEntity(j => j.ToTable("ReservaPeriodicaCuatrimestres"));
         }
     }
 }

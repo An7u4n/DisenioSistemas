@@ -10,7 +10,7 @@ namespace Model.DTO
 
         public int cantidadAlumnos { get; set; }
         public int idBedel { get; set; }
-        public int idCuatrimestre { get; set; }
+        public int numeroCuatrimestre { get; set; }
         public TipoAula tipoAula { get; set; }
 
 

@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,27 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241216150252_CambiarFechaInicioYFinADateTime")]
+    partial class CambiarFechaInicioYFinADateTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
-
-            modelBuilder.Entity("CuatrimestreReservaPeriodica", b =>
-                {
-                    b.Property<int>("CuatrimestresIdCuatrimestre")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ReservaPeriodicaidReserva")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("CuatrimestresIdCuatrimestre", "ReservaPeriodicaidReserva");
-
-                    b.HasIndex("ReservaPeriodicaidReserva");
-
-                    b.ToTable("ReservaPeriodicaCuatrimestres", (string)null);
-                });
 
             modelBuilder.Entity("DisenioSistemas.Model.Abstract.Usuario", b =>
                 {
@@ -192,14 +180,11 @@ namespace Web.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("idCuatrimestre");
 
-                    b.Property<int?>("AnioLectivoIdAnioLectivo")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateOnly>("fechaFin")
+                    b.Property<DateTime>("fechaFin")
                         .HasColumnType("TEXT")
                         .HasColumnName("fechaFin");
 
-                    b.Property<DateOnly>("fechaInicio")
+                    b.Property<DateTime>("fechaInicio")
                         .HasColumnType("TEXT")
                         .HasColumnName("fechaInicio");
 
@@ -212,8 +197,6 @@ namespace Web.API.Migrations
                         .HasColumnName("numeroCuatrimestre");
 
                     b.HasKey("IdCuatrimestre");
-
-                    b.HasIndex("AnioLectivoIdAnioLectivo");
 
                     b.HasIndex("idAnio");
 
@@ -353,22 +336,9 @@ namespace Web.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("periodo");
 
+                    b.HasIndex("idCuatrimestre");
+
                     b.ToTable("ReservasPeriodica");
-                });
-
-            modelBuilder.Entity("CuatrimestreReservaPeriodica", b =>
-                {
-                    b.HasOne("Model.Entity.Cuatrimestre", null)
-                        .WithMany()
-                        .HasForeignKey("CuatrimestresIdCuatrimestre")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Model.Entity.ReservaPeriodica", null)
-                        .WithMany()
-                        .HasForeignKey("ReservaPeriodicaidReserva")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Model.Abstract.Dia", b =>
@@ -395,10 +365,6 @@ namespace Web.API.Migrations
 
             modelBuilder.Entity("Model.Entity.Cuatrimestre", b =>
                 {
-                    b.HasOne("Model.Entity.AnioLectivo", null)
-                        .WithMany("Cuatrimestres")
-                        .HasForeignKey("AnioLectivoIdAnioLectivo");
-
                     b.HasOne("Model.Entity.AnioLectivo", null)
                         .WithMany()
                         .HasForeignKey("idAnio")
@@ -496,21 +462,24 @@ namespace Web.API.Migrations
 
             modelBuilder.Entity("Model.Entity.ReservaPeriodica", b =>
                 {
+                    b.HasOne("Model.Entity.Cuatrimestre", "cuatrimestre")
+                        .WithMany()
+                        .HasForeignKey("idCuatrimestre")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Model.Abstract.Reserva", null)
                         .WithOne()
                         .HasForeignKey("Model.Entity.ReservaPeriodica", "idReserva")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("cuatrimestre");
                 });
 
             modelBuilder.Entity("Model.Abstract.Aula", b =>
                 {
                     b.Navigation("Dias");
-                });
-
-            modelBuilder.Entity("Model.Entity.AnioLectivo", b =>
-                {
-                    b.Navigation("Cuatrimestres");
                 });
 
             modelBuilder.Entity("Model.Entity.Bedel", b =>

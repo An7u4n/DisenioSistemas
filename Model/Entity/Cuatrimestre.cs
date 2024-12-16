@@ -20,6 +20,7 @@ namespace Model.Entity
         private DateOnly fechaFin { get; set; }
         [Column("idAnio")]
         private AnioLectivo anioLectivo { get; set; }
+        public virtual ICollection<ReservaPeriodica> ReservaPeriodica { get; set; }
         public Cuatrimestre() { }
 
         public Cuatrimestre(int numeroCuatrimestre, DateOnly fechaInicio, DateOnly fechaFin, AnioLectivo anioLectivo)
@@ -29,5 +30,7 @@ namespace Model.Entity
             this.fechaFin = fechaFin;
             this.anioLectivo = anioLectivo;
         }
+
+        public int GetIdCuatrimestre() => IdCuatrimestre;
     }
 }
