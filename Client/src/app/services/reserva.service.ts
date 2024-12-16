@@ -30,7 +30,11 @@ export class ReservaService {
     return this.datosReserva;
   }
 
-  postReserva(reserva: any){
+  obtenerAulasEsporadica(reserva: any){
     return this._http.post(this.urlReserva+'/retornar-aulas-esporadica', reserva);
+  }
+
+  postReservaEsporadica(reserva: any){
+    return this._http.post(this.urlReserva+'/guardar-reserva-esporadica', reserva);
   }
 }

@@ -1,31 +1,35 @@
 <div class="container">
-  <h2>Seleccione un aula para cada dia</h2>
-  <div class="tabla">
+  <h2>
+    Seleccione un aula para cada dia de la reserva. (La fecha se expresa en
+    formato AAAA/MM/DD)
+  </h2>
+  <div class="tabla" *ngFor="let dia of aulasData">
     <table>
       <thead>
         <tr>
           <th>Aula</th>
           <th>Ubicacion</th>
           <th>Capacidad</th>
-          <th *ngFor="let dia of dias">
-            {{ dia }}
+          <th>
+            {{ dia.dia.split("T")[0] }}
           </th>
         </tr>
       </thead>
       <tbody>
         <tr
-          *ngFor="let aula of aulas; let i = index"
+          *ngFor="let aula of dia.aulasDisponibles; let i = index"
           [class.impar]="i % 2 == 0"
         >
           <td>{{ aula.numero }}</td>
           <td>Piso: {{ aula.piso }}</td>
           <td>{{ aula.capacidad }}</td>
-          <td *ngFor="let dia of dias; let j = index">
-            <input [disabled]="aulaNoPertenece(aula, j)" 
-            name="column-{{ j }}"
-            [checked]="selectedAulas[j] === aula"
-            (click)="seleccionarAula(aula, j)"
-            type="radio" />
+          <td>
+            <input
+              [(ngModel)]="seleccionPorDia[dia.dia]"
+              [value]="aula"
+              name="seleccion_{{ dia.dia }}"
+              type="radio"
+            />
           </td>
         </tr>
       </tbody>
