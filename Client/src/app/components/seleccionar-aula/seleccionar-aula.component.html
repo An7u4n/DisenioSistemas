@@ -15,13 +15,17 @@
       <tbody>
         <tr
           *ngFor="let aula of aulas; let i = index"
-          [class.impar]="i % 2 == 1"
+          [class.impar]="i % 2 == 0"
         >
           <td>{{ aula.numero }}</td>
           <td>Piso: {{ aula.piso }}</td>
           <td>{{ aula.capacidad }}</td>
-          <td *ngFor="let dia of dias">
-            <input type="radio" />
+          <td *ngFor="let dia of dias; let j = index">
+            <input [disabled]="aulaNoPertenece(aula, j)" 
+            name="column-{{ j }}"
+            [checked]="selectedAulas[j] === aula"
+            (click)="seleccionarAula(aula, j)"
+            type="radio" />
           </td>
         </tr>
       </tbody>

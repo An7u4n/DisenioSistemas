@@ -10,7 +10,10 @@ import { AulaDTO } from '../../model/dto/AulaDTO';
   styleUrl: './seleccionar-aula.component.css'
 })
 export class SeleccionarAulaComponent implements OnInit {
+
   aulas: any[] = [];
+  selectedAulas: { [key: number]: any } = {};
+
   dias = [];
   DiasSemana: { [key: number]: string } = {
     0: 'Domingo',
@@ -22,17 +25,39 @@ export class SeleccionarAulaComponent implements OnInit {
     6: 'Sábado'
   };
   
+  mapaAulasPorDia : Map<number,any> = new Map();
+
   constructor(private aulaService: AulaService, private router: Router) { }
   
   ngOnInit(){
-    var aulas = this.aulaService.getAulas().data;
-    console.log("LOL LAS AULAS ", aulas);
-    this.aulas = aulas[0];
-    this.dias = aulas
+    var aulasData = this.aulaService.getAulas().data;
+    console.log("LOL LAS AULAS ", aulasData);
+    this.dias = aulasData
       .filter((a: any) => typeof a.diaSemana === 'number' && a.diaSemana >= 0 && a.diaSemana <= 6)
       .map((a: any) => this.DiasSemana[a.diaSemana]);
+      console.log(this.aulas);
+
+    aulasData.forEach((element: { diaSemana: number; aulasDisponibles: any; }) => {
+      this.mapaAulasPorDia.set(element.diaSemana, element.aulasDisponibles)
+    }
+    );
+    this.obtenerTresMejoresAulas();
   }
 
+  obtenerTresMejoresAulas(){
+    var aulas= new Set()
+    this.mapaAulasPorDia.forEach(k => {
+      k.forEach((aula: any) => aulas.add(aula));
+    })
+    this.aulas= [...aulas].sort((a:any,b:any) => a.capacidad - b.capacidad);
+    this.aulas.splice(3);
+  }
+
+
+  aulaNoPertenece(aula: any,dia: number): boolean {
+    const aulas = this.mapaAulasPorDia.get(dia);
+    return aulas ? aulas.includes(aula) : false;
+  }
 
   cancelar() {
     this.router.navigate(['/home']);
@@ -42,5 +67,10 @@ export class SeleccionarAulaComponent implements OnInit {
   }
   registrarReserva() {
   throw new Error('Method not implemented.');
+  }
+
+  seleccionarAula(aula: any, diaIndex: number): void {
+    console.log("LOOOL",aula,diaIndex);
+    this.selectedAulas[diaIndex] = aula;
   }
 }
