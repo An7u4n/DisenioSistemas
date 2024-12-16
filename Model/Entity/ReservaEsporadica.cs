@@ -6,14 +6,14 @@ namespace Model.Entity
 {
     public class ReservaEsporadica : Reserva
     {
+        public virtual List<DiaEsporadica> DiasEsporadica { get; set; }
         
         public ReservaEsporadica(ReservaEsporadicaDTO esporadicaDTO , List<DiaEsporadica> dias): base(esporadicaDTO)
         {
-            this.DiaEsporadica = dias;
+            this.DiasEsporadica = dias;
         }
 
         public ReservaEsporadica() { }
 
-        public List<DiaEsporadica> DiaEsporadica { get; set; }
     }
 }

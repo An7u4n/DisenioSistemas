@@ -19,7 +19,7 @@ namespace Data.DAO
 
         public List<ReservaEsporadica> obtenerReservasEsporadicas()
         {
-            return _dbContext.ReservasEsporadica.Include(r => r.DiaEsporadica).ToList();
+            return _dbContext.ReservasEsporadica.Include(r => r.DiasEsporadica).ToList();
         }
 
         public List<ReservaPeriodica> obtenerReservasPeriodica()

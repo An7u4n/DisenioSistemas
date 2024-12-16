@@ -187,6 +187,16 @@ namespace Services.ReservaService
             reservaEsporadica.setNombreCatedra(reservaEsporadicaDTO.nombreCatedra);
             reservaEsporadica.setCorreoElectronico(reservaEsporadicaDTO.correoElectronico);
             reservaEsporadica.idBedel = reservaEsporadicaDTO.idBedel;
+            var dias = new List<DiaEsporadica>();
+            foreach (var dia in reservaEsporadicaDTO.dias)
+            {
+                if (dia.numeroAula == null) throw new ArgumentNullException("No se especifica aula");
+                var aula = _aulaDAO.ObtenerAulaPorNumero((int)dia.numeroAula);
+                var diaEsporadica = new DiaEsporadica(dia, aula);
+                dias.Add(diaEsporadica);
+            }
+
+            reservaEsporadica.DiasEsporadica = dias;
 
             // Guardar en la base de datos
             _reservaDAO.guardarReserva(reservaEsporadica);
@@ -197,8 +207,18 @@ namespace Services.ReservaService
             var reservaPeriodica = new ReservaPeriodica();
             var anio = DateOnly.Parse(reservaPeriodicaDTO.fechaInicio).Year;
             var anioLectivo = _anioLectivoDAO.GetAnioLectivo(anio.ToString());
-            
+
             // TOOD: Crear Dias, configurarle aulas y dias
+            var dias = new List<DiaPeriodica>();
+
+            foreach (var dia in reservaPeriodicaDTO.dias)
+            {
+                if (dia.numeroAula == null) throw new ArgumentNullException("No se especifica aula");
+                var aula = _aulaDAO.ObtenerAulaPorNumero((int)dia.numeroAula);
+                var diaPeriodica = new DiaPeriodica(dia, aula);
+                dias.Add(diaPeriodica);
+            }
+
             reservaPeriodica.setId(reservaPeriodicaDTO.idReserva);
             reservaPeriodica.setProfesor(reservaPeriodicaDTO.profesor);
             reservaPeriodica.setNombreCatedra(reservaPeriodicaDTO.nombreCatedra);

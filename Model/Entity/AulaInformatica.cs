@@ -25,7 +25,7 @@ namespace Model.Entity
         }
         public int getIdAula()
         {
-            return idAula;
+            return base.idAula;
         }
 
         public void setIdAula(int idAula)

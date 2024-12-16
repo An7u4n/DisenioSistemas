@@ -309,7 +309,7 @@ namespace Services.AulaService
                     nombreCatedra = reservaEsporadica.getNombreCatedra(),
                     correoElectronico = reservaEsporadica.getCorreoElectronico(),
                     idBedel = reservaEsporadica.idBedel,
-                    dias = ConvertirDiasEsporadicos(reservaEsporadica.DiaEsporadica)
+                    dias = ConvertirDiasEsporadicos(reservaEsporadica.DiasEsporadica)
                 };
             }
             else if (reserva is ReservaPeriodica reservaPeriodica)
@@ -427,7 +427,7 @@ namespace Services.AulaService
             var horaInicio = TimeOnly.Parse(dia.horaInicio);
             foreach (ReservaEsporadica reservaEsporadicaGuardada in reservasEsporadicas)
             {
-                foreach (DiaEsporadica diaEsporadicaDelaReserva in reservaEsporadicaGuardada.DiaEsporadica)
+                foreach (DiaEsporadica diaEsporadicaDelaReserva in reservaEsporadicaGuardada.DiasEsporadica)
                 {
                     if (diaEsporadicaDelaReserva.dia.Date == dia.fecha.Date)
                     {
@@ -463,7 +463,7 @@ namespace Services.AulaService
             var horaInicio = TimeOnly.Parse(dia.horaInicio);
             foreach (ReservaEsporadica reservaEsporadicaGuardada in reservasEsporadicas)
             {
-                foreach (DiaEsporadica diaEsporadicaDelaReserva in reservaEsporadicaGuardada.DiaEsporadica)
+                foreach (DiaEsporadica diaEsporadicaDelaReserva in reservaEsporadicaGuardada.DiasEsporadica)
                 {
                     if ((int)diaEsporadicaDelaReserva.dia.DayOfWeek + 1 == (int)dia.diaSemana)
                     {

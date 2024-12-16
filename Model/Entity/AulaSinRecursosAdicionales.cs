@@ -22,7 +22,7 @@ namespace Model.Entity
         //getters and setters
         public int getIdAula()
         {
-            return this.idAula;
+            return base.idAula;
         }
 
         public void setIdAula(int idAula)

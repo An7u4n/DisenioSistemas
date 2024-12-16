@@ -9,8 +9,6 @@ namespace Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<DiaEsporadica> builder)
         {
-            
-
             builder.Property<DateTime>("dia")
                 .HasColumnName("dia")
                 .IsRequired();

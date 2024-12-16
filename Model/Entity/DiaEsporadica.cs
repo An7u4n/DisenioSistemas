@@ -17,7 +17,7 @@ namespace Model.Entity
         [Column("dia")]
         public DateTime dia { get; set; }
         public int idReserva { get; set; }
-        public ReservaEsporadica ReservaEsporadica { get; set; }
+        public virtual ReservaEsporadica ReservaEsporadica { get; set; }
 
         public DiaEsporadica()
         {

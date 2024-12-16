@@ -73,7 +73,7 @@ namespace Data
 
             modelBuilder.Entity<DiaEsporadica>()
                 .HasOne(d => d.ReservaEsporadica)
-                .WithMany(r => r.DiaEsporadica)
+                .WithMany(r => r.DiasEsporadica)
                 .HasForeignKey(d => d.idReserva)
                 .OnDelete(DeleteBehavior.Cascade);
 

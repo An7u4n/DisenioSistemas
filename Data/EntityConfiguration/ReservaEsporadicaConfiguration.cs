@@ -11,6 +11,11 @@ namespace Data.EntityConfiguration
             builder.Property<int>("idReserva")
                .HasColumnName("idReserva")
                .IsRequired();
+
+            builder.HasMany(r => r.DiasEsporadica)
+                .WithOne()
+                .HasForeignKey(d => d.idReserva)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
