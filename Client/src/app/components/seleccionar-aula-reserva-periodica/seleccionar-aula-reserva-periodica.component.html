@@ -1,0 +1,43 @@
+<div class="container">
+  <h2>Seleccione un aula para cada dia</h2>
+  <div class="tabla">
+    <table>
+      <thead>
+        <tr>
+          <th>Aula</th>
+          <th>Ubicacion</th>
+          <th>Capacidad</th>
+          <th *ngFor="let dia of dias">
+            {{ dia }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let aula of aulas; let i = index"
+          [class.impar]="i % 2 == 0"
+        >
+          <td>{{ aula.numero }}</td>
+          <td>Piso: {{ aula.piso }}</td>
+          <td>{{ aula.capacidad }}</td>
+          <td *ngFor="let dia of dias; let j = index">
+            <input
+              [disabled]="aulaNoPertenece(aula, j)"
+              name="column-{{ j }}"
+              [checked]="selectedAulas[j] === aula"
+              (click)="seleccionarAula(aula, j)"
+              type="radio"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="buttons">
+    <button class="boton-volver" (click)="volver()">Volver</button>
+    <button class="boton-confirmar" (click)="registrarReserva()">
+      Registrar reserva
+    </button>
+    <button class="boton-cancelar-gris" (click)="cancelar()">Cancelar</button>
+  </div>
+</div>

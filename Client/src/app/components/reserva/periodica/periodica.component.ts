@@ -60,14 +60,15 @@ export class PeriodicaComponent {
     this.router.navigate(['/registrar-reserva']);
   }
 
+  
   submitReserva(e: Event) {
     e.preventDefault();
     const diasSeleccionados = this.diasFormArray.value
     .map((dia: any, index: number) => ({
-      dia: this.days[index],
+      dia: index + 1,
       habilitado: dia.habilitado,
       horaInicio: dia.horaInicio,
-      horaFin: dia.horaFin
+      horaFin: dia.horaFin,
     }))
     .filter((dia: any) => dia.habilitado);
     if(diasSeleccionados.map((dia: any) => dia.horaInicio).some((hora: string) => !this.esMultiploDe30(hora)) || diasSeleccionados.map((dia: any) => dia.horaFin).some((hora: string) => !this.esMultiploDe30(hora))) {
@@ -78,10 +79,20 @@ export class PeriodicaComponent {
       this.errorInicioMayor = true;
       return;
     }
-    this._reservaService.setReserva(diasSeleccionados);
+    this._reservaService.setDiasPeriodica(diasSeleccionados);
     this.router.navigate(['/registrar-reserva/periodica/datos-reserva']);
   }
 
+  minutosEntreDosHoras(horaInicio: string, horaFin: string): number {
+    const horaInicioArray = horaInicio.split(':');
+    const horaFinArray = horaFin.split(':');
+
+    const minutosInicio = parseInt(horaInicioArray[0]) * 60 + parseInt(horaInicioArray[1]);
+    const minutosFin = parseInt(horaFinArray[0]) * 60 + parseInt(horaFinArray[1]);
+
+    return minutosFin - minutosInicio;
+  }
+  
   cancel() {
     this.router.navigate(['/home']);
   }

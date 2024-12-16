@@ -50,8 +50,8 @@ export class DatosReservaComponent {
       dias: this.reservaService.getDias(),
     };
     this.reservaService.setReserva(reserva);
-    this.reservaService.obtenerAulasEsporadica(reserva).subscribe(res => {
-      console.log(res);
+    this.reservaService.obtenerAulas(reserva).subscribe(res => {
+      console.log(res+"hola");
       this.aulaService.setAulas(res);
       this.router.navigate(['/registrar-reserva/seleccionar-aula']);
     });

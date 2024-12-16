@@ -19,6 +19,7 @@ import { PeriodicaComponent } from './components/reserva/periodica/periodica.com
 import { DatosReservaComponent } from './components/reserva/datos-reserva/datos-reserva.component';
 import { ModificarBedelComponent } from './components/modificar-bedel/modificar-bedel.component';
 import { SeleccionarAulaComponent } from './components/seleccionar-aula/seleccionar-aula.component';
+import { SeleccionarAulaReservaPeriodicaComponent } from './components/seleccionar-aula-reserva-periodica/seleccionar-aula-reserva-periodica.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { SeleccionarAulaComponent } from './components/seleccionar-aula/seleccio
     DatosReservaComponent,
     ModificarBedelComponent,
     SeleccionarAulaComponent,
+    SeleccionarAulaReservaPeriodicaComponent,
   ],
   imports: [
     BrowserModule,
