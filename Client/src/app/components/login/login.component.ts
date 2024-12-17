@@ -10,18 +10,23 @@ import { LoginService } from '../../services/login.service';
 export class LoginComponent {
   hide = true;
   loginForm = {
-    usuario: '',
-    contrasenia: ''
+    name: '',
+    password: ''
   };
+  errorMessage: string = "";
 
   constructor(private router: Router, private loginService: LoginService) {}
 
   loginSubmit(e: Event) {
-    e.preventDefault();
-    if(this.loginForm.usuario == '!admin' && this.loginForm.contrasenia == 'admin') 
-    {
-      this.loginService.login();
-      this.router.navigate(['/home']);
-    }
+    console.log(this.loginForm)
+    this.loginService.login(this.loginForm).subscribe({
+      next: (response) => {
+        this.loginService.procesarLoginResponse(response);
+      },
+      error: (error) => {
+        this.errorMessage =  `${error}`;
+        console.error('Error en la solicitud de login:', error);
+      }
+    });
   }
 }

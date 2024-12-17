@@ -1,7 +1,9 @@
 using Data.Utilities;
+using DisenioSistemas.Model.Abstract;
 using DisenioSistemas.Model.Enums;
 using Microsoft.EntityFrameworkCore;
 using Model.Entity;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Data.DAO
 {
@@ -12,6 +14,21 @@ namespace Data.DAO
         public UserDAO(AppDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public Usuario obtenerUsuario(string usuario)
+        {
+            var user = _dbContext.Usuarios
+                                .AsEnumerable()
+                                .Where(u => u.getUsuario() == usuario)
+                                .SingleOrDefault();
+
+            if (user == null)
+            {
+                throw new NotFoundException("No existe el usuario");
+            }
+
+            return user;
         }
 
         public List<Bedel> GetBedeles()
@@ -73,6 +90,13 @@ namespace Data.DAO
             _dbContext.Bedeles.Update(bedel);
             _dbContext.SaveChanges();
             return bedel;
+        }
+
+        public Usuario guardarUsuarioAdmin(Administrador usuario)
+        {
+            _dbContext.Administradores.Add(usuario);
+            _dbContext.SaveChanges();
+            return usuario;
         }
     }
 }

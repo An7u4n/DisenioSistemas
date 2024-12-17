@@ -175,5 +175,42 @@ namespace Services.UserService
                 throw new Exception("Error al modificar el Bedel: " + ex.Message);
             }
         }
+
+        public Usuario obtenerUsuario(string nombre)
+        {
+                      
+            var usuario = _userDAO.obtenerUsuario(nombre);
+
+            return usuario;
+            
+        }
+
+        public UsuarioDTO registrarAdmin(UsuarioDTO usuarioDTO)
+        {
+            if (usuarioDTO == null)
+            {
+                throw new ArgumentNullException(nameof(usuarioDTO), "El Usuario no puede ser nulo.");
+            }
+
+            try
+            {
+                var bedel = _userDAO.obtenerUsuario(usuarioDTO.nombre);
+            }
+            catch (Exception e) when (e.Message == "No existe el usuario")
+            {
+                var usuario = crearNuevoAdministrador(usuarioDTO);
+                var nuevoUsuario = _userDAO.guardarUsuarioAdmin(usuario);
+                usuarioDTO.id = nuevoUsuario.getId();
+                return usuarioDTO;
+            }
+            throw new ArgumentException("El usuario ya existe");
+        }
+
+        private Administrador crearNuevoAdministrador(UsuarioDTO usuarioDTO)
+        {
+            Administrador admin = new Administrador(usuarioDTO.nombre,PasswordHasher.HashPassword(usuarioDTO.contraseña)); 
+            admin.setEstado(usuarioDTO.estado);
+            return admin;
+        }
     }
 }

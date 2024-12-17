@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Services.UserService;
 using Services.AulaService;
 using Services.ReservaService;
+using Services.AuthService;
 
 namespace Web.API
 {
@@ -42,6 +43,7 @@ namespace Web.API
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IAulaService, AulaService>();
             builder.Services.AddScoped<IReservaService, ReservaService>();
+            builder.Services.AddScoped<IAuthService,AuthService>();
             builder.Services.AddScoped<ReservaDAO>();
             builder.Services.AddScoped<UserDAO>();
             builder.Services.AddScoped<AulaDAO>();
