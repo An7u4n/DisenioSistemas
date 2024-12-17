@@ -7,12 +7,16 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 export class LoginService {
   private autenticado: boolean = false;
-  private isAdmin : boolean = false;
+  private userIsAdmin : boolean = false;
 
 
   private authUrl = 'https://localhost:7030/api/Auth';
 
   constructor(private http:HttpClient){
+  }
+
+  isAdmin(): boolean {
+    return this.userIsAdmin;
   }
 
   estaAutenticado(): boolean {
@@ -30,7 +34,7 @@ export class LoginService {
   procesarLoginResponse(response: any): void {
     if (response.success) {
       this.autenticado = true;
-      this.isAdmin = response.data.isAdmin;
+      this.userIsAdmin = response.data.isAdmin;
       console.log('Usuario autenticado:', response.data.name);
     } else {
       if (response.message === 'La contraseña es incorrecta') {

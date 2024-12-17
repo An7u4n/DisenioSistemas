@@ -51,9 +51,9 @@ export class DatosReservaComponent {
     };
     this.reservaService.setReserva(reserva);
     this.reservaService.obtenerAulas(reserva).subscribe(res => {
-      console.log(res+"hola");
+      console.log(res);
       this.aulaService.setAulas(res);
-      this.router.navigate(['/registrar-reserva/seleccionar-aula']);
+      this.reservaService.navegarAulas();
     });
   }
 

@@ -31,8 +31,6 @@ export class SeleccionarAulaReservaPeriodicaComponent {
     this.dias = aulasData
       .filter((a: any) => typeof a.diaSemana === 'number' && a.diaSemana >= 0 && a.diaSemana <= 6)
       .map((a: any) => this.DiasSemana[a.diaSemana]);
-      console.log(this.aulas);
-
     aulasData.forEach((element: { diaSemana: number; aulasDisponibles: any; }) => {
       this.mapaAulasPorDia.set(element.diaSemana, element.aulasDisponibles)
     }

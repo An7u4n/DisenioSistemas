@@ -72,8 +72,6 @@ calendar-multi {
         font-size: 24px;
         font-weight: bold;
     }
-
-    
     &::part(button) {
         border: none;
         background-color: transparent;
@@ -93,7 +91,7 @@ calendar-month {
         font-size: 24px;
         font-weight: bold;
         position: relative;
-        bottom: 45px;
+        bottom: 37px;
         right: -75px;
         text-align: left;
         width: fit-content;
@@ -117,16 +115,16 @@ calendar-month {
     }
 }
 
-calendar-date svg {
+calendar-multi svg {
     fill: white;
     width: 30px;
 }
 
-calendar-date svg:hover {
+calendar-multi svg:hover {
     fill: #FFC107;
 }
 
-calendar-date svg[slot="previous"] {
+calendar-multi svg[slot="previous"] {
     left: 386px;
     position: relative;
 }

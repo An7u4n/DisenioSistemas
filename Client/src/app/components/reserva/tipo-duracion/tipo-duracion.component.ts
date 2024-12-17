@@ -16,6 +16,7 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
   fechaClase: any;
   multiploDe30ErrorDesde: boolean = false;
   multiploDe30ErrorHasta: boolean = false;
+  tipoReserva: string = "esporadica";
 
   formulariosCard: FormGroup[] = [];
 
@@ -56,15 +57,6 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
   }
   
   submitTipoReserva(event: Event, calendario: any) {
-    /*
-    this.multiploDe30ErrorDesde = !this.esMultiploDe30(this.datosReserva.value.comienzoReserva);
-    this.multiploDe30ErrorHasta = !this.esMultiploDe30(this.datosReserva.value.finReserva);
-    if(!this.multiploDe30ErrorDesde && !this.multiploDe30ErrorHasta && this.datosReserva.value.comienzoReserva < this.datosReserva.value.finReserva) {
-        this.datosReserva.value.fechaClase = calendario.value;
-        console.log(this.datosReserva.value);
-        this._reservaService.setReserva(this.datosReserva.value);
-        this.router.navigate(['/registrar-reserva/esporadica/datos-reserva']);
-    }*/
         let reservasValidas = true; 
         this.formulariosCard.forEach((formGroup, index) => {
           const comienzoReserva = formGroup.get('comienzoReserva')?.value;
@@ -169,6 +161,10 @@ export class TipoDuracionComponent implements OnInit, AfterViewInit{
 
   checkTodosValidos(): boolean {
     return this.formulariosCard.every(formGroup => formGroup.valid) && this.dias.length != 0;
+  }
+
+  cambiarTipoReserva(){
+    this.router.navigate(["registrar-reserva/periodica"]);
   }
 
 }

@@ -22,6 +22,7 @@ export class LoginComponent {
     this.loginService.login(this.loginForm).subscribe({
       next: (response) => {
         this.loginService.procesarLoginResponse(response);
+        this.router.navigate(['/home']);
       },
       error: (error) => {
         this.errorMessage =  `${error}`;

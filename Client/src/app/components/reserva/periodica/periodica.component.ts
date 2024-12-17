@@ -20,6 +20,7 @@ export class PeriodicaComponent {
     this.tipoReservaForm = this.fb.group({
       tipoReserva: ['Periódica', Validators.required],
       duracion: ['', Validators.required],
+      anio: [2025, [Validators.required, Validators.min(2025)]],
       dias: this.fb.array(this.days.map(() => this.crearDiaFormGroup()))
     });
   }
@@ -46,7 +47,8 @@ export class PeriodicaComponent {
     }
   }
 
-  esMultiploDe30(time: string): boolean {
+  esMultiploDe30(time?: string): boolean {
+    if(time == undefined) return true;
     const [hour, minute] = time.split(':').map(Number);
     const totalMinutes = hour * 60 + minute;
     return totalMinutes % 30 === 0;
@@ -63,9 +65,11 @@ export class PeriodicaComponent {
   
   submitReserva(e: Event) {
     e.preventDefault();
+    this._reservaService.guardarAnio(this.tipoReservaForm.value.anio);
+    console.log(this.diasFormArray.value);
     const diasSeleccionados = this.diasFormArray.value
     .map((dia: any, index: number) => ({
-      dia: index + 1,
+      diaSemana: index + 1,
       habilitado: dia.habilitado,
       horaInicio: dia.horaInicio,
       horaFin: dia.horaFin,
@@ -79,21 +83,30 @@ export class PeriodicaComponent {
       this.errorInicioMayor = true;
       return;
     }
+    console.log(diasSeleccionados);
     this._reservaService.setDiasPeriodica(diasSeleccionados);
     this.router.navigate(['/registrar-reserva/periodica/datos-reserva']);
   }
 
-  minutosEntreDosHoras(horaInicio: string, horaFin: string): number {
-    const horaInicioArray = horaInicio.split(':');
-    const horaFinArray = horaFin.split(':');
-
-    const minutosInicio = parseInt(horaInicioArray[0]) * 60 + parseInt(horaInicioArray[1]);
-    const minutosFin = parseInt(horaFinArray[0]) * 60 + parseInt(horaFinArray[1]);
-
-    return minutosFin - minutosInicio;
+  minutosEntreDosHoras(horaInicio?: string, horaFin?: string): number {
+    if(horaInicio == undefined || horaFin == undefined || horaInicio == '' || horaFin == '' || horaInicio == null || horaFin == null) return 0;
+    else{
+      const horaInicioArray = horaInicio.split(':');
+      const horaFinArray = horaFin.split(':');
+  
+      const minutosInicio = parseInt(horaInicioArray[0]) * 60 + parseInt(horaInicioArray[1]);
+      const minutosFin = parseInt(horaFinArray[0]) * 60 + parseInt(horaFinArray[1]);
+  
+      return minutosFin - minutosInicio;
+    }
   }
   
   cancel() {
     this.router.navigate(['/home']);
   }
+
+  cambiarTipoReserva(){
+    this.router.navigate(["registrar-reserva/esporadica"]);
+  }
+
 }

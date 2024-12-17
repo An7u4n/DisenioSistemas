@@ -1,0 +1,57 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 50em;
+    padding: 2em;
+}
+
+.tabla{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 100%;
+}
+table{
+    border-spacing: 0px; 
+    border-collapse: separate;
+    width: 100%;
+    background-color: #1A1F26;
+    box-shadow: 0 .5em 1em rgba(0, 0, 0,0.5);
+    margin-bottom: 35px;
+}
+
+thead{
+    background-color: #1A1F26;
+    color:white;
+}
+
+h2{
+    color: white;
+}
+th,tr{
+    margin:5px;
+}
+td{
+    display: flexbox;
+    text-align: center;
+    color:white;
+}
+
+tbody{
+    height: 10em;
+}
+
+.impar{
+    background-color: #3B4758;
+}
+
+.buttons{
+    margin-top: 2.5em;
+    display: flex;
+    gap: 5px;
+    margin-left:auto;
+}
+button{
+    font-size: small;
+}

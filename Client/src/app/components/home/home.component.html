@@ -1,5 +1,6 @@
 <div class="container">
   <div
+    *ngIf="isAdmin"
     class="circle-container"
     [ngClass]="{ selected: isSelected(0) }"
     (mouseenter)="hoverCircle(0)"
@@ -13,6 +14,7 @@
     <p class="subtitulo">Agregar Bedel</p>
   </div>
   <div
+    *ngIf="isAdmin"
     class="circle-container"
     [ngClass]="{ selected: isSelected(1) }"
     (mouseenter)="hoverCircle(1)"
@@ -26,6 +28,7 @@
     <p class="subtitulo">Buscar Bedel</p>
   </div>
   <div
+    *ngIf="!isAdmin"
     class="circle-container"
     [ngClass]="{ selected: isSelected(2) }"
     (mouseenter)="hoverCircle(2)"
@@ -33,9 +36,9 @@
   >
     <div class="option-circle">
       <div>
-        <span class="material-symbols-outlined">playing_cards</span>
+        <span class="material-symbols-outlined">calendar_month</span>
       </div>
     </div>
-    <p class="subtitulo">Test Reserva</p>
+    <p class="subtitulo">Generar Reserva</p>
   </div>
 </div>

@@ -3,7 +3,13 @@
     <div class="formulario-1">
       <div class="contenedor-central">
         <div class="contenedor-izquierda">
-          <select formControlName="tipoReserva" required>
+          <select
+            required
+            class="select-tipo-reserva"
+            [(ngModel)]="tipoReserva"
+            [ngModelOptions]="{ standalone: true }"
+            (change)="cambiarTipoReserva()"
+          >
             <option value="esporadica">Esporadica</option>
             <option value="periodica">Periodica</option>
           </select>

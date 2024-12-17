@@ -10,6 +10,7 @@ import { BuscarBedelComponent } from './components/buscar-bedel/buscar-bedel.com
 import { PeriodicaComponent } from './components/reserva/periodica/periodica.component';
 import { DatosReservaComponent } from './components/reserva/datos-reserva/datos-reserva.component';
 import { SeleccionarAulaComponent } from './components/seleccionar-aula/seleccionar-aula.component';
+import { SeleccionarAulaReservaPeriodicaComponent } from './components/seleccionar-aula-reserva-periodica/seleccionar-aula-reserva-periodica.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -21,7 +22,8 @@ const routes: Routes = [
   {path: 'registrar-reserva/periodica', component: PeriodicaComponent, pathMatch: 'full', canActivate: [LoginGuard]},
   {path: 'registrar-reserva/periodica/datos-reserva', component: DatosReservaComponent, pathMatch: 'full', canActivate: [LoginGuard]},
   {path: 'registrar-reserva/esporadica/datos-reserva', component: DatosReservaComponent, pathMatch: 'full', canActivate: [LoginGuard]},
-  {path: 'registrar-reserva/seleccionar-aula', component: SeleccionarAulaComponent, pathMatch: 'full', canActivate: [LoginGuard]},
+  {path: 'registrar-reserva/esporadica/seleccionar-aula', component: SeleccionarAulaComponent, pathMatch: 'full', canActivate: [LoginGuard]},
+  {path: 'registrar-reserva/periodica/seleccionar-aula', component: SeleccionarAulaReservaPeriodicaComponent, pathMatch: 'full', canActivate: [LoginGuard]},
   {path: 'login', component: LoginComponent, pathMatch: 'full'}
 ];
 
