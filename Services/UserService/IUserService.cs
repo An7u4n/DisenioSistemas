@@ -13,5 +13,8 @@ namespace Services.UserService
         BedelDTO eliminarBedelLogico(string usuarioBedel);
         BedelDTO actualizarBedel(BedelDTO bedel);
         Bedel modificarBedel(BedelDTO bedelNuevo, Bedel bedelAnterior);
+
+        Usuario obtenerUsuario(string nombre);
+        UsuarioDTO registrarAdmin(UsuarioDTO usuarioDTO);
     }
 }

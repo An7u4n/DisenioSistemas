@@ -44,12 +44,12 @@ namespace Web.API.Controllers
 
                 var registradoBedel = _userService.registrarBedel(bedelDTO);
 
-                HttpContext.Response.StatusCode = 201; 
+                HttpContext.Response.StatusCode = 201;
                 return Response<BedelDTO>.SuccessResponse(registradoBedel, "Bedel registrado con éxito.");
             }
             catch (ArgumentException ex) when (ex.Message == "El usuario ya existe")
             {
-                
+
                 HttpContext.Response.StatusCode = 409;  // Código 409 - Conflicto
                 return Response<BedelDTO>.FailureResponse("El usuario ya existe.");
             }
@@ -146,6 +146,36 @@ namespace Web.API.Controllers
                 HttpContext.Response.StatusCode = 500;
                 return Response<BedelDTO>.FailureResponse("Error interno del servidor: " + ex.Message);
             }
+        }
+
+        [HttpPost("guardar-admin")]
+        public Response<UsuarioDTO> PostAdmin([FromBody] UsuarioDTO usuarioDTO)
+        {
+            try
+            {
+                if (usuarioDTO == null)
+                {
+                    HttpContext.Response.StatusCode = 400;
+                    return Response<UsuarioDTO>.FailureResponse("El Usuario no puede ser nulo.");
+                }
+
+                var registradoAdmin = _userService.registrarAdmin(usuarioDTO);
+
+                HttpContext.Response.StatusCode = 201;
+                return Response<UsuarioDTO>.SuccessResponse(registradoAdmin, "Admin registrado con éxito.");
+            }
+            catch (ArgumentException ex) when (ex.Message == "El usuario ya existe")
+            {
+
+                HttpContext.Response.StatusCode = 409;
+                return Response<UsuarioDTO>.FailureResponse("El usuario ya existe.");
+            }
+            catch (Exception ex)
+            {
+                HttpContext.Response.StatusCode = 500;
+                return Response<UsuarioDTO>.FailureResponse("Error interno del servidor: " + ex.Message);
+            }
+
         }
     }
 }
