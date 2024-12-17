@@ -3,6 +3,7 @@ using Model.Abstract;
 using Model.DTO;
 using Model.Entity;
 using Model.Enums;
+using Model.Exceptions;
 using Services.AulaService;
 namespace Services.ReservaService
 {
@@ -21,7 +22,8 @@ namespace Services.ReservaService
             _aulaDAO = aulaDAO;
             _anioLectivoDAO = anioLectivoDAO;
         }
-        public void validarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO)
+
+        public List<DisponibilidadAulaDTO> validarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO)
         {
             if (reservaEsporadicaDTO == null)
             {
@@ -90,8 +92,34 @@ namespace Services.ReservaService
             {
                 throw new Exception($"Errores de validación:\n{string.Join("\n", errores)}");
             }
+
+            List<DisponibilidadAulaDTO> aulasDisponibles = _aulaService.obtenerAulasEsporadica(reservaEsporadicaDTO);
+
+            // Filtrar las 3 aulas con mayor capacidad por cada día
+            List<DisponibilidadAulaDTO> aulasConMayorCapacidad = aulasDisponibles.Select(disponibilidad =>
+            {
+                disponibilidad.AulasDisponibles = disponibilidad.AulasDisponibles
+                    .OrderByDescending(aula => aula.capacidad)
+                    .Take(3)
+                    .ToList();
+                return disponibilidad;
+            }).ToList();
+
+            List<List<SuperposicionInfoDTO>> superposiciones = new List<List<SuperposicionInfoDTO>>();
+
+            foreach (DisponibilidadAulaDTO disponibilidad in aulasDisponibles)
+            {
+                if (disponibilidad.AulasDisponibles.Count == 0)
+                {
+                    superposiciones.Add(disponibilidad.SuperposicionesMinimas);
+                }
+            }
+
+            if(superposiciones.Count > 0) throw new SuperposicionDeAulasException(superposiciones);
+
+            return aulasConMayorCapacidad;
         }
-        public void validarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO)
+        public List<DisponibilidadAulaDTO> validarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO)
         {
             if (reservaPeriodicaDTO == null)
             {
@@ -177,6 +205,35 @@ namespace Services.ReservaService
             {
                 throw new Exception($"Errores de validación:\n{string.Join("\n", errores)}");
             }
+
+            // Obtener la disponibilidad de aulas para la reserva periódica
+            List<DisponibilidadAulaDTO> aulasDisponibles = _aulaService.obtenerAulasPeriodica(reservaPeriodicaDTO);
+
+            // Filtrar las 3 aulas con mayor capacidad por cada día
+            List<DisponibilidadAulaDTO> aulasConMayorCapacidad = aulasDisponibles.Select(disponibilidad =>
+            {
+                disponibilidad.AulasDisponibles = disponibilidad.AulasDisponibles
+                    .OrderByDescending(aula => aula.capacidad)
+                    .Take(3)
+                    .ToList();
+                return disponibilidad;
+            }).ToList();
+
+            // Verificar si hay días sin aulas disponibles y recopilar superposiciones
+            List<List<SuperposicionInfoDTO>> superposiciones = new List<List<SuperposicionInfoDTO>>();
+            foreach (DisponibilidadAulaDTO disponibilidad in aulasConMayorCapacidad)
+            {
+                if (disponibilidad.AulasDisponibles.Count == 0)
+                {
+                    superposiciones.Add(disponibilidad.SuperposicionesMinimas);
+                }
+            }
+
+
+            if (superposiciones.Count > 0) throw new SuperposicionDeAulasException(superposiciones);
+
+            return aulasConMayorCapacidad;
+
         }
         public void guardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO)
         {
