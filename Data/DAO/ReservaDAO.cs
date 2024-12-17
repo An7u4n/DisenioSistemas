@@ -24,7 +24,7 @@ namespace Data.DAO
 
         public List<ReservaPeriodica> obtenerReservasPeriodica()
         {
-            return _dbContext.ReservasPeriodica.ToList();
+            return _dbContext.ReservasPeriodica.Include(r => r.DiasPeriodica).ToList();
         }
     }
 }

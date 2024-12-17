@@ -23,10 +23,6 @@ namespace Data.EntityConfiguration
             builder.Property<TimeOnly>("horaInicio")
                 .HasColumnName("horaInicio")
                 .IsRequired();
-
-            builder.Property<DiaSemana>("diaSemana")
-                .HasColumnName("diaSemana")
-                .IsRequired();
         }
     }
 }

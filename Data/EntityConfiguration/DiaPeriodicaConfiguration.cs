@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Model.Abstract;
 using Model.Entity;
+using Model.Enums;
 
 namespace Data.EntityConfiguration
 {
@@ -9,7 +10,9 @@ namespace Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<DiaPeriodica> builder)
         {
-            
+            builder.Property<DiaSemana>("diaSemana")
+            .HasColumnName("diaSemana")
+            .IsRequired();
         }
     }
 }
