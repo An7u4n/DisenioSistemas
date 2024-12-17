@@ -21,7 +21,7 @@ namespace Web.API.Controllers
         }
 
 
-        [HttpPost("retornar-aulas-esporadica")]
+        [HttpGet("retornar-aulas-esporadica")]
         public IActionResult RetornarReservaEsporadica([FromBody] ReservaEsporadicaDTO reservaEsporadicaDTO)
         {
             try
@@ -75,40 +75,19 @@ namespace Web.API.Controllers
             try
             {
                 _reservaService.validarReservaEsporadica(reservaEsporadicaDTO);
-                List<DisponibilidadAulaDTO> aulasDisponibles = _aulaService.obtenerAulasEsporadica(reservaEsporadicaDTO);
 
-                // Filtrar las 3 aulas con mayor capacidad por cada día
-                List<DisponibilidadAulaDTO> aulasConMayorCapacidad = aulasDisponibles.Select(disponibilidad =>
+                if (!_reservaService.chequearDisponibilidadAulaReservaEsporadica(reservaEsporadicaDTO))
                 {
-                    disponibilidad.AulasDisponibles = disponibilidad.AulasDisponibles
-                        .OrderByDescending(aula => aula.capacidad)
-                        .Take(3)
-                        .ToList();
-                    return disponibilidad;
-                }).ToList();
-
-                List<List<SuperposicionInfoDTO>> superposiciones = new List<List<SuperposicionInfoDTO>>();
-
-                foreach (DisponibilidadAulaDTO disponibilidad in aulasDisponibles)
-                {
-                    if (disponibilidad.AulasDisponibles.Count == 0)
-                    {
-                        superposiciones.Add(disponibilidad.SuperposicionesMinimas);
-                    }
-                }
-
-                if (superposiciones.Count > 0)
-                {
-                    var response = Response<List<List<SuperposicionInfoDTO>>>.FailureResponse(
-                        "No hay aulas disponibles en los horarios seleccionados", superposiciones);
-                    return StatusCode(409, response); // Código 409: Conflicto
+                    var conflictResponse = Response<List<List<SuperposicionInfoDTO>>>.FailureResponse(
+                        "No hay aulas disponibles en los horarios seleccionados para algunos días."
+                    );
+                    return StatusCode(409, conflictResponse); // Código 409: Conflicto
                 }
 
                 // Si no hay conflictos, guardar la reserva periódica
                 _reservaService.guardarReservaEsporadica(reservaEsporadicaDTO);
 
-                var successResponse = Response<List<DisponibilidadAulaDTO>>.SuccessResponse(
-                    aulasConMayorCapacidad,
+                var successResponse = Response<List<DisponibilidadAulaDTO>>.SuccessResponse(null,
                     "Se guardo la reserva correctamente"
                 );
                 return Ok(successResponse);
@@ -120,7 +99,7 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpPost("retornar-aulas-periodica")]
+        [HttpGet("retornar-aulas-periodica")]
         public IActionResult RetornarAulasReservaPeriodica([FromBody] ReservaPeriodicaDTO reservaPeriodicaDTO)
         {
             try
@@ -179,38 +158,13 @@ namespace Web.API.Controllers
         {
             try
             {
-                // Validar la reserva periódica
+
                 _reservaService.validarReservaPeriodica(reservaPeriodicaDTO);
 
-                // Obtener la disponibilidad de aulas para la reserva periódica
-                List<DisponibilidadAulaDTO> aulasDisponibles = _aulaService.obtenerAulasPeriodica(reservaPeriodicaDTO);
-
-                // Filtrar las 3 aulas con mayor capacidad por cada día
-                List<DisponibilidadAulaDTO> aulasConMayorCapacidad = aulasDisponibles.Select(disponibilidad =>
-                {
-                    disponibilidad.AulasDisponibles = disponibilidad.AulasDisponibles
-                        .OrderByDescending(aula => aula.capacidad)
-                        .Take(3)
-                        .ToList();
-                    return disponibilidad;
-                }).ToList();
-
-                // Verificar si hay días sin aulas disponibles y recopilar superposiciones
-                List<List<SuperposicionInfoDTO>> superposiciones = new List<List<SuperposicionInfoDTO>>();
-                foreach (DisponibilidadAulaDTO disponibilidad in aulasConMayorCapacidad)
-                {
-                    if (disponibilidad.AulasDisponibles.Count == 0)
-                    {
-                        superposiciones.Add(disponibilidad.SuperposicionesMinimas);
-                    }
-                }
-
-                // Si hay superposiciones, devolver un error
-                if (superposiciones.Count > 0)
+                if (!_reservaService.chequearDisponibilidadAulaReservaPeriodica(reservaPeriodicaDTO)) 
                 {
                     var conflictResponse = Response<List<List<SuperposicionInfoDTO>>>.FailureResponse(
-                        "No hay aulas disponibles en los horarios seleccionados para algunos días.",
-                        superposiciones
+                        "No hay aulas disponibles en los horarios seleccionados para algunos días."
                     );
                     return StatusCode(409, conflictResponse); // Código 409: Conflicto
                 }
@@ -219,8 +173,7 @@ namespace Web.API.Controllers
                 _reservaService.guardarReservaPeriodica(reservaPeriodicaDTO);
 
                 //TODO: devolver lo que haga falta
-                var successResponse = Response<List<DisponibilidadAulaDTO>>.SuccessResponse(
-                    aulasConMayorCapacidad,
+                var successResponse = Response<List<DisponibilidadAulaDTO>>.SuccessResponse(null,
                     "Se guardó la reserva periódica con aulas disponibles."
                 );
                 return Ok(successResponse);

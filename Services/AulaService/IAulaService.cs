@@ -9,7 +9,7 @@ namespace Services.AulaService
 {
     public interface IAulaService
     {
-        AulaDTO ConvertirADTO(Aula aula);
+        AulaDTO ConvertirAulaADTO(Aula aula);
         double CalcularHorasSolapadas(TimeOnly inicio1, TimeOnly fin1, TimeOnly inicio2, TimeOnly fin2);
         List<DiaPeriodicaDTO> ConvertirDiasPeriodicos(IEnumerable<DiaPeriodica> diasPeriodicos);
         ICollection<DiaEsporadicaDTO> ConvertirDiasEsporadicos(IEnumerable<DiaEsporadica> diasEsporadicos);
@@ -20,10 +20,9 @@ namespace Services.AulaService
         List<SuperposicionInfoDTO> CalcularSuperposicionPeriodica(DiaSemana diaSemana, TimeOnly horaInicio, TimeOnly horaFin, Aula aula);
         List<DisponibilidadAulaDTO> comprobarDisponibilidadAulasPeriodica(List<DiaPeriodicaDTO> dias, List<Aula> aulas);
         List<DisponibilidadAulaDTO> obtenerAulasPeriodica(ReservaPeriodicaDTO reserva);
-        List<DisponibilidadAulaDTO> obtenerAulas(ReservaDTO reserva);
-
+        DisponibilidadAulaDTO crearDisponibilidadAulaDto(DateTime? dia, DiaSemana DiaSemana, List<AulaDTO> AulasDisponibles, List<SuperposicionInfoDTO> SuperposicionesMinimas);
+        SuperposicionInfoDTO crearSuperposicionInfoDto(AulaDTO Aula, ReservaDTO Reserva, TimeOnly HoraInicio, TimeOnly HoraFin, double HorasSuperpuestas);
         bool disponibilidadAulaParaEsporadica(DiaEsporadicaDTO dia, Aula aula);
         bool disponibilidadAulaParaPeriodica(DiaPeriodicaDTO dia, Aula aula);
-        void CrearAula(Aula aula);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241217141848_diaSemanaMovidoDeEntidad")]
+    partial class diaSemanaMovidoDeEntidad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
@@ -105,6 +108,10 @@ namespace Web.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("idDia");
+
+                    b.Property<int>("diaSemana")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("diaSemana");
 
                     b.Property<int>("duracionMinutos")
                         .HasColumnType("INTEGER")
@@ -313,10 +320,6 @@ namespace Web.API.Migrations
             modelBuilder.Entity("Model.Entity.DiaPeriodica", b =>
                 {
                     b.HasBaseType("Model.Abstract.Dia");
-
-                    b.Property<int>("diaSemana")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("diaSemana");
 
                     b.Property<int>("idReserva")
                         .HasColumnType("INTEGER");
