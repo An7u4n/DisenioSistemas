@@ -3,7 +3,7 @@ using Model.Abstract;
 using Model.Entity;
 namespace Data.DAO
 {
-    public class ReservaDAO
+    public class ReservaDAO : IReservaDAO
     {
         private readonly AppDbContext _dbContext;
         public ReservaDAO(AppDbContext dbContext)
@@ -24,7 +24,7 @@ namespace Data.DAO
 
         public List<ReservaPeriodica> obtenerReservasPeriodica()
         {
-            return _dbContext.ReservasPeriodica.Include(r => r.DiasPeriodica).ToList();
+            return _dbContext.ReservasPeriodica.Include(r => r.DiasPeriodica).Include(r => r.Cuatrimestres).ToList();
         }
     }
 }

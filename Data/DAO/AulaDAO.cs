@@ -3,7 +3,7 @@ using Model.Abstract;
 
 namespace Data.DAO
 {
-    public class AulaDAO
+    public class AulaDAO : IAulaDAO
     {
         private readonly AppDbContext _dbContext;
 
@@ -14,7 +14,7 @@ namespace Data.DAO
 
 
         public HashSet<Aula> getAulasByTipo<T>() where T : Aula
-        { 
+        {
             var aulas = _dbContext.Aulas
                 .Where(a => a is T)
                 .ToHashSet();
@@ -40,7 +40,7 @@ namespace Data.DAO
 
             return aulasFiltradas;
         }
-        
+
         public ICollection<Aula> ObtenerAulas()
         {
             return _dbContext.Aulas.Include(a => a.Dias).ToList();
@@ -50,7 +50,7 @@ namespace Data.DAO
         {
             return _dbContext.Aulas.ToList().FirstOrDefault(a => a.getNumero() == numeroAula);
         }
-        
+
         public Aula ObtenerAulaPorNumero(int numeroAula)
         {
             return _dbContext.Aulas.ToList().FirstOrDefault(a => a.getNumero() == numeroAula);
