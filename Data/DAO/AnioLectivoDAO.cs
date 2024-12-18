@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Data.DAO
 {
-    public class AnioLectivoDAO
+    public class AnioLectivoDAO : IAnioLectivoDAO
     {
         private readonly AppDbContext _dbContext;
         public AnioLectivoDAO(AppDbContext dbContext)

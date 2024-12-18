@@ -302,31 +302,5 @@ namespace Services.ReservaService
             
             _reservaDAO.guardarReserva(reservaPeriodica);
         }
-
-        public bool chequearDisponibilidadAulaReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO)
-        {
-            foreach (var dia in reservaPeriodicaDTO.dias)
-            {
-                var aula = _aulaDAO.ObtenerAula((int)dia.numeroAula);
-                if (!_aulaService.disponibilidadAulaParaPeriodica(dia, aula))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        public bool chequearDisponibilidadAulaReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO)
-        {
-            foreach(var dia in reservaEsporadicaDTO.dias)
-            {
-                var aula = _aulaDAO.ObtenerAula((int)dia.numeroAula);
-                if (!_aulaService.disponibilidadAulaParaEsporadica(dia, aula))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
     }
 }

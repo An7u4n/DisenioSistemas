@@ -28,11 +28,6 @@ namespace Data.EntityConfiguration
                 .HasColumnName("fechaFin")
                 .IsRequired();
 
-        
-            builder.Property<int>("idAnio")
-                .HasColumnName("idAnio")
-                .IsRequired();
-
             builder.HasOne<AnioLectivo>()
             .WithMany() 
             .HasForeignKey("idAnio")

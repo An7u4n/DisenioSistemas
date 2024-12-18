@@ -17,12 +17,10 @@ namespace Services.AulaService
         List<SuperposicionInfoDTO> CalcularSuperposicion(DateTime dia, TimeOnly horaInicio, TimeOnly horaFin, Aula aula);
         List<DisponibilidadAulaDTO> comprobarDisponibilidadAulasEsporadica(List<DiaEsporadicaDTO> dias, List<Aula> aulas);
         List<DisponibilidadAulaDTO> obtenerAulasEsporadica(ReservaEsporadicaDTO reserva);
-        List<SuperposicionInfoDTO> CalcularSuperposicionPeriodica(DiaSemana diaSemana, TimeOnly horaInicio, TimeOnly horaFin, Aula aula);
-        List<DisponibilidadAulaDTO> comprobarDisponibilidadAulasPeriodica(List<DiaPeriodicaDTO> dias, List<Aula> aulas);
+        List<SuperposicionInfoDTO> CalcularSuperposicionPeriodica(DiaSemana diaSemana, TimeOnly horaInicio, TimeOnly horaFin, Aula aula, DateOnly fechaInicio, DateOnly fechaFin);
+        List<DisponibilidadAulaDTO> comprobarDisponibilidadAulasPeriodica(List<DiaPeriodicaDTO> dias, List<Aula> aulas, DateOnly fechaInicio, DateOnly fechaFin);
         List<DisponibilidadAulaDTO> obtenerAulasPeriodica(ReservaPeriodicaDTO reserva);
         DisponibilidadAulaDTO crearDisponibilidadAulaDto(DateTime? dia, DiaSemana DiaSemana, List<AulaDTO> AulasDisponibles, List<SuperposicionInfoDTO> SuperposicionesMinimas);
-        SuperposicionInfoDTO crearSuperposicionInfoDto(AulaDTO Aula, ReservaDTO Reserva, TimeOnly HoraInicio, TimeOnly HoraFin, double HorasSuperpuestas);
-        bool disponibilidadAulaParaEsporadica(DiaEsporadicaDTO dia, Aula aula);
-        bool disponibilidadAulaParaPeriodica(DiaPeriodicaDTO dia, Aula aula);
+        SuperposicionInfoDTO crearSuperposicionInfo(AulaDTO Aula, ReservaDTO Reserva, TimeOnly HoraInicio, TimeOnly HoraFin, double HorasSuperpuestas);
     }
 }

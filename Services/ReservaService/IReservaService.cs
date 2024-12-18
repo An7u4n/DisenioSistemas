@@ -7,7 +7,5 @@ namespace Services.ReservaService
         List<DisponibilidadAulaDTO> validarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO);
         void guardarReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO);
         void guardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO);
-        bool chequearDisponibilidadAulaReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO);
-        bool chequearDisponibilidadAulaReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO);
     }
 }

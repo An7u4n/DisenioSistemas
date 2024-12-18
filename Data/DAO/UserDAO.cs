@@ -7,7 +7,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Data.DAO
 {
-    public class UserDAO
+    public class UserDAO : IUserDAO
     {
         private readonly AppDbContext _dbContext;
 
@@ -62,8 +62,8 @@ namespace Data.DAO
         }
         public List<Bedel> buscarBedeles(string apellido, Turno? turno)
         {
-            var query = _dbContext.Bedeles.AsEnumerable().Where(b => b.getEstado() == true);  
-            
+            var query = _dbContext.Bedeles.AsEnumerable().Where(b => b.getEstado() == true);
+
             if (!string.IsNullOrEmpty(apellido))
             {
                 query = query.Where(b => b.getApellido().Contains(apellido));
