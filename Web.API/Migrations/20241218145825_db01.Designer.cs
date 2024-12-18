@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241218141150_inicializacion-base-de-datos")]
-    partial class inicializacionbasededatos
+    [Migration("20241218145825_db01")]
+    partial class db01
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -191,9 +191,6 @@ namespace Web.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("idCuatrimestre");
 
-                    b.Property<int?>("AnioLectivoIdAnioLectivo")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateOnly>("fechaFin")
                         .HasColumnType("TEXT")
                         .HasColumnName("fechaFin");
@@ -210,8 +207,6 @@ namespace Web.API.Migrations
                         .HasColumnName("numeroCuatrimestre");
 
                     b.HasKey("IdCuatrimestre");
-
-                    b.HasIndex("AnioLectivoIdAnioLectivo");
 
                     b.HasIndex("idAnio");
 
@@ -397,12 +392,8 @@ namespace Web.API.Migrations
 
             modelBuilder.Entity("Model.Entity.Cuatrimestre", b =>
                 {
-                    b.HasOne("Model.Entity.AnioLectivo", null)
-                        .WithMany("Cuatrimestres")
-                        .HasForeignKey("AnioLectivoIdAnioLectivo");
-
                     b.HasOne("Model.Entity.AnioLectivo", "anioLectivo")
-                        .WithMany()
+                        .WithMany("Cuatrimestres")
                         .HasForeignKey("idAnio")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

@@ -188,9 +188,6 @@ namespace Web.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("idCuatrimestre");
 
-                    b.Property<int?>("AnioLectivoIdAnioLectivo")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateOnly>("fechaFin")
                         .HasColumnType("TEXT")
                         .HasColumnName("fechaFin");
@@ -207,8 +204,6 @@ namespace Web.API.Migrations
                         .HasColumnName("numeroCuatrimestre");
 
                     b.HasKey("IdCuatrimestre");
-
-                    b.HasIndex("AnioLectivoIdAnioLectivo");
 
                     b.HasIndex("idAnio");
 
@@ -394,12 +389,8 @@ namespace Web.API.Migrations
 
             modelBuilder.Entity("Model.Entity.Cuatrimestre", b =>
                 {
-                    b.HasOne("Model.Entity.AnioLectivo", null)
-                        .WithMany("Cuatrimestres")
-                        .HasForeignKey("AnioLectivoIdAnioLectivo");
-
                     b.HasOne("Model.Entity.AnioLectivo", "anioLectivo")
-                        .WithMany()
+                        .WithMany("Cuatrimestres")
                         .HasForeignKey("idAnio")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
