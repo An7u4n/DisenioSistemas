@@ -1,1 +1,30 @@
-<p>existe-solapamiento works!</p>
+<div class="container">
+  <p class="subtitle">Existe solapamiento con otras reservas ya realizadas</p>
+  <p class="aclaracion">
+    Las siguientes aulas son las que poseen el menor solapamiento:
+  </p>
+  <div *ngFor="let diaSolapado of solapamientoData" style="width: 100%">
+    <table>
+      <tr>
+        <th>Numero Aula</th>
+        <th>Profesor que Reservó</th>
+        <th>Hora Inicio Reserva</th>
+        <th>Hora Fin Reserva</th>
+        <th>Nombre Cátedra</th>
+        <th>Horas Superpuestas</th>
+      </tr>
+      <tr>
+        <td>{{ diaSolapado.at(0).aula.numero }}</td>
+        <td>{{ diaSolapado.at(0).reserva.profesor }}</td>
+        <td>{{ diaSolapado.at(0).horaInicio }}</td>
+        <td>{{ diaSolapado.at(0).horaFin }}</td>
+        <td>{{ diaSolapado.at(0).reserva.nombreCatedra }}</td>
+        <td>{{ obtenerHora(diaSolapado.at(0).horasSuperpuestas) }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="botones">
+    <button class="boton-volver" (click)="volver()">Volver</button>
+  </div>
+</div>

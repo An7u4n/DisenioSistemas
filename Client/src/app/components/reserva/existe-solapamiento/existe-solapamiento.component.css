@@ -1,0 +1,55 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 820px;
+    padding: 2em;
+}
+
+.subtitle{
+    color: white;
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    font-weight: 600;
+}
+
+.aclaracion{
+    color: white;
+    font-size: 1em;
+    margin-bottom: 1em;
+    font-weight: 400;
+}
+
+.tabla{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 100%;
+}
+table{
+    margin-top: 20px;
+    border-spacing: 0px; 
+    border: 1px solid #1A1F26;
+    border-collapse: separate;
+    width: 100%;
+    box-shadow: 0 .5em 1em rgbxa(0, 0, 0,0.5);
+    margin-bottom: 35px;
+}
+
+thead{
+    background-color: #1A1F26;
+}
+
+th,tr{
+    margin:5px;
+    height: 30px;
+    color:white;
+    font-weight: normal;
+}
+
+td{
+    display: flexbox;
+    text-align: center;
+    background-color: #3B4758;
+    color:white;
+}
