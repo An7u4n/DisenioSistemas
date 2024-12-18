@@ -26,3 +26,18 @@ button {
     align-self: flex-end;
     margin-top: 15px;
 }
+
+
+.botones{
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    justify-content: end;
+
+    .boton-continuar{
+        width: 7em;
+    }
+    .boton-cancelar{
+        width: 5em;
+    }
+}
