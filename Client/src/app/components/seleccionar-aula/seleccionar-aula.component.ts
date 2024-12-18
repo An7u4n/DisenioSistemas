@@ -4,6 +4,7 @@ import { AulaService } from '../../services/aula.service';
 import { Router } from '@angular/router';
 import { AulaDTO } from '../../model/dto/AulaDTO';
 import { ReservaService } from '../../services/reserva.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-seleccionar-aula',
@@ -29,7 +30,7 @@ export class SeleccionarAulaComponent implements OnInit {
   
   mapaAulasPorDia : Map<number,any> = new Map();
 
-  constructor(private aulaService: AulaService, private router: Router, private reservaService : ReservaService) { }
+  constructor(private aulaService: AulaService, private router: Router, private reservaService : ReservaService, private toastr:ToastrService) { }
   
   ngOnInit(){
     this.aulasData = this.aulaService.getAulas().data;
@@ -50,7 +51,7 @@ export class SeleccionarAulaComponent implements OnInit {
     this.router.navigate(['/home']);
   }
   volver() {
-  throw new Error('Method not implemented.');
+    throw new Error('Method not implemented.');
   }
   registrarReserva() {
     var reservaActual = this.reservaService.getReserva();
@@ -71,9 +72,14 @@ export class SeleccionarAulaComponent implements OnInit {
     });
     reservaActual.dias = diasNuevo;
     console.log(reservaActual);
-    this.reservaService.postReservaEsporadica(reservaActual).subscribe(res =>{
-      console.log(res);
-      this.router.navigate(['/home']);
-    });
+    this.reservaService.postReservaEsporadica(reservaActual).subscribe(() =>{
+        this.toastr.success("Reserva cargada exitosamente")
+        this.router.navigate(['/home']);
+      },
+      error => {
+        this.toastr.error("Error al cargar la reserva");
+        throw new Error(error)
+      }
+    );
   }
 }
