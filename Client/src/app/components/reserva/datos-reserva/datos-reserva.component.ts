@@ -39,14 +39,13 @@ export class DatosReservaComponent {
 
   submitDatosComision() {
     let datos = this.datosComision.value;
-    let idBedel = this.loginService.obtenerIdBedelLogueado();
 
     var reserva = {
       profesor: datos.nombre + ' ' + datos.apellido,
       nombreCatedra: datos.catedra + ' ' + datos.comision,
       correoElectronico: datos.email,
       cantidadAlumnos: datos.cantidadAlumnos,
-      idBedel: 1, // Hardcoded, TODO: cambiar por el id del bedel logueado
+      idBedel: this.loginService.obtenerIdBedelLogueado(),
       idCuatrimestre: 1, // Hardcoded, TODO: cambiar por el id del cuatrimestre actual
       tipoAula: Number(datos.tipoAula),
       dias: this.reservaService.getDias(),

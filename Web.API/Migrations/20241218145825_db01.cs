@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Web.API.Migrations
 {
     /// <inheritdoc />
-    public partial class inicializacionbasededatos : Migration
+    public partial class db01 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -337,11 +337,6 @@ namespace Web.API.Migrations
                         principalColumn: "idReserva",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cuatrimestre_AnioLectivoIdAnioLectivo",
-                table: "Cuatrimestre",
-                column: "AnioLectivoIdAnioLectivo");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cuatrimestre_idAnio",

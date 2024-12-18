@@ -51,7 +51,7 @@ export class LoginService {
   }
 
   obtenerIdBedelLogueado(){
-
+    return this.idBedel;
   }
 
   logout(){
