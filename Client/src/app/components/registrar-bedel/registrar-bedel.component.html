@@ -5,6 +5,7 @@
       <div class="contenedor-input">
         <label for="nombre">Nombre</label>
         <input
+          appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ"
           type="text"
           name="nombre"
           [(ngModel)]="bedelData.nombre"
@@ -19,6 +20,7 @@
       <div class="contenedor-input">
         <label for="apellido">Apellido</label>
         <input
+          appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ"
           type="text"
           name="apellido"
           [(ngModel)]="bedelData.apellido"
@@ -46,6 +48,7 @@
     <div class="contenedor-input">
       <label for="id-usuario">Identificación De Usuario*</label>
       <input
+        appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ"
         type="text"
         name="id-usuario"
         [(ngModel)]="bedelData.usuario"

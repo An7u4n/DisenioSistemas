@@ -21,6 +21,7 @@ import { ModificarBedelComponent } from './components/modificar-bedel/modificar-
 import { SeleccionarAulaComponent } from './components/seleccionar-aula/seleccionar-aula.component';
 import { SeleccionarAulaReservaPeriodicaComponent } from './components/seleccionar-aula-reserva-periodica/seleccionar-aula-reserva-periodica.component';
 import { ExisteSolapamientoComponent } from './components/reserva/existe-solapamiento/existe-solapamiento.component';
+import { RestrictCharactersDirective } from './restrict-characters.directive';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ExisteSolapamientoComponent } from './components/reserva/existe-solapam
     SeleccionarAulaComponent,
     SeleccionarAulaReservaPeriodicaComponent,
     ExisteSolapamientoComponent,
+    RestrictCharactersDirective,
   ],
   imports: [
     BrowserModule,
