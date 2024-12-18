@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { ReservaService } from '../../../services/reserva.service';
 import { config } from 'rxjs';
 import { AulaService } from '../../../services/aula.service';
+import { BedelService } from '../../../services/bedel.service';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-datos-reserva',
@@ -15,7 +17,7 @@ export class DatosReservaComponent {
   datosComision!: FormGroup;
   datosReserva!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private reservaService: ReservaService, private aulaService: AulaService) { }
+  constructor(private fb: FormBuilder, private router: Router, private reservaService: ReservaService, private aulaService: AulaService, private loginService: LoginService) { }
 
   ngOnInit() {
     this.datosReserva = this.fb.group({
@@ -37,7 +39,7 @@ export class DatosReservaComponent {
 
   submitDatosComision() {
     let datos = this.datosComision.value;
-  
+    let idBedel = this.loginService.obtenerIdBedelLogueado();
 
     var reserva = {
       profesor: datos.nombre + ' ' + datos.apellido,
@@ -54,6 +56,9 @@ export class DatosReservaComponent {
       console.log(res);
       this.aulaService.setAulas(res);
       this.reservaService.navegarAulas();
+    }, error => {
+      this.reservaService.setSolapamiento(error.error.data);
+      this.router.navigate(['/registrar-reserva/existe-solapamiento']);
     });
   }
 

@@ -20,6 +20,7 @@ import { DatosReservaComponent } from './components/reserva/datos-reserva/datos-
 import { ModificarBedelComponent } from './components/modificar-bedel/modificar-bedel.component';
 import { SeleccionarAulaComponent } from './components/seleccionar-aula/seleccionar-aula.component';
 import { SeleccionarAulaReservaPeriodicaComponent } from './components/seleccionar-aula-reserva-periodica/seleccionar-aula-reserva-periodica.component';
+import { ExisteSolapamientoComponent } from './components/reserva/existe-solapamiento/existe-solapamiento.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { SeleccionarAulaReservaPeriodicaComponent } from './components/seleccion
     ModificarBedelComponent,
     SeleccionarAulaComponent,
     SeleccionarAulaReservaPeriodicaComponent,
+    ExisteSolapamientoComponent,
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ export class ReservaService {
   private diasEsporadica: any;
   private diasPeriodica: any;
   private anio: string = '';
+  private datosSolapamiento: any;
 
   guardarAnio(anio: number) {
     this.anio = anio.toString();
@@ -34,6 +35,14 @@ export class ReservaService {
     }
     );
     this.diasPeriodica = diasGuardar;
+  }
+
+  setSolapamiento(solapamiento: any) {
+    this.datosSolapamiento = solapamiento;
+  }
+
+  getSolapamiento(){
+    return this.datosSolapamiento;
   }
 
   navegarAulas(){

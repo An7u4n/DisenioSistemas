@@ -8,6 +8,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 export class LoginService {
   private autenticado: boolean = false;
   private userIsAdmin : boolean = false;
+  private idBedel : number = 0;
 
 
   private authUrl = 'https://localhost:7030/api/Auth';
@@ -35,6 +36,9 @@ export class LoginService {
     if (response.success) {
       this.autenticado = true;
       this.userIsAdmin = response.data.isAdmin;
+      if(!this.userIsAdmin){
+        this.idBedel = response.data.id;
+      }
       console.log('Usuario autenticado:', response.data.name);
     } else {
       if (response.message === 'La contraseña es incorrecta') {
@@ -44,5 +48,9 @@ export class LoginService {
       }
       throw new Error(response.message);
     }
+  }
+
+  obtenerIdBedelLogueado(){
+
   }
 }
