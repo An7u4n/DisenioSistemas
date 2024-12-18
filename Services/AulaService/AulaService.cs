@@ -113,9 +113,12 @@ namespace Services.AulaService
                     TimeOnly horaFinDia = diaPeriodica.HoraInicio.AddMinutes(diaPeriodica.DuracionMinutos);
                     if (diaPeriodica.HoraInicio < horaFin && horaFinDia > horaInicio && diaPeriodica.ReservaPeriodica.Cuatrimestres.Any(c => c.getFechaInicio <= fechaInicio && c.getFechaFin >= fechaInicio))
                     {
-                        double horasSolapadas =
-                            CalcularHorasSolapadas(horaInicio, horaFin, diaPeriodica.HoraInicio, horaFinDia);
-                        superposiciones.Add(crearSuperposicionInfo(ConvertirAulaADTO(aula), ConvertirReservaADTO(reservasPeriodicasGuardadas.FirstOrDefault(r => r.getId() == diaPeriodica.idReserva)), diaPeriodica.HoraInicio, horaFinDia, horasSolapadas));
+                        double horasSolapadas = CalcularHorasSolapadas(horaInicio, horaFin, diaPeriodica.HoraInicio, horaFinDia);
+                        superposiciones.Add(crearSuperposicionInfo(ConvertirAulaADTO(aula),
+                            ConvertirReservaADTO(reservasPeriodicasGuardadas.FirstOrDefault(r => r.getId() == diaPeriodica.idReserva)),
+                            diaPeriodica.HoraInicio, 
+                            horaFinDia,
+                            horasSolapadas));
                     }
                 }
                 else if (d is DiaEsporadica diaEsporadica && (int)diaEsporadica.dia.DayOfWeek == (int)diaSemana && diaEsporadica.dia >= DateTime.Parse(fechaInicio.ToString()) && diaEsporadica.dia >= DateTime.Parse(fechaFin.ToString()))
@@ -255,7 +258,6 @@ namespace Services.AulaService
 
             return disponibilidadPorDia;
         }
-
 
         public List<SuperposicionInfoDTO> CalcularSuperposicion(DateTime dia, TimeOnly horaInicio, TimeOnly horaFin,
             Aula aula)

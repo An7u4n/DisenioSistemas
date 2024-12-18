@@ -7,5 +7,7 @@
         {
             this.superposiciones = superposiciones;
         }
+
+        public SuperposicionDeAulasException() : base("No se puede superponer una reserva con otra") { }
     }
 }

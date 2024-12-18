@@ -54,7 +54,9 @@ namespace Web.API.Controllers
         {
             try
             {
-                _reservaService.validarReservaEsporadica(reservaEsporadicaDTO);
+
+                _reservaService.ConfirmarDisponibilidadAulaParaReservaEsporadica(reservaEsporadicaDTO);
+
 
                 // Si no hay conflictos, guardar la reserva periódica
                 _reservaService.guardarReservaEsporadica(reservaEsporadicaDTO);
@@ -66,8 +68,8 @@ namespace Web.API.Controllers
             }
             catch (SuperposicionDeAulasException ex)
             {
-                var response = Response<List<List<SuperposicionInfoDTO>>>.FailureResponse(
-                "No hay aulas disponibles en los horarios seleccionados para algunos días.");
+                var response = Response<bool>.FailureResponse(
+                "Ya se ha registrado una reserva para alguna de las aulas en alguna fecha indica.", false);
                 return StatusCode(409, response); // Código 409: Conflicto
             }
             catch (Exception ex)
@@ -88,7 +90,7 @@ namespace Web.API.Controllers
                 var successResponse = Response<List<DisponibilidadAulaDTO>>.SuccessResponse(
                     aulasConMayorCapacidad,
                     "Se encontraron aulas disponibles."
-                );
+                ); 
                 return Ok(successResponse);
             }
             catch (SuperposicionDeAulasException ex)
@@ -109,7 +111,7 @@ namespace Web.API.Controllers
         {
             try
             {
-                _reservaService.validarReservaPeriodica(reservaPeriodicaDTO);
+                _reservaService.ConfirmarDisponibilidadAulaParaReservaPeriodica(reservaPeriodicaDTO);
 
                 // Si no hay conflictos, guardar la reserva periódica
                 _reservaService.guardarReservaPeriodica(reservaPeriodicaDTO);
@@ -122,8 +124,8 @@ namespace Web.API.Controllers
             }
             catch (SuperposicionDeAulasException ex)
             {
-                var response = Response<List<List<SuperposicionInfoDTO>>>.FailureResponse(
-                "No hay aulas disponibles en los horarios seleccionados para algunos días.");
+                var response = Response<bool>.FailureResponse(
+                "Ya se ha registrado una reserva para alguna de las aulas en algun dia indicado.", false);
                 return StatusCode(409, response); // Código 409: Conflicto
             }
             catch (Exception ex)

@@ -53,7 +53,7 @@ namespace Data.DAO
 
         public Aula ObtenerAulaPorNumero(int numeroAula)
         {
-            return _dbContext.Aulas.ToList().FirstOrDefault(a => a.getNumero() == numeroAula);
+            return _dbContext.Aulas.Include(a => a.Dias).ToList().FirstOrDefault(a => a.getNumero() == numeroAula);
         }
         public void GuardarAula(Aula aula)
         {
