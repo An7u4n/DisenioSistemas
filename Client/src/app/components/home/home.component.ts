@@ -1,14 +1,17 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
-  constructor(private router: Router) { }
+export class HomeComponent implements OnInit {
+  constructor(private router: Router, private loginservice: LoginService) { }
   indiceOpcionSeleccionada: number = 0;
+
+  isAdmin: boolean = false;
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
@@ -17,6 +20,10 @@ export class HomeComponent {
     } else if (event.key === 'ArrowRight') {
       this.indiceOpcionSeleccionada = Math.min(this.indiceOpcionSeleccionada + 1, 2);
     } else if (event.key === 'Enter') this.redirigir();
+  }
+
+  ngOnInit(): void {
+    this.isAdmin = this.loginservice.isAdmin();
   }
   
   hoverCircle(number: number) {

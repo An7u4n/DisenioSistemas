@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { ReservaService } from '../../../services/reserva.service';
 import { config } from 'rxjs';
 import { AulaService } from '../../../services/aula.service';
+import { BedelService } from '../../../services/bedel.service';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'app-datos-reserva',
@@ -15,7 +17,7 @@ export class DatosReservaComponent {
   datosComision!: FormGroup;
   datosReserva!: FormGroup;
 
-  constructor(private fb: FormBuilder, private router: Router, private reservaService: ReservaService, private aulaService: AulaService) { }
+  constructor(private fb: FormBuilder, private router: Router, private reservaService: ReservaService, private aulaService: AulaService, private loginService: LoginService) { }
 
   ngOnInit() {
     this.datosReserva = this.fb.group({
@@ -36,33 +38,27 @@ export class DatosReservaComponent {
   }
 
   submitDatosComision() {
-    const configCombinada = {
-     diasSeleccionados: this.reservaService.getReserva(),
-     datos: this.datosComision.value
-    };
-    console.log(configCombinada)
+    let datos = this.datosComision.value;
+    let idBedel = this.loginService.obtenerIdBedelLogueado();
 
     var reserva = {
-      profesor: configCombinada.datos.nombre + ' ' + configCombinada.datos.apellido,
-      nombreCatedra: configCombinada.datos.catedra + ' ' + configCombinada.datos.comision,
-      correoElectronico: configCombinada.datos.email,
-      cantidadAlumnos: configCombinada.datos.cantidadAlumnos,
+      profesor: datos.nombre + ' ' + datos.apellido,
+      nombreCatedra: datos.catedra + ' ' + datos.comision,
+      correoElectronico: datos.email,
+      cantidadAlumnos: datos.cantidadAlumnos,
       idBedel: 1, // Hardcoded, TODO: cambiar por el id del bedel logueado
       idCuatrimestre: 1, // Hardcoded, TODO: cambiar por el id del cuatrimestre actual
-      tipoAula: Number(configCombinada.datos.tipoAula),
-      dias: configCombinada.diasSeleccionados.map((diaSeleccionado: { dia: any; comienzoReserva: string; finReserva: string; }) => ({
-        fecha: diaSeleccionado.dia,
-        horaInicio: diaSeleccionado.comienzoReserva,
-        duracionMinutos: this.minutosEntreDosHoras(
-          diaSeleccionado.comienzoReserva,
-          diaSeleccionado.finReserva
-        ),
-      }))
+      tipoAula: Number(datos.tipoAula),
+      dias: this.reservaService.getDias(),
     };
-    this.reservaService.postReserva(reserva).subscribe(res => {
+    this.reservaService.setReserva(reserva);
+    this.reservaService.obtenerAulas(reserva).subscribe(res => {
       console.log(res);
       this.aulaService.setAulas(res);
-      this.router.navigate(['/registrar-reserva/seleccionar-aula']);
+      this.reservaService.navegarAulas();
+    }, error => {
+      this.reservaService.setSolapamiento(error.error.data);
+      this.router.navigate(['/registrar-reserva/existe-solapamiento']);
     });
   }
 

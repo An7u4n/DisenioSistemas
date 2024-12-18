@@ -1,20 +1,25 @@
 <div class="container">
-  <form
-    novalidate
-    (ngSubmit)="submitTipoReserva($event, calendario)"
-  >
+  <form novalidate (ngSubmit)="submitTipoReserva($event, calendario)">
     <div class="formulario-1">
       <div class="contenedor-central">
         <div class="contenedor-izquierda">
-          <select formControlName="tipoReserva" required>
+          <select
+            required
+            class="select-tipo-reserva"
+            [(ngModel)]="tipoReserva"
+            [ngModelOptions]="{ standalone: true }"
+            (change)="cambiarTipoReserva()"
+          >
             <option value="esporadica">Esporadica</option>
             <option value="periodica">Periodica</option>
           </select>
 
-          <calendar-multi (change)="seleccionarDia(calendario)" #calendario [isDateDisallowed]="desactivarFechas">
-            <calendar-month
-              (click)="chequearFormulario(calendario)"
-            ></calendar-month>
+          <calendar-multi
+            (change)="seleccionarDia(calendario)"
+            #calendario
+            [isDateDisallowed]="desactivarFechas"
+          >
+            <calendar-month></calendar-month>
             <svg
               aria-label="Previous"
               slot="previous"
@@ -36,42 +41,45 @@
 
         @if(dias.length != 0){
         <div class="contenedor-derecha">
-          
-          <div *ngFor="let dia of dias; let i = index" [formGroup]="formulariosCard[i]" class="card">
+          <div
+            *ngFor="let dia of dias; let i = index"
+            [formGroup]="formulariosCard[i]"
+            class="card"
+          >
             <div class="dia-card">
-              <h4>{{dia}}</h4>
+              <h4>{{ dia }}</h4>
             </div>
-          <div class="time-container">
-          <div class="time-input-container">
-            <label>Desde*:</label>
-            <input
-              type="time"
-              class="hora-comienzo"
-              formControlName="comienzoReserva"
-              required
-            />
-            <p class="error" *ngIf="multiploDe30ErrorDesde">
-              La hora debe ser multiplo de 30 minutos
-            </p>
-          </div>
-          <div class="time-input-container">
-            <label>Hasta*:</label>
-            <input
-              type="time"
-              class="hora-fin"
-              formControlName="finReserva"
-              required
-            />
-            <p class="error" *ngIf="multiploDe30ErrorHasta">
-              La hora debe ser multiplo de 30 minutos
-            </p>
-          </div>
-          </div>
+            <div class="time-container">
+              <div class="time-input-container">
+                <label>Desde*:</label>
+                <input
+                  type="time"
+                  class="hora-comienzo"
+                  formControlName="comienzoReserva"
+                  required
+                />
+                <p class="error" *ngIf="multiploDe30ErrorDesde">
+                  La hora debe ser multiplo de 30 minutos
+                </p>
+              </div>
+              <div class="time-input-container">
+                <label>Hasta*:</label>
+                <input
+                  type="time"
+                  class="hora-fin"
+                  formControlName="finReserva"
+                  required
+                />
+                <p class="error" *ngIf="multiploDe30ErrorHasta">
+                  La hora debe ser multiplo de 30 minutos
+                </p>
+              </div>
+            </div>
           </div>
         </div>
-      }
+        }
       </div>
-    
+
       <div class="contenedor-botones">
         <button class="boton-volver" (click)="volver()">Volver</button>
         <button

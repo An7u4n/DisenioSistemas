@@ -1,3 +1,33 @@
+nav{
+    position: fixed;
+    display: flex;
+    right: 0;
+    width: 7em;
+    background-color: rgba(35, 43, 55, 1);
+    height: 4em;
+    backdrop-filter: blur(10px);
+    border-bottom-left-radius: 1em;
+
+    align-items: center;
+    color: white;
+    font-size: large;
+    justify-content: end;
+
+    .logout-button{
+        margin: 2em;
+        padding: .5em 1em .5em 1em;
+        border:5px;
+        border-radius: 1em solid  rgba(35, 43, 55, 1);
+        box-sizing: border-box; 
+        transition: outline 0.2s ease-in;
+    }
+    .logout-button:hover{
+        outline: 3px solid #cd271e8f;
+        cursor: pointer;
+        border-radius: 1em;
+    }
+}
+
 .app-container {
     background-color: #161B21;
     display: flex;

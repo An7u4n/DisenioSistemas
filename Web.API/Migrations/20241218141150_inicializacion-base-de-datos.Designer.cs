@@ -11,14 +11,29 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241213075212_reservaperiodicaactualizada")]
-    partial class reservaperiodicaactualizada
+    [Migration("20241218141150_inicializacion-base-de-datos")]
+    partial class inicializacionbasededatos
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");
+
+            modelBuilder.Entity("CuatrimestreReservaPeriodica", b =>
+                {
+                    b.Property<int>("CuatrimestresIdCuatrimestre")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ReservaPeriodicaidReserva")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("CuatrimestresIdCuatrimestre", "ReservaPeriodicaidReserva");
+
+                    b.HasIndex("ReservaPeriodicaidReserva");
+
+                    b.ToTable("ReservaPeriodicaCuatrimestres", (string)null);
+                });
 
             modelBuilder.Entity("DisenioSistemas.Model.Abstract.Usuario", b =>
                 {
@@ -93,10 +108,6 @@ namespace Web.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER")
                         .HasColumnName("idDia");
-
-                    b.Property<int>("diaSemana")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("diaSemana");
 
                     b.Property<int>("duracionMinutos")
                         .HasColumnType("INTEGER")
@@ -180,6 +191,9 @@ namespace Web.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("idCuatrimestre");
 
+                    b.Property<int?>("AnioLectivoIdAnioLectivo")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateOnly>("fechaFin")
                         .HasColumnType("TEXT")
                         .HasColumnName("fechaFin");
@@ -189,14 +203,15 @@ namespace Web.API.Migrations
                         .HasColumnName("fechaInicio");
 
                     b.Property<int>("idAnio")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("idAnio");
+                        .HasColumnType("INTEGER");
 
                     b.Property<int>("numeroCuatrimestre")
                         .HasColumnType("INTEGER")
                         .HasColumnName("numeroCuatrimestre");
 
                     b.HasKey("IdCuatrimestre");
+
+                    b.HasIndex("AnioLectivoIdAnioLectivo");
 
                     b.HasIndex("idAnio");
 
@@ -292,8 +307,7 @@ namespace Web.API.Migrations
                     b.Property<int>("idReserva")
                         .HasColumnType("INTEGER");
 
-                    b.HasIndex("idReserva")
-                        .IsUnique();
+                    b.HasIndex("idReserva");
 
                     b.ToTable("DiasEsporadica");
                 });
@@ -301,6 +315,10 @@ namespace Web.API.Migrations
             modelBuilder.Entity("Model.Entity.DiaPeriodica", b =>
                 {
                     b.HasBaseType("Model.Abstract.Dia");
+
+                    b.Property<int>("diaSemana")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("diaSemana");
 
                     b.Property<int>("idReserva")
                         .HasColumnType("INTEGER");
@@ -337,9 +355,22 @@ namespace Web.API.Migrations
                         .HasColumnType("INTEGER")
                         .HasColumnName("periodo");
 
-                    b.HasIndex("idCuatrimestre");
-
                     b.ToTable("ReservasPeriodica");
+                });
+
+            modelBuilder.Entity("CuatrimestreReservaPeriodica", b =>
+                {
+                    b.HasOne("Model.Entity.Cuatrimestre", null)
+                        .WithMany()
+                        .HasForeignKey("CuatrimestresIdCuatrimestre")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Model.Entity.ReservaPeriodica", null)
+                        .WithMany()
+                        .HasForeignKey("ReservaPeriodicaidReserva")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Model.Abstract.Dia", b =>
@@ -367,10 +398,16 @@ namespace Web.API.Migrations
             modelBuilder.Entity("Model.Entity.Cuatrimestre", b =>
                 {
                     b.HasOne("Model.Entity.AnioLectivo", null)
+                        .WithMany("Cuatrimestres")
+                        .HasForeignKey("AnioLectivoIdAnioLectivo");
+
+                    b.HasOne("Model.Entity.AnioLectivo", "anioLectivo")
                         .WithMany()
                         .HasForeignKey("idAnio")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("anioLectivo");
                 });
 
             modelBuilder.Entity("Model.Entity.Administrador", b =>
@@ -427,8 +464,8 @@ namespace Web.API.Migrations
                         .IsRequired();
 
                     b.HasOne("Model.Entity.ReservaEsporadica", "ReservaEsporadica")
-                        .WithOne("DiaEsporadica")
-                        .HasForeignKey("Model.Entity.DiaEsporadica", "idReserva")
+                        .WithMany("DiasEsporadica")
+                        .HasForeignKey("idReserva")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -463,24 +500,21 @@ namespace Web.API.Migrations
 
             modelBuilder.Entity("Model.Entity.ReservaPeriodica", b =>
                 {
-                    b.HasOne("Model.Entity.Cuatrimestre", "cuatrimestre")
-                        .WithMany()
-                        .HasForeignKey("idCuatrimestre")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.HasOne("Model.Abstract.Reserva", null)
                         .WithOne()
                         .HasForeignKey("Model.Entity.ReservaPeriodica", "idReserva")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("cuatrimestre");
                 });
 
             modelBuilder.Entity("Model.Abstract.Aula", b =>
                 {
                     b.Navigation("Dias");
+                });
+
+            modelBuilder.Entity("Model.Entity.AnioLectivo", b =>
+                {
+                    b.Navigation("Cuatrimestres");
                 });
 
             modelBuilder.Entity("Model.Entity.Bedel", b =>
@@ -490,8 +524,7 @@ namespace Web.API.Migrations
 
             modelBuilder.Entity("Model.Entity.ReservaEsporadica", b =>
                 {
-                    b.Navigation("DiaEsporadica")
-                        .IsRequired();
+                    b.Navigation("DiasEsporadica");
                 });
 
             modelBuilder.Entity("Model.Entity.ReservaPeriodica", b =>

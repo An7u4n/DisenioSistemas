@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Web.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InicializacionBDD : Migration
+    public partial class inicializacionbasededatos : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -148,7 +148,6 @@ namespace Web.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     duracionMinutos = table.Column<int>(type: "INTEGER", nullable: false),
                     horaInicio = table.Column<TimeOnly>(type: "TEXT", nullable: false),
-                    diaSemana = table.Column<int>(type: "INTEGER", nullable: false),
                     idAula = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -210,7 +209,6 @@ namespace Web.API.Migrations
                     profesor = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     nombreCatedra = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     correoElectronico = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    DiaidDia = table.Column<int>(type: "INTEGER", nullable: false),
                     idBedel = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -221,12 +219,6 @@ namespace Web.API.Migrations
                         column: x => x.idBedel,
                         principalTable: "Bedeles",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Reservas_Dias_DiaidDia",
-                        column: x => x.DiaidDia,
-                        principalTable: "Dias",
-                        principalColumn: "idDia",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -254,20 +246,14 @@ namespace Web.API.Migrations
                 {
                     idReserva = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    idCuatrimestre = table.Column<int>(type: "INTEGER", nullable: false),
                     fechaInicio = table.Column<DateTime>(type: "TEXT", nullable: false),
                     fechaFin = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    idCuatrimestre = table.Column<int>(type: "INTEGER", nullable: false),
                     periodo = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ReservasPeriodica", x => x.idReserva);
-                    table.ForeignKey(
-                        name: "FK_ReservasPeriodica_Cuatrimestre_idCuatrimestre",
-                        column: x => x.idCuatrimestre,
-                        principalTable: "Cuatrimestre",
-                        principalColumn: "idCuatrimestre",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ReservasPeriodica_Reservas_idReserva",
                         column: x => x.idReserva,
@@ -308,7 +294,8 @@ namespace Web.API.Migrations
                 {
                     idDia = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    idReserva = table.Column<int>(type: "INTEGER", nullable: false)
+                    idReserva = table.Column<int>(type: "INTEGER", nullable: false),
+                    diaSemana = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -327,6 +314,35 @@ namespace Web.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ReservaPeriodicaCuatrimestres",
+                columns: table => new
+                {
+                    CuatrimestresIdCuatrimestre = table.Column<int>(type: "INTEGER", nullable: false),
+                    ReservaPeriodicaidReserva = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ReservaPeriodicaCuatrimestres", x => new { x.CuatrimestresIdCuatrimestre, x.ReservaPeriodicaidReserva });
+                    table.ForeignKey(
+                        name: "FK_ReservaPeriodicaCuatrimestres_Cuatrimestre_CuatrimestresIdCuatrimestre",
+                        column: x => x.CuatrimestresIdCuatrimestre,
+                        principalTable: "Cuatrimestre",
+                        principalColumn: "idCuatrimestre",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ReservaPeriodicaCuatrimestres_ReservasPeriodica_ReservaPeriodicaidReserva",
+                        column: x => x.ReservaPeriodicaidReserva,
+                        principalTable: "ReservasPeriodica",
+                        principalColumn: "idReserva",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cuatrimestre_AnioLectivoIdAnioLectivo",
+                table: "Cuatrimestre",
+                column: "AnioLectivoIdAnioLectivo");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Cuatrimestre_idAnio",
                 table: "Cuatrimestre",
@@ -340,29 +356,22 @@ namespace Web.API.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_DiasEsporadica_idReserva",
                 table: "DiasEsporadica",
-                column: "idReserva",
-                unique: true);
+                column: "idReserva");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DiasPeriodica_idReserva",
                 table: "DiasPeriodica",
-                column: "idReserva",
-                unique: true);
+                column: "idReserva");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservas_DiaidDia",
-                table: "Reservas",
-                column: "DiaidDia");
+                name: "IX_ReservaPeriodicaCuatrimestres_ReservaPeriodicaidReserva",
+                table: "ReservaPeriodicaCuatrimestres",
+                column: "ReservaPeriodicaidReserva");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservas_idBedel",
                 table: "Reservas",
                 column: "idBedel");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ReservasPeriodica_idCuatrimestre",
-                table: "ReservasPeriodica",
-                column: "idCuatrimestre");
         }
 
         /// <inheritdoc />
@@ -387,31 +396,34 @@ namespace Web.API.Migrations
                 name: "DiasPeriodica");
 
             migrationBuilder.DropTable(
+                name: "ReservaPeriodicaCuatrimestres");
+
+            migrationBuilder.DropTable(
                 name: "ReservasEsporadica");
-
-            migrationBuilder.DropTable(
-                name: "ReservasPeriodica");
-
-            migrationBuilder.DropTable(
-                name: "Cuatrimestre");
-
-            migrationBuilder.DropTable(
-                name: "Reservas");
-
-            migrationBuilder.DropTable(
-                name: "AnioLectivos");
-
-            migrationBuilder.DropTable(
-                name: "Bedeles");
 
             migrationBuilder.DropTable(
                 name: "Dias");
 
             migrationBuilder.DropTable(
-                name: "Usuarios");
+                name: "Cuatrimestre");
+
+            migrationBuilder.DropTable(
+                name: "ReservasPeriodica");
 
             migrationBuilder.DropTable(
                 name: "Aulas");
+
+            migrationBuilder.DropTable(
+                name: "AnioLectivos");
+
+            migrationBuilder.DropTable(
+                name: "Reservas");
+
+            migrationBuilder.DropTable(
+                name: "Bedeles");
+
+            migrationBuilder.DropTable(
+                name: "Usuarios");
         }
     }
 }

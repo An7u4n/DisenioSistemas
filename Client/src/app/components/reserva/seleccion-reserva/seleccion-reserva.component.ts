@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrl: './seleccion-reserva.component.css'
 })
 export class SeleccionReservaComponent implements OnInit{
+
   tipoReserva!: FormGroup;
   constructor(private fb: FormBuilder, private router: Router) {}
 
@@ -32,4 +33,8 @@ export class SeleccionReservaComponent implements OnInit{
       this.router.navigate(['registrar-reserva/periodica']);
     }
   }
+
+  onCancel() {
+    this.router.navigate([''])
+    }
 }

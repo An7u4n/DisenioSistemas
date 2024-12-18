@@ -22,7 +22,7 @@ namespace Web.API.Controllers
         }
 
 
-        [HttpGet("retornar-aulas-esporadica")]
+        [HttpPost("retornar-aulas-esporadica")]
         public IActionResult RetornarReservaEsporadica([FromBody] ReservaEsporadicaDTO reservaEsporadicaDTO)
         {
             try
@@ -79,7 +79,7 @@ namespace Web.API.Controllers
             }
         }
 
-        [HttpGet("retornar-aulas-periodica")]
+        [HttpPost("retornar-aulas-periodica")]
         public IActionResult RetornarAulasReservaPeriodica([FromBody] ReservaPeriodicaDTO reservaPeriodicaDTO)
         {
             try
