@@ -28,8 +28,8 @@ namespace Data.EntityConfiguration
                 .HasColumnName("fechaFin")
                 .IsRequired();
 
-            builder.HasOne<AnioLectivo>()
-            .WithMany() 
+            builder.HasOne<AnioLectivo>(c => c.anioLectivo)
+            .WithMany(a => a.Cuatrimestres) 
             .HasForeignKey("idAnio")
             .OnDelete(DeleteBehavior.Restrict);
         }
