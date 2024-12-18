@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AulaService } from '../../services/aula.service';
 import { Router } from '@angular/router';
+import { ReservaService } from '../../services/reserva.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-seleccionar-aula-reserva-periodica',
@@ -8,8 +10,10 @@ import { Router } from '@angular/router';
   styleUrl: './seleccionar-aula-reserva-periodica.component.css'
 })
 export class SeleccionarAulaReservaPeriodicaComponent {
-  aulas: any[] = [];
+  diasConAulas: any[] = [];
   selectedAulas: { [key: number]: any } = {};
+
+  seleccionPorDia: { [diaSemana: string]: any } = {};
 
   dias = [];
   DiasSemana: { [key: number]: string } = {
@@ -24,30 +28,11 @@ export class SeleccionarAulaReservaPeriodicaComponent {
   
   mapaAulasPorDia : Map<number,any> = new Map();
 
-  constructor(private aulaService: AulaService, private router: Router) { }
+  constructor(private aulaService: AulaService, private router: Router, private reservaService: ReservaService, private toastr: ToastrService) { }
   
   ngOnInit(){
-    var aulasData = this.aulaService.getAulas().data;
-    this.dias = aulasData
-      .filter((a: any) => typeof a.diaSemana === 'number' && a.diaSemana >= 0 && a.diaSemana <= 6)
-      .map((a: any) => this.DiasSemana[a.diaSemana]);
-    aulasData.forEach((element: { diaSemana: number; aulasDisponibles: any; }) => {
-      this.mapaAulasPorDia.set(element.diaSemana, element.aulasDisponibles)
-    }
-    );
-    this.obtenerTresMejoresAulas();
+    this.diasConAulas = this.aulaService.getAulas().data;
   }
-
-  obtenerTresMejoresAulas(){
-    var aulas= new Set()
-    this.mapaAulasPorDia.forEach(k => {
-      k.forEach((aula: any) => aulas.add(aula));
-    })
-    this.aulas= [...aulas].sort((a:any,b:any) => a.capacidad - b.capacidad);
-    this.aulas.splice(3);
-    this.aulas = this.eliminarAulasDuplicadas(this.aulas);
-  }
-
 
   aulaNoPertenece(aula: any,dia: number): boolean {
     const aulas = this.mapaAulasPorDia.get(dia);
@@ -61,7 +46,30 @@ export class SeleccionarAulaReservaPeriodicaComponent {
   throw new Error('Method not implemented.');
   }
   registrarReserva() {
-  throw new Error('Method not implemented.');
+    var reservaActual = this.reservaService.getReserva();
+
+    var diasNuevo: any[] = [];
+
+    reservaActual.dias.forEach((element: { diaSemana: string; horaInicio: any; duracionMinutos: any;}) => {
+      console.log(element);
+      diasNuevo.push({
+        "numeroAula": this.seleccionPorDia[element.diaSemana].numero,
+        "diaSemana": element.diaSemana,
+        "horaInicio": element.horaInicio,
+        "duracionMinutos": element.duracionMinutos
+      });
+    });
+    reservaActual.dias = diasNuevo;
+    console.log(reservaActual);
+    this.reservaService.postReservaPeriodica(reservaActual).subscribe(() =>{
+        this.toastr.success("Reserva cargada exitosamente")
+        this.router.navigate(['/home']);
+      },
+      error => {
+        this.toastr.error("Error al cargar la reserva");
+        throw new Error(error)
+      }
+    );
   }
 
   seleccionarAula(aula: any, diaIndex: number): void {

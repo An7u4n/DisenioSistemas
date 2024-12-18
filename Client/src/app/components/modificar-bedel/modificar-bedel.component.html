@@ -21,7 +21,7 @@
       <div class="contenedor-input">
         <label for="nombre">Nombre</label>
         <input
-          appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ"
+          appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s"
           type="text"
           name="nombre"
           formControlName="nombre"
@@ -36,7 +36,7 @@
       <div class="contenedor-input">
         <label for="apellido">Apellido</label>
         <input
-          appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ"
+          appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s"
           type="text"
           name="apellido"
           formControlName="apellido"
@@ -63,9 +63,13 @@
 
     <div class="contenedor-input">
       <label for="id-usuario">Identificación De Usuario*</label>
-      <input 
-      appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ"
-      type="text" name="id-usuario" formControlName="usuario" required />
+      <input
+        appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ"
+        type="text"
+        name="id-usuario"
+        formControlName="usuario"
+        required
+      />
       <span class="error" *ngIf="usuarioError">
         <span class="material-icons">error</span>
         <span class="mensaje-error">Ingrese un usuario</span>

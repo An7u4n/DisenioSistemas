@@ -5,7 +5,7 @@
       <div class="contenedor-input">
         <label for="nombre">Nombre</label>
         <input
-          appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ"
+          appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s"
           type="text"
           name="nombre"
           [(ngModel)]="bedelData.nombre"
@@ -20,7 +20,7 @@
       <div class="contenedor-input">
         <label for="apellido">Apellido</label>
         <input
-          appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ"
+          appRestrictCharacters="a-zA-Z0-9áéíóúÁÉÍÓÚñÑ\s"
           type="text"
           name="apellido"
           [(ngModel)]="bedelData.apellido"

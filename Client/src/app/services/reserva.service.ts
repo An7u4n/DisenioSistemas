@@ -83,6 +83,10 @@ export class ReservaService {
     return this._http.post(this.urlReserva+'/guardar-reserva-esporadica', reserva);
   }
 
+  postReservaPeriodica(reserva: any){
+    return this._http.post(this.urlReserva+'/guardar-reserva-periodica', reserva);
+  }
+
   minutosEntreDosHoras(horaInicio: string, horaFin: string): number {
     if(horaInicio == undefined || horaFin == undefined) return 0;
     const horaInicioArray = horaInicio.split(':');

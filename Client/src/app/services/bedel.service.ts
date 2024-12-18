@@ -36,10 +36,6 @@ export class BedelService {
   }
 
   actualizarBedel(bedel: BedelDTO) {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
-    return this._http.put<ApiResponse>(`${this.userUrl}/modificar-bedel`, JSON.stringify(bedel), { headers });
+    return this._http.put<ApiResponse>(`${this.userUrl}/modificar-bedel`, bedel);
   }
 }

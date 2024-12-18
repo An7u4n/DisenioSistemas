@@ -54,7 +54,7 @@ export class ModificarBedelComponent {
       contrasena: this.bedelActualizado.value.contrasenia,
       apellido: this.bedelActualizado.value.apellido,
       turno: this.mapTurno(this.bedelActualizado.value.turno),
-      usuario: this.bedelActualizado.value.usuario
+      usuario: this.bedelActualizado.get('usuario')?.value
     };
 
     
