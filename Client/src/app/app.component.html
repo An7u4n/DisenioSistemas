@@ -1,3 +1,5 @@
+<nav *ngIf="isAuthenticated()" (click)="logout()"> <p class="logout-button">Salir</p></nav>
+
 <div class="app-container">
   <router-outlet></router-outlet>
 </div>
