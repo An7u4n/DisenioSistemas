@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Web.API.Migrations
 {
     /// <inheritdoc />
-    public partial class inicializacionbdd : Migration
+    public partial class inicializacionBDD : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -248,7 +248,6 @@ namespace Web.API.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     fechaInicio = table.Column<DateTime>(type: "TEXT", nullable: false),
                     fechaFin = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    idCuatrimestre = table.Column<int>(type: "INTEGER", nullable: false),
                     periodo = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Web.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241219035643_inicializacionbdd")]
-    partial class inicializacionbdd
+    [Migration("20241219050735_inicializacionBDD")]
+    partial class inicializacionBDD
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -342,11 +342,7 @@ namespace Web.API.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("fechaInicio");
 
-                    b.Property<int>("idCuatrimestre")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("idCuatrimestre");
-
-                    b.Property<int>("periodo")
+                    b.Property<int>("tipoPeriodo")
                         .HasColumnType("INTEGER")
                         .HasColumnName("periodo");
 

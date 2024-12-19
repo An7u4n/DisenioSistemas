@@ -14,10 +14,6 @@ namespace Data.EntityConfiguration
                 .HasColumnName("idReserva")
                 .IsRequired();
 
-            builder.Property<int>("idCuatrimestre")
-           .HasColumnName("idCuatrimestre")
-           .IsRequired();
-
             builder.Property<DateTime>("fechaInicio")
                 .HasColumnName("fechaInicio")
                 .IsRequired();
@@ -26,9 +22,10 @@ namespace Data.EntityConfiguration
                 .HasColumnName("fechaFin")
                 .IsRequired();
 
-            builder.Property<TipoPeriodo>("periodo")
+            builder.Property<TipoPeriodo>("tipoPeriodo")
                 .HasColumnName("periodo")
-                .IsRequired();
+                .IsRequired()
+               .HasConversion<int>();
 
             builder.HasMany<Cuatrimestre>("Cuatrimestres")
                 .WithMany(c => c.ReservaPeriodica)

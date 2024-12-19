@@ -339,11 +339,7 @@ namespace Web.API.Migrations
                         .HasColumnType("TEXT")
                         .HasColumnName("fechaInicio");
 
-                    b.Property<int>("idCuatrimestre")
-                        .HasColumnType("INTEGER")
-                        .HasColumnName("idCuatrimestre");
-
-                    b.Property<int>("periodo")
+                    b.Property<int>("tipoPeriodo")
                         .HasColumnType("INTEGER")
                         .HasColumnName("periodo");
 
