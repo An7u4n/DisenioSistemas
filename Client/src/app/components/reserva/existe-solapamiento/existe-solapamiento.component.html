@@ -1,6 +1,6 @@
 <div class="container">
-  <p class="subtitle">Existe solapamiento con otras reservas ya realizadas</p>
-  <p class="aclaracion">
+  <p class="subtitle" *ngIf="!muchaCapacidad">Existe solapamiento con otras reservas ya realizadas</p>
+  <p class="aclaracion" *ngIf="!muchaCapacidad">
     Las siguientes aulas son las que poseen el menor solapamiento:
   </p>
   <div *ngFor="let diaSolapado of solapamientoData" style="width: 100%">
@@ -25,6 +25,10 @@
       </tr>
     </table>
   </div>
+
+  <p *ngIf="muchaCapacidad" class="subtitle">
+    No existe aula con capacidad suficiente para la reserva
+  </p>
 
   <div class="botones">
     <button class="boton-volver" (click)="volver()">Volver</button>

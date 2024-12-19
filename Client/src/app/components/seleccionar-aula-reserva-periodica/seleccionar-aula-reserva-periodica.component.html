@@ -4,29 +4,27 @@
     <table *ngFor="let dia of diasConAulas">
       <thead>
         <tr>
-          <th>Aula</th>
+          <th style="padding: 0 20px">Aula</th>
           <th>Ubicacion</th>
           <th>Capacidad</th>
-          <th>
+          <th>Caracteristicas</th>
+          <th  style="padding: 0 20px">
             {{ DiasSemana[dia.diaSemana] }}
           </th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let aulaDisponible of dia.aulasDisponibles; let i = index"
-          [class.impar]="i % 2 == 0"
-        >
+        <tr *ngFor="let aulaDisponible of dia.aulasDisponibles; let i = index"
+            [class.impar]="i % 2 == 0">
           <td>{{ aulaDisponible.numero }}</td>
           <td>Piso: {{ aulaDisponible.piso }}</td>
           <td>{{ aulaDisponible.capacidad }}</td>
+          <td>{{ obtenerTipoPizarron(aulaDisponible) }}</td>
           <td>
-            <input
-              [(ngModel)]="seleccionPorDia[dia.diaSemana]"
-              [value]="aulaDisponible"
-              type="radio"
-              [name]="'aula/' + dia.diaSemana"
-            />
+            <input [(ngModel)]="seleccionPorDia[dia.diaSemana]"
+                   [value]="aulaDisponible"
+                   type="radio"
+                   [name]="'aula/' + dia.diaSemana" />
           </td>
         </tr>
       </tbody>

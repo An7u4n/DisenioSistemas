@@ -47,7 +47,7 @@ export class SeleccionarAulaComponent implements OnInit {
     console.log(aula);
     let detalleRetorno = '';
     if (aula.tipoDePizarron == 1) detalleRetorno += 'Pizarron de Tiza'
-    else if (aula == '2') detalleRetorno += 'Pizarron de Fibron'
+    else if (aula.tipoDePizarron == 2) detalleRetorno += 'Pizarron de Fibron'
     else detalleRetorno += 'Pizzarron de Tiza Y Fibron';
 
     if (aula.aireAcondicionado == true) detalleRetorno += ', posee aire acondicionado'
@@ -56,6 +56,7 @@ export class SeleccionarAulaComponent implements OnInit {
   }
 
   cancelar() {
+    this.reservaService.limpiarService();
     this.router.navigate(['/home']);
   }
 

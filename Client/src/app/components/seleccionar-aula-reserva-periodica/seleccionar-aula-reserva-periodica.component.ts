@@ -41,12 +41,25 @@ export class SeleccionarAulaReservaPeriodicaComponent {
     this.diasConAulas = this.aulaService.getAulas().data;
   }
 
+  obtenerTipoPizarron(aula: any) {
+    console.log(aula);
+    let detalleRetorno = '';
+    if (aula.tipoDePizarron == 1) detalleRetorno += 'Pizarron de Tiza'
+    else if (aula.tipoDePizarron == 2) detalleRetorno += 'Pizarron de Fibron'
+    else detalleRetorno += 'Pizzarron de Tiza Y Fibron';
+
+    if (aula.aireAcondicionado == true) detalleRetorno += ', posee aire acondicionado'
+
+    return detalleRetorno
+  }
+
   aulaNoPertenece(aula: any,dia: number): boolean {
     const aulas = this.mapaAulasPorDia.get(dia);
     return aulas ? aulas.includes(aula) : false;
   }
 
   cancelar() {
+    this.reservaService.limpiarService();
     this.router.navigate(['/home']);
   }
 

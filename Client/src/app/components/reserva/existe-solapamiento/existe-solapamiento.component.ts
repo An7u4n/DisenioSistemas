@@ -9,10 +9,13 @@ import { Router } from '@angular/router';
 })
 export class ExisteSolapamientoComponent implements OnInit {
   solapamientoData: any;
+
+  muchaCapacidad = false;
   constructor(private reservaService: ReservaService, private router: Router) { }
   
   ngOnInit(): void {
     this.solapamientoData = this.reservaService.getSolapamiento();
+    if (this.solapamientoData == null) this.muchaCapacidad = true;
     console.log(this.solapamientoData);
   }
 
