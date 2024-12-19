@@ -11,6 +11,9 @@
           <th>Ubicacion</th>
           <th>Capacidad</th>
           <th>
+            Caracteristicas
+          </th>
+          <th>
             {{ dia.dia.split("T")[0] }}
           </th>
         </tr>
@@ -23,6 +26,7 @@
           <td>{{ aula.numero }}</td>
           <td>Piso: {{ aula.piso }}</td>
           <td>{{ aula.capacidad }}</td>
+          <td>{{ obtenerTipoPizarron(aula) }}</td>
           <td>
             <input
               [(ngModel)]="seleccionPorDia[dia.dia]"

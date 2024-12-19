@@ -43,6 +43,18 @@ export class SeleccionarAulaComponent implements OnInit {
     this.aulasData = this.aulaService.getAulas().data;
   }
 
+  obtenerTipoPizarron(aula: any) {
+    console.log(aula);
+    let detalleRetorno = '';
+    if (aula.tipoDePizarron == 1) detalleRetorno += 'Pizarron de Tiza'
+    else if (aula == '2') detalleRetorno += 'Pizarron de Fibron'
+    else detalleRetorno += 'Pizzarron de Tiza Y Fibron';
+
+    if (aula.aireAcondicionado == true) detalleRetorno += ', posee aire acondicionado'
+
+    return detalleRetorno
+  }
+
   cancelar() {
     this.router.navigate(['/home']);
   }
