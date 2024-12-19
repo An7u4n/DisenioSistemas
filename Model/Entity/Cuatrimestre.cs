@@ -31,6 +31,8 @@ namespace Model.Entity
             this.anioLectivo = anioLectivo;
         }
 
+        public int getNumeroCuatrimestre() => numeroCuatrimestre;
+
         public DateOnly getFechaInicio => fechaInicio;
         public DateOnly getFechaFin => fechaFin;
 

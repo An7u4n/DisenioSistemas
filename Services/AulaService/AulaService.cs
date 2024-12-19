@@ -111,7 +111,7 @@ namespace Services.AulaService
                 if (d is DiaPeriodica diaPeriodica && diaPeriodica.getDiaSemana() == diaSemana)
                 {
                     TimeOnly horaFinDia = diaPeriodica.HoraInicio.AddMinutes(diaPeriodica.DuracionMinutos);
-                    if (diaPeriodica.HoraInicio < horaFin && horaFinDia > horaInicio && diaPeriodica.ReservaPeriodica.Cuatrimestres.Any(c => c.getFechaInicio <= fechaInicio && c.getFechaFin >= fechaInicio))
+                    if (diaPeriodica.HoraInicio < horaFin && horaFinDia > horaInicio && diaPeriodica.ReservaPeriodica.Cuatrimestres.Any(c => c.getFechaInicio <= fechaFin && c.getFechaFin >= fechaInicio))
                     {
                         double horasSolapadas = CalcularHorasSolapadas(horaInicio, horaFin, diaPeriodica.HoraInicio, horaFinDia);
                         superposiciones.Add(crearSuperposicionInfo(ConvertirAulaADTO(aula),

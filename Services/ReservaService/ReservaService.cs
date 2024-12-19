@@ -337,11 +337,13 @@ namespace Services.ReservaService
             reservaPeriodica.setFechaFin(DateTime.Parse(reservaPeriodicaDTO.fechaFin));
             reservaPeriodica.setTipoPeriodo(reservaPeriodicaDTO.tipoPeriodo);
 
+            reservaPeriodica.Cuatrimestres = new List<Cuatrimestre>();
+
             reservaPeriodica.DiasPeriodica = dias;
 
             var anio = DateOnly.Parse(reservaPeriodicaDTO.fechaInicio).Year;
             var anioLectivo = _anioLectivoDAO.GetAnioLectivo(anio.ToString());
-
+            
             if (reservaPeriodica.getTipoPeriodo() == TipoPeriodo.anual)
             {
                 reservaPeriodica.Cuatrimestres = anioLectivo.Cuatrimestres;
@@ -350,11 +352,12 @@ namespace Services.ReservaService
             {
                 if (reservaPeriodicaDTO.numeroCuatrimestre == 1)
                 {
-                    reservaPeriodica.Cuatrimestres.Add(anioLectivo.Cuatrimestres.First(c => c.GetIdCuatrimestre() == 1));
+                    reservaPeriodica.Cuatrimestres.Add(anioLectivo.Cuatrimestres.First(c => c.getNumeroCuatrimestre() == 1));
                 }
                 else if (reservaPeriodicaDTO.numeroCuatrimestre == 2)
                 {
-                    reservaPeriodica.Cuatrimestres.Add(anioLectivo.Cuatrimestres.First(c => c.GetIdCuatrimestre() == 2));
+                    var cuatri = anioLectivo.Cuatrimestres.First(c => c.getNumeroCuatrimestre() == 2);
+                    reservaPeriodica.Cuatrimestres.Add(cuatri);
                 }
             }
 
