@@ -16,6 +16,8 @@ export class SeleccionReservaComponent implements OnInit{
   handleKeyDown(event: KeyboardEvent) {
     if(event.key === 'Enter') {
       this.submitTipoReserva();
+    }else if(event.key === 'Escape') {
+      this.onCancel();
     }
   }
 

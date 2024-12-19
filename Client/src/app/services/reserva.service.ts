@@ -81,8 +81,11 @@ export class ReservaService {
     if(this.diasEsporadica != undefined)
       return this._http.post(this.urlReserva+'/retornar-aulas-esporadica', reserva);
     else if(this.diasPeriodica != undefined){
-      reserva.fechaInicio = this.anio+"-01-01";
-      reserva.fechaFin = this.anio+'-12-31';
+      let datosCuatrimestre = this.datosPeriodo;
+      reserva.fechaInicio = datosCuatrimestre.fechaInicio;
+      reserva.fechaFin = datosCuatrimestre.fechaFin;
+      reserva.tipoPeriodo = datosCuatrimestre.tipoPeriodo;
+      reserva.numeroCuatrimestre = datosCuatrimestre.numeroCuatrimestre;
       return this._http.post(this.urlReserva+'/retornar-aulas-periodica', reserva);
     }
     else throw new Error("No se setearon dias");

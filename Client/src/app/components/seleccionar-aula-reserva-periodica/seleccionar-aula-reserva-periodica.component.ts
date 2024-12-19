@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AulaService } from '../../services/aula.service';
 import { Router } from '@angular/router';
 import { ReservaService } from '../../services/reserva.service';
@@ -28,6 +28,13 @@ export class SeleccionarAulaReservaPeriodicaComponent {
   
   mapaAulasPorDia : Map<number,any> = new Map();
 
+  @HostListener('window:keydown', ['$event'])
+    handleKeyDown(event: KeyboardEvent) {
+      if(event.key === 'Enter') {
+        this.registrarReserva();
+      }
+  }
+
   constructor(private aulaService: AulaService, private router: Router, private reservaService: ReservaService, private toastr: ToastrService) { }
   
   ngOnInit(){
@@ -42,9 +49,7 @@ export class SeleccionarAulaReservaPeriodicaComponent {
   cancelar() {
     this.router.navigate(['/home']);
   }
-  volver() {
-  throw new Error('Method not implemented.');
-  }
+
   registrarReserva() {
     var reservaActual = this.reservaService.getReserva();
 
@@ -62,13 +67,11 @@ export class SeleccionarAulaReservaPeriodicaComponent {
     });
 
     let datosCuatrimestre = this.reservaService.getDatosPeriodo();
-    console.log(datosCuatrimestre);
     reservaActual.dias = diasNuevo;
     reservaActual.fechaInicio = datosCuatrimestre.fechaInicio;
     reservaActual.fechaFin = datosCuatrimestre.fechaFin;
     reservaActual.tipoPeriodo = datosCuatrimestre.tipoPeriodo;
     reservaActual.numeroCuatrimestre = datosCuatrimestre.numeroCuatrimestre;
-    console.log(reservaActual);
     this.reservaService.postReservaPeriodica(reservaActual).subscribe(() =>{
         this.toastr.success("Reserva cargada exitosamente")
         this.router.navigate(['/home']);

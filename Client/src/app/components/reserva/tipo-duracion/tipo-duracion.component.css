@@ -150,6 +150,8 @@ calendar-multi svg[slot="previous"] {
         flex-direction: column;
         padding:5px;
         gap:5px;
+        align-items: center;
+
     }
 
     background-color: #3B4758;
@@ -167,13 +169,14 @@ calendar-multi svg[slot="previous"] {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
+    padding: 10px;
     gap: 20px;
 }
 
 
 input[type="time"] {
-    width: 100%;
+    width: 80px;
     background-color: #161B21;
     color: white;
 }

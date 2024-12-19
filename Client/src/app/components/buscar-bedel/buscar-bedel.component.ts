@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { BedelService } from '../../services/bedel.service';
 import { BedelDTO } from '../../model/dto/BedelDTO';
 import { Router } from '@angular/router';
@@ -22,6 +22,15 @@ export class BuscarBedelComponent {
     turno: 0
   };
   constructor(private bedelService: BedelService, private router: Router, private toastr: ToastrService) { }
+
+  @HostListener('window:keydown', ['$event'])
+    handleKeyDown(event: KeyboardEvent) {
+      if(event.key === 'Enter') {
+        this.buscarBedeles(event);
+      } else if(event.key === 'Escape') {
+        this.onVolverHome();
+      }
+  }
 
   buscarBedeles(e: Event) {
     e.preventDefault();

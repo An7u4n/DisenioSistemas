@@ -1,4 +1,4 @@
-import { Component, Input, Renderer2 } from '@angular/core';
+import { Component, HostListener, Input, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ReservaService } from '../../../services/reserva.service';
@@ -18,6 +18,13 @@ export class DatosReservaComponent {
   datosReserva!: FormGroup;
 
   constructor(private fb: FormBuilder, private router: Router, private reservaService: ReservaService, private aulaService: AulaService, private loginService: LoginService) { }
+
+    @HostListener('window:keydown', ['$event'])
+    handleKeyDown(event: KeyboardEvent) {
+      if(event.key === 'Enter') {
+        this.submitDatosComision();
+      }
+    }
 
   ngOnInit() {
     this.datosReserva = this.fb.group({
@@ -68,14 +75,6 @@ export class DatosReservaComponent {
     const minutosFin = parseInt(horaFinArray[0]) * 60 + parseInt(horaFinArray[1]);
 
     return minutosFin - minutosInicio;
-  }
-
-  volverHome() {
-    this.router.navigate(['/home']);
-  }
-
-  volverReserva() {
-    this.router.navigate(['/registrar-reserva']);
   }
 
   cancelar(){

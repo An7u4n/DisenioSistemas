@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ReservaService } from '../../../services/reserva.service';
@@ -15,6 +15,13 @@ export class PeriodicaComponent {
   errorInicioMayor = false;
 
   constructor(private fb: FormBuilder, private router: Router, private _reservaService: ReservaService) {}
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if(event.key === 'Enter') {
+      this.submitReserva(event);
+    }
+  }
 
   ngOnInit() {
     this.tipoReservaForm = this.fb.group({

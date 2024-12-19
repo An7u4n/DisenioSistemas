@@ -1,5 +1,5 @@
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { AulaService } from '../../services/aula.service';
 import { Router } from '@angular/router';
 import { AulaDTO } from '../../model/dto/AulaDTO';
@@ -26,6 +26,13 @@ export class SeleccionarAulaComponent implements OnInit {
     6: 'Sábado'
   };
 
+  @HostListener('window:keydown', ['$event'])
+    handleKeyDown(event: KeyboardEvent) {
+      if(event.key === 'Enter') {
+        this.registrarReserva();
+      }
+  }
+
   seleccionPorDia: { [dia: string]: any } = {};
   
   mapaAulasPorDia : Map<number,any> = new Map();
@@ -34,25 +41,12 @@ export class SeleccionarAulaComponent implements OnInit {
   
   ngOnInit(){
     this.aulasData = this.aulaService.getAulas().data;
-    /*
-    this.dias = aulasData
-      .filter((a: any) => typeof a.diaSemana === 'number' && a.diaSemana >= 0 && a.diaSemana <= 6)
-      .map((a: any) => this.DiasSemana[a.diaSemana]);
-      console.log(this.aulas);
-
-    aulasData.forEach((element: { diaSemana: number; aulasDisponibles: any; }) => {
-      this.mapaAulasPorDia.set(element.diaSemana, element.aulasDisponibles)
-    }
-    );
-    this.obtenerTresMejoresAulas();*/
   }
 
   cancelar() {
     this.router.navigate(['/home']);
   }
-  volver() {
-    throw new Error('Method not implemented.');
-  }
+
   registrarReserva() {
     var reservaActual = this.reservaService.getReserva();
 
