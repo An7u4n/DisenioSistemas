@@ -92,8 +92,8 @@ export class RegistrarBedelComponent {
     this.contraseniaIncorrecta = false;
     this.usuarioError = false;
 
-    if (this.bedelData.nombre.length < 1 || this.bedelData.nombre.length > 128) this.nombreError = true;
-    if (this.bedelData.apellido.length < 1 || this.bedelData.apellido.length > 128) this.apellidoError = true;
+    if (this.bedelData.nombre.length < 1 || this.bedelData.nombre.length > 64) this.nombreError = true;
+    if (this.bedelData.apellido.length < 1 || this.bedelData.apellido.length > 64) this.apellidoError = true;
     if (this.bedelData.turno.length < 1) this.turnoError = true;
     if (this.bedelData.usuario.length < 1 || this.bedelData.usuario.length > 64) this.usuarioError = true;
     if (this.bedelData.contrasenia.length < 8 || this.bedelData.contrasenia.length > 20) this.contraseniaIncorrecta = true;

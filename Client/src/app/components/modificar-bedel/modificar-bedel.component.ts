@@ -91,8 +91,8 @@ export class ModificarBedelComponent {
     this.contraseniaIncorrecta = false;
     this.usuarioError = false;
 
-    if (this.bedelActualizado.value.nombre.length < 1 || this.bedelActualizado.value.nombre.length > 128) this.nombreError = true;
-    if (this.bedelActualizado.value.apellido.length < 1 || this.bedelActualizado.value.apellido.length > 128) this.apellidoError = true;
+    if (this.bedelActualizado.value.nombre.length < 1 || this.bedelActualizado.value.nombre.length > 64) this.nombreError = true;
+    if (this.bedelActualizado.value.apellido.length < 1 || this.bedelActualizado.value.apellido.length > 64) this.apellidoError = true;
     if (this.bedelActualizado.value.turno.length < 1) this.turnoError = true;
     if (this.bedelActualizado.value.contrasenia.length < 8 || this.bedelActualizado.value.contrasenia.length > 20) this.contraseniaIncorrecta = true;
     if (this.bedelActualizado.value.contrasenia !== this.bedelActualizado.value.confirmarContrasenia) this.confirmarContrasenia = true;

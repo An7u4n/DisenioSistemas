@@ -8,7 +8,11 @@
       <div class="fila-input">
         <div class="input-container">
           <label>Cantidad de Alumnos*</label>
-          <input type="number" required formControlName="cantidadAlumnos" min="1"/>
+          <input type="number" required formControlName="cantidadAlumnos" min="1" max="10000" />
+          <span class="error" *ngIf="datosComision.value.cantidadAlumnos > 10000">
+            <span class="material-icons">error</span>
+            <span class="mensaje-error">Cantidad maxima de alumnos 10000</span>
+          </span>
         </div>
         <div class="input-container">
           <label>Tipo de Aula*</label>
@@ -28,7 +32,7 @@
             type="text"
             required
             formControlName="nombre"
-            maxlength="127"
+            maxlength="63"
           />
         </div>
         <div class="input-container">
@@ -38,7 +42,7 @@
             type="text"
             required
             formControlName="apellido"
-            maxlength="127"
+            maxlength="63"
           />
         </div>
       </div>
@@ -51,7 +55,7 @@
             type="text"
             required
             formControlName="catedra"
-            maxlength="127"
+            maxlength="80"
           />
         </div>
         <div class="input-container">
@@ -61,7 +65,7 @@
             type="text"
             required
             formControlName="comision"
-            maxlength="127"
+            maxlength="30"
           />
         </div>
       </div>
