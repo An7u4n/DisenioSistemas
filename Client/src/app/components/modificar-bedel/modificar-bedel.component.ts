@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { BedelService } from '../../services/bedel.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -31,6 +31,13 @@ export class ModificarBedelComponent {
   
   constructor(private bedelService: BedelService, private toastr: ToastrService, private router: Router, private fb: FormBuilder) { }
 
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if(event.key === 'Enter') {
+      this.modificarBedelSubmit(event);
+    }
+  }
+
   ngOnInit() {
     this.bedelActualizado = this.fb.group({
       nombre: [this.bedelActual.nombre, [Validators.required]],
@@ -46,7 +53,7 @@ export class ModificarBedelComponent {
   modificarBedelSubmit(event: Event) {
     event.preventDefault();
     
-    this.chequearErrores();
+    if(this.chequearErrores()) return;
 
     const bedelDTO: BedelDTO = {
       idBedel: this.bedelActual.idBedel,

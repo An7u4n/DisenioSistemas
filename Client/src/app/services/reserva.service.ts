@@ -92,12 +92,21 @@ export class ReservaService {
   }
 
   postReservaEsporadica(reserva: any){
+    this.diasEsporadica = null;
+    this.diasPeriodica = null;
+    this.datosReserva = null;
+    this.datosPeriodo = null;
+    this.datosSolapamiento = null;
+
     return this._http.post(this.urlReserva+'/guardar-reserva-esporadica', reserva);
   }
 
   postReservaPeriodica(reserva: any){
-    console.log(this.datosPeriodo);
-
+    this.datosPeriodo = null;
+    this.datosReserva = null;
+    this.diasEsporadica = null;
+    this.diasPeriodica = null;
+    this.datosSolapamiento = null;
 
     return this._http.post(this.urlReserva+'/guardar-reserva-periodica', reserva);
   }

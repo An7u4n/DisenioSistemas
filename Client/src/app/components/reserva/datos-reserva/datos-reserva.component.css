@@ -53,3 +53,7 @@ button:disabled {
     background-color: #2D3339 !important;
     cursor: not-allowed !important;
 }
+
+.boton-continuar{
+    width: 205px;
+}

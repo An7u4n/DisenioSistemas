@@ -9,17 +9,25 @@ import { LoginService } from '../../services/login.service';
 })
 export class HomeComponent implements OnInit {
   constructor(private router: Router, private loginservice: LoginService) { }
-  indiceOpcionSeleccionada: number = 0;
+  indiceOpcionSeleccionada: number = 3;
 
   isAdmin: boolean = false;
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    if (event.key === 'ArrowLeft') {
-      this.indiceOpcionSeleccionada = Math.max(this.indiceOpcionSeleccionada - 1, 0);
-    } else if (event.key === 'ArrowRight') {
-      this.indiceOpcionSeleccionada = Math.min(this.indiceOpcionSeleccionada + 1, 2);
-    } else if (event.key === 'Enter') this.redirigir();
+    if(!this.isAdmin){
+      if (event.key === 'ArrowLeft') {
+        this.indiceOpcionSeleccionada = 2
+      } else if (event.key === 'ArrowRight') {
+        this.indiceOpcionSeleccionada = 2
+      } else if (event.key === 'Enter') this.redirigir();
+    } else{
+      if (event.key === 'ArrowLeft') {
+        this.indiceOpcionSeleccionada = Math.max(this.indiceOpcionSeleccionada - 1, 0);
+      } else if (event.key === 'ArrowRight') {
+        this.indiceOpcionSeleccionada = Math.min(this.indiceOpcionSeleccionada + 1, 1);
+      } else if (event.key === 'Enter') this.redirigir();
+    }
   }
 
   ngOnInit(): void {

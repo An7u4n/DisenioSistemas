@@ -29,9 +29,16 @@ thead{
 h2{
     color: white;
 }
+
+tbody {
+    height: auto;
+}
+
 th,tr{
     margin:5px;
+    height: 50px;
 }
+
 td{
     display: flexbox;
     text-align: center;
@@ -52,6 +59,7 @@ tbody{
     gap: 5px;
     margin-left:auto;
 }
+
 button{
-    font-size: small;
+    width: 205px;
 }

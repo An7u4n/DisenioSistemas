@@ -56,9 +56,10 @@ tbody{
 .buttons{
     margin-top: 2.5em;
     display: flex;
-    gap: 5px;
+    gap: 10px;
     margin-left:auto;
 }
-button{
-    font-size: small;
+
+.boton-confirmar{
+    width: 205px;
 }
