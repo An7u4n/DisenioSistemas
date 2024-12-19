@@ -52,6 +52,7 @@ export class SeleccionarAulaReservaPeriodicaComponent {
 
     reservaActual.dias.forEach((element: { diaSemana: string; horaInicio: any; duracionMinutos: any;}) => {
       console.log(element);
+      console.log(this.seleccionPorDia);
       diasNuevo.push({
         "numeroAula": this.seleccionPorDia[element.diaSemana].numero,
         "diaSemana": element.diaSemana,
@@ -59,7 +60,14 @@ export class SeleccionarAulaReservaPeriodicaComponent {
         "duracionMinutos": element.duracionMinutos
       });
     });
+
+    let datosCuatrimestre = this.reservaService.getDatosPeriodo();
+    console.log(datosCuatrimestre);
     reservaActual.dias = diasNuevo;
+    reservaActual.fechaInicio = datosCuatrimestre.fechaInicio;
+    reservaActual.fechaFin = datosCuatrimestre.fechaFin;
+    reservaActual.tipoPeriodo = datosCuatrimestre.tipoPeriodo;
+    reservaActual.numeroCutrimestre = datosCuatrimestre.numeroCutrimestre;
     console.log(reservaActual);
     this.reservaService.postReservaPeriodica(reservaActual).subscribe(() =>{
         this.toastr.success("Reserva cargada exitosamente")

@@ -13,6 +13,7 @@ export class ReservaService {
   private diasPeriodica: any;
   private anio: string = '';
   private datosSolapamiento: any;
+  private datosPeriodo: any;
 
   guardarAnio(anio: number) {
     this.anio = anio.toString();
@@ -20,6 +21,14 @@ export class ReservaService {
 
   setDiasEsporadica(dias: any) {
     this.diasEsporadica = dias;
+  }
+
+  setDatosPeriodo(datos: any) {
+    this.datosPeriodo = datos;
+  }
+
+  getDatosPeriodo() {
+    return this.datosPeriodo;
   }
 
   setDiasPeriodica(dias: any) {
@@ -84,6 +93,9 @@ export class ReservaService {
   }
 
   postReservaPeriodica(reserva: any){
+    console.log(this.datosPeriodo);
+
+
     return this._http.post(this.urlReserva+'/guardar-reserva-periodica', reserva);
   }
 

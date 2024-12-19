@@ -8,7 +8,7 @@
           <th>Ubicacion</th>
           <th>Capacidad</th>
           <th *ngFor="let dia of dias">
-            {{ dia }}
+            {{ DiasSemana }}
           </th>
         </tr>
       </thead>
@@ -25,6 +25,7 @@
               [(ngModel)]="seleccionPorDia[dia.diaSemana]"
               [value]="aulaDisponible"
               type="radio"
+              [name]="'aula/' + dia.diaSemana"
             />
           </td>
         </tr>

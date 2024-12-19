@@ -85,8 +85,39 @@ export class PeriodicaComponent {
     }
     console.log(diasSeleccionados);
     this._reservaService.setDiasPeriodica(diasSeleccionados);
+    this.setearPeriodoYCuatrimestre();
     this.router.navigate(['/registrar-reserva/periodica/datos-reserva']);
   }
+
+  setearPeriodoYCuatrimestre() {
+    var datosPeriodo;
+    console.log(this.tipoReservaForm.value);
+    if(this.tipoReservaForm.value.duracion == '3'){
+      datosPeriodo = {
+        fechaInicio: this.tipoReservaForm.value.anio+'-03-01',
+        fechaFin: this.tipoReservaForm.value.anio+'-11-30',
+        tipoPeriodo: 1,
+        numeroCuatrimestre: 0
+      };
+    } else if(this.tipoReservaForm.value.duracion == '1'){
+      datosPeriodo = {
+        fechaInicio: this.tipoReservaForm.value.anio+'-03-01',
+        fechaFin: this.tipoReservaForm.value.anio+'-06-30',
+        tipoPeriodo: 2,
+        numeroCutrimestre: 1
+      };
+    } else if(this.tipoReservaForm.value.duracion == '2'){
+      datosPeriodo = {
+        fechaInicio: this.tipoReservaForm.value.anio+'-07-01',
+        fechaFin: this.tipoReservaForm.value.anio+'-11-30',
+        tipoPeriodo: 2,
+        numeroCutrimestre: 2
+      };
+    }
+    console.log(datosPeriodo);
+    this._reservaService.setDatosPeriodo(datosPeriodo);
+  }
+
 
   minutosEntreDosHoras(horaInicio?: string, horaFin?: string): number {
     if(horaInicio == undefined || horaFin == undefined || horaInicio == '' || horaFin == '' || horaInicio == null || horaFin == null) return 0;
