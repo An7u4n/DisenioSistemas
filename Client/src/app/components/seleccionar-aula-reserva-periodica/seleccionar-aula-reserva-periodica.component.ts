@@ -67,7 +67,7 @@ export class SeleccionarAulaReservaPeriodicaComponent {
     reservaActual.fechaInicio = datosCuatrimestre.fechaInicio;
     reservaActual.fechaFin = datosCuatrimestre.fechaFin;
     reservaActual.tipoPeriodo = datosCuatrimestre.tipoPeriodo;
-    reservaActual.numeroCutrimestre = datosCuatrimestre.numeroCutrimestre;
+    reservaActual.numeroCuatrimestre = datosCuatrimestre.numeroCuatrimestre;
     console.log(reservaActual);
     this.reservaService.postReservaPeriodica(reservaActual).subscribe(() =>{
         this.toastr.success("Reserva cargada exitosamente")

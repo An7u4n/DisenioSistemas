@@ -7,8 +7,8 @@
           <th>Aula</th>
           <th>Ubicacion</th>
           <th>Capacidad</th>
-          <th *ngFor="let dia of dias">
-            {{ DiasSemana }}
+          <th>
+            {{ DiasSemana[dia.diaSemana] }}
           </th>
         </tr>
       </thead>

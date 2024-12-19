@@ -46,7 +46,6 @@ export class DatosReservaComponent {
       correoElectronico: datos.email,
       cantidadAlumnos: datos.cantidadAlumnos,
       idBedel: this.loginService.obtenerIdBedelLogueado(),
-      idCuatrimestre: 1, // Hardcoded, TODO: cambiar por el id del cuatrimestre actual
       tipoAula: Number(datos.tipoAula),
       dias: this.reservaService.getDias(),
     };

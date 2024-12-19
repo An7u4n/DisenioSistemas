@@ -104,14 +104,14 @@ export class PeriodicaComponent {
         fechaInicio: this.tipoReservaForm.value.anio+'-03-01',
         fechaFin: this.tipoReservaForm.value.anio+'-06-30',
         tipoPeriodo: 2,
-        numeroCutrimestre: 1
+        numeroCuatrimestre: 1
       };
     } else if(this.tipoReservaForm.value.duracion == '2'){
       datosPeriodo = {
         fechaInicio: this.tipoReservaForm.value.anio+'-07-01',
         fechaFin: this.tipoReservaForm.value.anio+'-11-30',
         tipoPeriodo: 2,
-        numeroCutrimestre: 2
+        numeroCuatrimestre: 2
       };
     }
     console.log(datosPeriodo);
