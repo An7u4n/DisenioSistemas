@@ -75,11 +75,12 @@ export class BuscarBedelComponent {
     this.bedelService.eliminarBedel(usuario).subscribe(res => {
       if (res.success) {
         this.toastr.success('El bedel fue eliminado', 'Elminacion Exitosa', {
-          timeOut: 2000,
-          closeButton: true,
-          progressBar: true,
-        })
-      }
-    });
+        timeOut: 2000,
+        closeButton: true,
+        progressBar: true,
+      });
+      this.bedeles = this.bedeles.filter(bedel => bedel.usuario !== usuario);
+    }
+  });
   }
 }

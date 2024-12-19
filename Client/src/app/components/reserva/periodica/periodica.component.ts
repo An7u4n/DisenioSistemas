@@ -30,6 +30,11 @@ export class PeriodicaComponent {
       anio: [2025, [Validators.required, Validators.min(2025)]],
       dias: this.fb.array(this.days.map(() => this.crearDiaFormGroup()))
     });
+
+    this.tipoReservaForm.valueChanges.subscribe(() => {
+      const diasSeleccionados = this.diasFormArray.controls.some((control) => control.get('habilitado')?.value);
+      this.tipoReservaForm.controls['dias'].setErrors(diasSeleccionados ? null : { noDiasSeleccionados: true });
+    });
   }
 
   crearDiaFormGroup(): FormGroup {
@@ -64,6 +69,11 @@ export class PeriodicaComponent {
   get diasFormArray(): FormArray {
     return this.tipoReservaForm.get('dias') as FormArray;
   }
+
+
+
+
+
 
   goBack() {
     this.router.navigate(['/registrar-reserva']);

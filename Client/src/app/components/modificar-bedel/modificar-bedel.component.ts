@@ -40,8 +40,8 @@ export class ModificarBedelComponent {
 
   ngOnInit() {
     this.bedelActualizado = this.fb.group({
-      nombre: [this.bedelActual.nombre, [Validators.required]],
-      apellido: [this.bedelActual.apellido, [Validators.required]],
+      nombre: [this.bedelActual.nombre, [Validators.required, Validators.minLength(1), Validators.maxLength(128)]],
+      apellido: [this.bedelActual.apellido, [Validators.required, Validators.minLength(1), Validators.maxLength(128)]],
       usuario: [{value: this.bedelActual.usuario, disabled: true}, [Validators.required]],
       contrasenia: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
       confirmarContrasenia: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
@@ -91,8 +91,8 @@ export class ModificarBedelComponent {
     this.contraseniaIncorrecta = false;
     this.usuarioError = false;
 
-    if (this.bedelActualizado.value.nombre.length < 1) this.nombreError = true;
-    if (this.bedelActualizado.value.apellido.length < 1) this.apellidoError = true;
+    if (this.bedelActualizado.value.nombre.length < 1 || this.bedelActualizado.value.nombre.length > 128) this.nombreError = true;
+    if (this.bedelActualizado.value.apellido.length < 1 || this.bedelActualizado.value.apellido.length > 128) this.apellidoError = true;
     if (this.bedelActualizado.value.turno.length < 1) this.turnoError = true;
     if (this.bedelActualizado.value.contrasenia.length < 8 || this.bedelActualizado.value.contrasenia.length > 20) this.contraseniaIncorrecta = true;
     if (this.bedelActualizado.value.contrasenia !== this.bedelActualizado.value.confirmarContrasenia) this.confirmarContrasenia = true;
