@@ -28,10 +28,21 @@ El proyecto abarca el análisis, diseño, programación, pruebas y depuración d
 -   Registro y gestión de reservas.
 -   Listado de reservas para días específicos y cursos.
 
-## Metodología
+## Tecnologias
 
-Se utilizó una metodología de desarrollo orientada a objetos para diseñar el sistema. Las herramientas y lenguajes de programación empleados fueron elegidos por el equipo de trabajo. El diseño del sistema incluye diagramas de clases, de secuencia, y de entidad-relación, entre otros.
+-  Angular con TypeScript
+-  C# .net
+-  Sqlite
 
-## Consideraciones Finales
+## Como ejecutar
 
-Este trabajo práctico está orientado a que los alumnos integren y apliquen los conocimientos adquiridos durante las clases. Se espera que las etapas aprobadas puedan requerir modificaciones futuras para adaptarse a nuevos requisitos o mejoras detectadas durante el desarrollo.
+```
+git clone https://github.com/An7u4n/DisenioSistemas
+cd DisenioSistemas/Web.Api
+dotnet run
+
+--En otra consola:
+cd DisenioSistemas/client
+npm install
+ng serve
+```
