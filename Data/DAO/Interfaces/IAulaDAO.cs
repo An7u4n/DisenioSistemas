@@ -1,6 +1,6 @@
 ﻿using Model.Abstract;
 
-namespace Data.DAO
+namespace Data.DAO.Interfaces
 {
     public interface IAulaDAO
     {

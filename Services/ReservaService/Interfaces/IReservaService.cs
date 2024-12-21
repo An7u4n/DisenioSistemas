@@ -1,5 +1,5 @@
 ﻿using Model.DTO;
-namespace Services.ReservaService
+namespace Services.ReservaService.Interfaces
 {
     public interface IReservaService
     {
@@ -9,8 +9,6 @@ namespace Services.ReservaService
         void guardarReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO);
         public void ConfirmarDisponibilidadAulaParaReservaEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO);
         public void ConfirmarDisponibilidadAulaParaReservaPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO);
-        public void validarCamposEsporadica(ReservaEsporadicaDTO reservaEsporadicaDTO);
-        public void validarCamposPeriodica(ReservaPeriodicaDTO reservaPeriodicaDTO);
 
     }
 }

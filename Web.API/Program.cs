@@ -6,6 +6,7 @@ using Services.UserService;
 using Services.AulaService;
 using Services.ReservaService;
 using Services.AuthService;
+using Services.ReservaService.Interfaces;
 
 namespace Web.API
 {

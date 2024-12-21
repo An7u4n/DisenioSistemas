@@ -1,6 +1,6 @@
 ﻿using Model.Entity;
 
-namespace Data.DAO
+namespace Data.DAO.Interfaces
 {
     public interface IAnioLectivoDAO
     {

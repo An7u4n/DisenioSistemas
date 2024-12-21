@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data.DAO.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Model.Entity;
 using System;
 using System.Collections.Generic;

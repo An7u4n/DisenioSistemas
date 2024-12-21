@@ -3,7 +3,7 @@ using Model.DTO;
 using Model.Enums;
 using Model.Exceptions;
 using Services.AulaService;
-using Services.ReservaService;
+using Services.ReservaService.Interfaces;
 using Web.API.Utilities;
 
 namespace Web.API.Controllers
